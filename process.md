@@ -8,7 +8,8 @@ Building the chatbot requires equivalent effort on both front-end and back-end, 
 
 ## Decision Making and Priorities
 
-We will make most of our important decisions in person or through phone calls, for example, the change of design of UI. This is because they may affect the structure of whole project, so we need a consent on that. If there are some minor adjustments that will not affect the structure, we will simply make our own decision and leave it in group chat and JIRA, so other team member will still notice that. Otherwise, the development will be very slow if every single decision needs to be agreed by everyone. Among all the user stories, we will identify the most common ones as the priorities, because that will represent the majority of our users; the need of those which do not compile with our design is the difficulty, because we might need to alter our design to make sure they can be covered.
+We will make most of our important decisions in person or through phone calls, for example, the change of design of UI. This is because they may affect the structure of whole project, so we need a consent on that. If there are some minor adjustments that will not affect the structure, we will simply make our own decision and leave it in group chat and JIRA, so other team member will still notice that. Otherwise, the development will be very slow if every single decision needs to be agreed by everyone. Right after we add any features in a new branch, it will not be merged until everyone read through and understand it. This ensures the process of the project are tracked by everyone and avoids conflicts made by different team members.
+Among all the user stories, we will identify the most common ones as the priorities, because that will represent the majority of our users; the need of those which do not compile with our design is the difficulty, because we might need to alter our design to make sure they can be covered.
 
 
 
