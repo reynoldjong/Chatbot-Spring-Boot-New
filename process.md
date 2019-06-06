@@ -25,7 +25,7 @@ For the next phase of the project our team has agreed on the following coding co
 ### GIT Conventions
   - GIT branches will follow the naming convention group/foo so that all branches related to a particular feature/fix are easily recognizable
   - Commit messages will be fewer than 50 characters
-  - Recrusive merge will always be used
+  - Recursive merge will always be used
 
 
 ## Next phase
