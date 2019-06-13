@@ -1,32 +1,36 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.File;
-
 import javax.servlet.ServletException;
-
+import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.WebResourceRoot;
-import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.catalina.webresources.StandardRoot;
 
 /**
  * Main class of the chatbot
  *
  */
 public class App {
-	public static void main(String[] args) throws ServletException, LifecycleException {
-		// start the tomcat server
-		String startDir = "src/main/java/utoronto/utsc/cs/cscc01/chatbot/";
-		Tomcat tomcat = new Tomcat();
-		tomcat.setPort(8080); // use port 8080 for now
-
-		StandardContext ctx = (StandardContext) tomcat.addWebapp("/", new File(startDir).getAbsolutePath());
-
-		WebResourceRoot resources = new StandardRoot(ctx);
-		ctx.setResources(resources);
-		
-		tomcat.start();
-		tomcat.getServer().await();
-	}
+  public static void main(String[] args)
+      throws ServletException, LifecycleException {
+    
+    Tomcat tomcat = TomcatServer.createTomcatServer();
+    
+    UserQuery query = new QueryServlet();
+    
+    String contextPath = "/";
+    String docBase = new File(".").getAbsolutePath();
+    
+    Context context = tomcat.addContext(contextPath, docBase);
+    
+    String servletName = "MyQuery";
+    String urlPattern = "/QueryServlet";
+    
+    tomcat.addServlet(contextPath, servletName, (QueryServlet) query);
+    context.addServletMapping(urlPattern, servletName);
+    
+    // start the server
+    tomcat.start();
+    tomcat.getServer().await();
+  }
 }
