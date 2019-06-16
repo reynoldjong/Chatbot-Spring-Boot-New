@@ -26,6 +26,7 @@ public class App {
     String servletName = "MyQuery";
     String urlPattern = "/QueryServlet";
     
+    // hard coding for now for live testing, will make web.xml later
     tomcat.addServlet(contextPath, servletName, (QueryServlet) query);
     context.addServletMapping(urlPattern, servletName);
     
