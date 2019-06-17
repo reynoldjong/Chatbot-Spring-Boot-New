@@ -16,7 +16,7 @@ public class App {
     
     Tomcat tomcat = TomcatServer.createTomcatServer();
     
-    UserQuery query = new QueryServlet();
+    QueryServlet query = new QueryServlet();
     
     String contextPath = "/";
     String docBase = new File(".").getAbsolutePath();
@@ -27,7 +27,7 @@ public class App {
     String urlPattern = "/QueryServlet";
     
     // hard coding for now for live testing, will make web.xml later
-    tomcat.addServlet(contextPath, servletName, (QueryServlet) query);
+    tomcat.addServlet(contextPath, servletName, query);
     context.addServletMapping(urlPattern, servletName);
     
     // start the server

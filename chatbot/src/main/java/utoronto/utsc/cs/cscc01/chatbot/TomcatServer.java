@@ -22,23 +22,6 @@ public class TomcatServer implements WebServer {
       tomcat = new Tomcat();
       tomcat.setBaseDir("temp");
       tomcat.setPort(8080);
-      /*
-      String startDir = "src/main/java/utoronto/utsc/cs/cscc01/chatbot/";
-      tomcat = new Tomcat();
-      tomcat.setPort(8080); // use port 8080 for now
-
-      StandardContext ctx = (StandardContext) tomcat.addWebapp("/",
-          new File(startDir).getAbsolutePath());
-      System.out.println("configuring app with basedir: " + new File("./" + startDir).getAbsolutePath());
-      
-      File additionWebInfClasses = new File("target/classes");
-      WebResourceRoot resources = new StandardRoot(ctx);
-      resources.addPreResources(new DirResourceSet(resources, "/",
-              additionWebInfClasses.getAbsolutePath(), "/"));
-      
-      ctx.setResources(resources);
-      */
-      
     }
     return tomcat;
   }
