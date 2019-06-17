@@ -23,8 +23,6 @@ public class AdminPage extends HttpServlet {
     resp.setContentType("text/html");
     PrintWriter writer = resp.getWriter();
     writer.println("This is the secured portion of the web app");
-    writer.printf("<br/>User: " + req.getRemoteUser());
-    writer.println("<br/><a href='/logout'>Logout</a>");
   }
 
   @Override
