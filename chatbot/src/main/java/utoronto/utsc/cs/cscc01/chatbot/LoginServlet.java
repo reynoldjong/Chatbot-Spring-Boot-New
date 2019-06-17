@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = "/loginPage")
+@WebServlet(urlPatterns = "/login")
 /*
  * This class handles the user logins and 
  */

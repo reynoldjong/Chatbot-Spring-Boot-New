@@ -30,8 +30,12 @@ public class App {
     Tomcat tomcat = new Tomcat();
     tomcat.setPort(8080);
     
-    String contextPath = "src/main/java";
+    String contextPath = "/";
     String docBase = new File(".").getAbsolutePath();
+    
+    //String webappDir = new File("src/main/webapp").getAbsolutePath();
+    
+    tomcat.addWebapp(contextPath, docBase);
     
     App myApp = new App();
     UserDatabase db = myApp.new MockDatabase();
@@ -40,7 +44,7 @@ public class App {
     
     LoginServlet login = new LoginServlet(db);
     tomcat.addServlet(contextPath, "LoginServlet", login);
-    context.addServletMapping("/loginPage", "LoginServlet");
+    context.addServletMapping("/login", "LoginServlet");
 
     LogoutServlet logout = new LogoutServlet();
     tomcat.addServlet(contextPath, "LogoutServlet", logout);
