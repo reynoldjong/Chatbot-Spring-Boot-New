@@ -1,5 +1,6 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,6 +48,9 @@ public class LoginServlet extends HttpServlet {
 
     req.setAttribute("error", errorMessage);
     // for now we use this basic login page
+    String path = new File(".").getCanonicalPath();
+    System.out.println(path);
     req.getRequestDispatcher("/login.jsp").forward(req, resp);
+    //resp.sendRedirect("/loginpage");
   }
 }

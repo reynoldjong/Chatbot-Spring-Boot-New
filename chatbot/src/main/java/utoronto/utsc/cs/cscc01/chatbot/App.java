@@ -33,10 +33,6 @@ public class App {
     String contextPath = "/";
     String docBase = new File(".").getAbsolutePath();
     
-    //String webappDir = new File("src/main/webapp").getAbsolutePath();
-    
-    tomcat.addWebapp(contextPath, docBase);
-    
     App myApp = new App();
     UserDatabase db = myApp.new MockDatabase();
     
