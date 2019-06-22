@@ -5,8 +5,8 @@ const middleNav = () =>{
         <React.Fragment>
         <nav>
         <div className="nav-wrapper grey lighten-5">
- 
-          <ul id="nav-mobile" style={{marginLeft:'auto',marginRight:'auto', color:'black'}}className=" hide-on-med-and-down">
+            <center>
+          <ul id="nav-mobile" style={{ color:'black'}}className=" hide-on-med-and-down">
             <li><a style={{ color:'black'}} href="sass.html">HOME</a></li>
             <li><a style={{ color:'black'}} href="badges.html">FINTECH</a></li>
             
@@ -14,7 +14,11 @@ const middleNav = () =>{
             <li><a  style={{color:'black'}}href="collapsible.html">ARTICLES</a></li>
             <li><a  style={{color:'black'}}href="collapsible.html">PROJECTS</a></li>
             <li><a  style={{color:'black'}}href="collapsible.html">REPORTS</a></li>
+            <li><a  style={{color:'black'}}href="collapsible.html">OUR PEOPLE</a></li>
+            <li><a  style={{color:'black'}}href="collapsible.html">ABOUT US</a></li>
+          
           </ul>
+          </center>
         </div>
       </nav>
       </React.Fragment>
