@@ -47,10 +47,7 @@ public class LoginServlet extends HttpServlet {
       throws ServletException, IOException {
 
     req.setAttribute("error", errorMessage);
-    // for now we use this basic login page
-    String path = new File(".").getCanonicalPath();
-    System.out.println(path);
+    // TODO: this will have to change based on front end implementation
     req.getRequestDispatcher("/login.jsp").forward(req, resp);
-    //resp.sendRedirect("/loginpage");
   }
 }
