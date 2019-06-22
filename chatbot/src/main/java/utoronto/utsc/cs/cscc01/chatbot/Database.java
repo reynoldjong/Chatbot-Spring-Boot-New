@@ -4,13 +4,13 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import java.io.*;
 import java.sql.*;
 
-public class DataBase {
+public class Database {
 
 
     private static final String INSERT_SQL = "INSERT INTO FILES(NAME, CONTENT) VALUES(?, ?)";
     private Connection connection;
 
-    public DataBase () {
+    public Database() {
         this.connection = null;
     }
 
@@ -22,7 +22,7 @@ public class DataBase {
             System.out.println("Can't find JDBC");
         }
         try {
-            this.connection = DriverManager.getConnection("jdbc:sqlite:FileDatabase.db");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
             return true;
         } catch (SQLException e) {
             System.out.println("Can't connect to database");
@@ -74,7 +74,7 @@ public class DataBase {
 
 
     public static void main(String[] args) {
-        DataBase db = new DataBase();
+        Database db = new Database();
         if (db.connect()) {
             db.uploadFiles("../chatbot/files");
         }
