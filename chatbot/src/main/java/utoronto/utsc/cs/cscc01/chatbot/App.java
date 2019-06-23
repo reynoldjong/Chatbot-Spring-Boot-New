@@ -1,5 +1,10 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+
+public class App {
+  public static void main(String[] args) {
+    
+
 import java.io.File;
 import javax.servlet.ServletException;
 import org.apache.catalina.Context;
@@ -33,5 +38,6 @@ public class App {
     // start the server
     tomcat.start();
     tomcat.getServer().await();
+
   }
 }
