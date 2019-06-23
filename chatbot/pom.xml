@@ -37,6 +37,7 @@
 	    <artifactId>tomcat-embed-logging-juli</artifactId>
 	    <version>${tomcat.version}</version>
 	</dependency>
+
 	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 	<dependency>
 	    <groupId>org.mockito</groupId>
@@ -44,6 +45,7 @@
 	    <version>2.10.0</version>
 	    <scope>test</scope>
 	</dependency>
+
     
   </dependencies>
   
@@ -87,3 +89,4 @@
     </pluginManagement>
   </build>
 </project>
+
