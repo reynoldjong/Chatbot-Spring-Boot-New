@@ -8,6 +8,8 @@ public class Database {
 
 
     private static final String INSERT_SQL = "INSERT INTO FILES(NAME, CONTENT) VALUES(?, ?)";
+    private static final String DELETE_SQL = "DELETE FROM FILES WHERE name = ?";
+    private static final String QUERY_SQL = "SELECT * FROM FILES WHERE name = ?";
     private Connection connection;
 
     public Database() {
@@ -37,19 +39,16 @@ public class Database {
             for (File f : directoryListing) {
                 byte[] b = readFile(f);
                 String name = f.getName().replaceFirst("[.][^.]+$", "");
-                System.out.println(name);
                 insert(name, b);
             }
         }
     }
 
     public void insert(String name, byte[] b) {
-        System.out.println(this.connection);
         PreparedStatement stmt;
         try {
             stmt = this.connection.prepareStatement(INSERT_SQL);
             stmt.setString(1, name);
-            System.out.println(stmt.toString());
             stmt.setBytes(2, b);
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -72,12 +71,32 @@ public class Database {
         return bos != null ? bos.toByteArray() : null;
     }
 
-
-    public static void main(String[] args) {
-        Database db = new Database();
-        if (db.connect()) {
-            db.uploadFiles("../chatbot/files");
+    public void remove(String name) {
+        PreparedStatement stmt;
+        try {
+            stmt = this.connection.prepareStatement(DELETE_SQL);
+            stmt.setString(1, name);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    public String query(String name) {
+        PreparedStatement stmt;
+        String result = "";
+        try {
+            stmt = this.connection.prepareStatement(QUERY_SQL);
+            stmt.setString(1, name);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                result = rs.getString("content");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
