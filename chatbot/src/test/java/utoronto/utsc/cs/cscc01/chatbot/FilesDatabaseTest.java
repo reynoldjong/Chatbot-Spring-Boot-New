@@ -6,13 +6,13 @@ import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
 
-public class DatabaseTest {
+public class FilesDatabaseTest {
 
-    Database db;
+    FilesDatabase db;
 
     @Before
     public void setUp() {
-        db = new Database();
+        db = new FilesDatabase();
         db.connect();
     }
 
