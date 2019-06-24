@@ -1,4 +1,4 @@
-package utoronto.utsc.cs.cscc01.chatbot;
+/*package utoronto.utsc.cs.cscc01.chatbot;
 
 //import java.io.File;
 //import javax.servlet.ServletException;
@@ -13,10 +13,7 @@ public class TomcatServer implements WebServer {
 
   private static Tomcat tomcat = null;
 
-  /*
-   * This is the method used to start the tomcat server. We are using a
-   * singleton design pattern here for our tomcat server since we only need one
-   */
+
   public static Tomcat createTomcatServer() {
     if (tomcat == null) {
       tomcat = new Tomcat();
@@ -26,3 +23,4 @@ public class TomcatServer implements WebServer {
     return tomcat;
   }
 }
+*/
