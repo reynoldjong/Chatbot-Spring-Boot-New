@@ -1,0 +1,10 @@
+.Chatbot{
+    position:fixed;
+    width:300px;
+    height:600px;
+    overflow-y:scroll;
+    z-index:10000;
+    background-color:black;
+    top:60vh;
+    left:80vw;
+}
