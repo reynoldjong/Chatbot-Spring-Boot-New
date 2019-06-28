@@ -19,6 +19,8 @@ class Chatbot extends React.Component{
         this.setState({
             chatlog:newChatlog,
         })
+
+        target.elements.send.value = "";
         
     }
 
@@ -43,7 +45,7 @@ class Chatbot extends React.Component{
                    <div classname={classes.Send}>
                        <form onSubmit={this.sendMessage}>
                        
-                       <input  name="send" ></input>
+                       <input  autocomplete="off" name="send" ></input>
                        </form>
                        </div>
 
