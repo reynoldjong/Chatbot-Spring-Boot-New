@@ -48,9 +48,6 @@ class Chatbot extends React.Component{
                        <input  autocomplete="off" name="send" ></input>
                        </form>
                        </div>
-
-
-
             </div>
         );
     }

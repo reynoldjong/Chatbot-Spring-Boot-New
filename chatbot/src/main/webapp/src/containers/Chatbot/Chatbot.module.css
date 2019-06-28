@@ -2,8 +2,8 @@
     position:fixed;
     width:300px;
     height:380px;
-    top:50vh;
-    left:75vw;
+    bottom:50px;
+    right:30px;
 
     overflow-y:scroll;
     z-index:10000;
