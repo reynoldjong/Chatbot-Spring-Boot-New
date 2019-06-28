@@ -5,7 +5,7 @@
   <groupId>utoronto.utsc.cs.cscc01</groupId>
   <artifactId>chatbot</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>war</packaging>
 
   <name>chatbot</name>
   <url>http://maven.apache.org</url>
@@ -15,11 +15,56 @@
   </properties>
 
   <dependencies>
+  
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.11</version>
       <scope>test</scope>
     </dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+	<dependency>
+	    <groupId>org.mockito</groupId>
+	    <artifactId>mockito-core</artifactId>
+	    <version>2.10.0</version>
+	    <scope>test</scope>
+	</dependency>
+	
+	<!-- Servlet API -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    
   </dependencies>
+  
+  <build>
+  	<sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+     <plugin>
+       <artifactId>maven-compiler-plugin</artifactId>
+       <version>3.5.1</version>
+       <configuration>
+         <source>1.8</source>
+         <target>1.8</target>
+       </configuration>
+     </plugin>
+
+     <!-- Embedded Apache Tomcat required for testing war -->
+
+     <plugin>
+       <groupId>org.apache.tomcat.maven</groupId>
+       <artifactId>tomcat7-maven-plugin</artifactId>
+       <version>2.2</version>
+       <configuration>
+         <path>/</path>
+       </configuration>
+     </plugin>
+    </plugins>
+  </build>
 </project>
+
