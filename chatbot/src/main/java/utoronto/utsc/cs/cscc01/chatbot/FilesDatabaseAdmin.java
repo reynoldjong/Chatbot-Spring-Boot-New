@@ -28,7 +28,7 @@ public class FilesDatabaseAdmin {
         // Connect to FileDatabase.db at project folder and return true if it is successful.
         try {
 
-            this.connection = DriverManager.getConnection("jdbc:sqlite:FileDatabase.db");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:File.db");
             return true;
 
         } catch (SQLException e) {
