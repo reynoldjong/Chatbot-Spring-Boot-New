@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/userquery")
 public class QueryServlet extends HttpServlet {
 	
-	private SearchEngine queryEngine;
-	
-	public void init(SearchEngine engine) throws ServletException {
-		this.queryEngine = engine;
-	}
-	
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+  private SearchEngine queryEngine;
+
+  public QueryServlet(SearchEngine engine) {
+    this.queryEngine = engine;
+  }
+
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		PrintWriter writer = resp.getWriter();
 		// get user request from http request
 		String userQuery = req.getQueryString();
