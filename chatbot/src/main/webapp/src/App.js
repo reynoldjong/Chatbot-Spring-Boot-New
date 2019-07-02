@@ -1,4 +1,5 @@
 import React from 'react';
+import Chatbot from './containers/Chatbot/Chatbot';
 import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
@@ -13,6 +14,7 @@ function App() {
       <Navbar/>
       <MiddleNav/>
       <Hero/>
+      <Chatbot/>
       <Footer/>
     </div>
   
