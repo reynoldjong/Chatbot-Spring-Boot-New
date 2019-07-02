@@ -19,10 +19,14 @@ public class RemoveServlet  extends HttpServlet {
     private FilesDatabaseAdmin db;
     private String filePath = "../chatbot/files/";
 
-    public void init( ){
-        // Get the file location where it would be stored.
-        db = new FilesDatabaseAdmin();
+//    public RemoveServlet(FilesDatabaseAdmin db){
+//        // Get the file location where it would be stored.
+//        this.db = db;
+//
+//    }
 
+    public void init () {
+        this.db = new FilesDatabaseAdmin();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

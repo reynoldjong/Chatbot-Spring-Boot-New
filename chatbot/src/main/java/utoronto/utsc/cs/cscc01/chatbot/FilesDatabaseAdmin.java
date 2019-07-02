@@ -28,7 +28,7 @@ public class FilesDatabaseAdmin {
         // Connect to FileDatabase.db at project folder and return true if it is successful.
         try {
 
-            this.connection = DriverManager.getConnection("jdbc:sqlite:File.db");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:Files.db");
             return true;
 
         } catch (SQLException e) {
@@ -213,7 +213,7 @@ public class FilesDatabaseAdmin {
     public static void main(String args[]) {
         FilesDatabaseAdmin db = new FilesDatabaseAdmin();
         db.connect();
-        db.extractFile("insider_articles.txt");
+        db.extractFile("CSC373_Assignment2.pdf");
     }
 
 

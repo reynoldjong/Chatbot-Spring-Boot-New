@@ -28,11 +28,15 @@ public class UploadServlet extends HttpServlet {
     // private int maxMemSize = 4 * 1024;
     private File file ;
 
-    @Override
-    public void init( ){
-        // Get the file location where it would be stored.
-        db = new FilesDatabaseAdmin();
 
+//    public UploadServlet(FilesDatabaseAdmin db){
+//        // Get the file location where it would be stored.
+//        this.db = db;
+//
+//    }
+
+    public void init () {
+        this.db = new FilesDatabaseAdmin();
     }
 
     @Override
@@ -92,7 +96,6 @@ public class UploadServlet extends HttpServlet {
                 if ( !fi.isFormField () ) {
                     // Get the uploaded file parameters
                     String fileName = fi.getName();
-
                     // Write the file
                     if( fileName.lastIndexOf("\\") >= 0 ) {
                         file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\")));
