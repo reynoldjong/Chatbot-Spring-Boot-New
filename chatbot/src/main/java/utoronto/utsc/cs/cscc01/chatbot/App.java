@@ -8,7 +8,6 @@ import org.apache.catalina.startup.Tomcat;
 public class App {
   public static void main(String[] args) throws LifecycleException {
 
-    System.out.println("Hello World");
     WatsonDiscovery wd = WatsonDiscovery.buildDiscovery();
     SearchEngine queryEngine = new QueryEngine(wd);
 
@@ -19,7 +18,14 @@ public class App {
     String docBase = new File(".").getAbsolutePath();
 
     Context context = tomcat.addContext(contextPath, docBase);
-
+    
+    UserDatabase db = new TempDatabase();
+    // programmatically add in servlets
+    
+    LoginServlet login = new LoginServlet(db);
+    tomcat.addServlet(contextPath, "LoginServlet", login);
+    context.addServletMapping("/login", "LoginServlet");
+    
     LogoutServlet logout = new LogoutServlet();
     tomcat.addServlet(contextPath, "LogoutServlet", logout);
     context.addServletMapping("/logout", "LogoutServlet");
