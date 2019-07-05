@@ -1,0 +1,10 @@
+.Hero{
+   
+    top:0px;
+    z-index:-100;
+}
+
+.Image{
+    width:100vw;
+    height:100vh;
+}
