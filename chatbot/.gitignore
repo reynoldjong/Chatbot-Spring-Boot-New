@@ -6,4 +6,5 @@
 .classpath
 .settings
 .project
-/src/main/webapp/node_modules
+chatbot.iml
+.idea
