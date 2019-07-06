@@ -1,0 +1,141 @@
+package utoronto.utsc.cs.cscc01.chatbot;
+import java.io.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Admin page for handling uploading/removing files from the database
+ *
+ */
+public class UserDatabaseAdmin implements UserDatabase {
+
+    private Connection connection;
+
+    public UserDatabaseAdmin() {
+        this.connection = null;
+    }
+
+
+    /**
+     * Make a connection to database
+     */
+    public boolean connect() {
+
+        // Connect to FileDatabase.db at project folder and return true if it is successful.
+        try {
+
+            this.connection = DriverManager.getConnection("jdbc:sqlite:Users.db");
+            return true;
+
+        } catch (SQLException e) {
+
+            System.out.println("Can't connect to database");
+            return false;
+        }
+    }
+
+    public void close() {
+
+        try {
+
+            this.connection.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Insert the given information to the database, filename and the content of files
+     *
+     * @param username
+     * @param password
+     */
+    public void insertUser(String username, String password) {
+        PreparedStatement stmt;
+        // SQL code for insert
+        String insertSQL = "INSERT INTO USERS(USERNAME, PASSWORD) VALUES(?, ?)";
+
+        String pw = getPassword(username);
+
+        if (pw != null) {
+
+            try {
+                // Create SQL statement for inserting
+                stmt = this.connection.prepareStatement(insertSQL);
+                stmt.setString(1, username);
+                stmt.setString(2, password);
+                stmt.executeUpdate();
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        } else {
+            System.out.println("Username is already used!");
+        }
+    }
+
+
+    /**
+     * Remove the given information of the given filename from the database
+     *
+     * @param username
+     */
+    public void remove(String username) {
+        PreparedStatement stmt;
+
+        // SQL code for delete
+        String deleteSQL = "DELETE FROM USERS WHERE username = ?";
+        try {
+            // Create SQL statement for deleting
+            stmt = this.connection.prepareStatement(deleteSQL);
+            stmt.setString(1, username);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Read file using the given filename
+     *
+     * @param username
+     * @param password
+     */
+
+    public boolean verifyUser(String username, String password) {
+        // update sql
+        String pwGot = getPassword(username);
+
+        if (pwGot.equals(password)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public String getPassword(String username) {
+
+
+        String sql = "SELECT * FROM Users WHERE username=?";
+        String password = "";
+        Statement statement = null;
+        try {
+            statement = this.connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            password = result.getString("password");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return password;
+    }
+
+
+
+}
+
