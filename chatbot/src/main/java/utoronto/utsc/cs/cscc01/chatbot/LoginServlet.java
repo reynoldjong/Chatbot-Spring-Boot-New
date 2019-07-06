@@ -2,6 +2,7 @@ package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.File;
 import java.io.IOException;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,8 +17,8 @@ public class LoginServlet extends HttpServlet {
   // dependency injection of database into login servlet so we can test it
   private UserDatabase db;
   
-  public LoginServlet(UserDatabase db) {
-    this.db = db;
+  public void init(ServletConfig config) {
+    this.db = new TempDatabase();
   }
   
   @Override
@@ -26,9 +27,10 @@ public class LoginServlet extends HttpServlet {
     // grab username and password from the fields
     String username = req.getParameter("username");
     String password = req.getParameter("password");
+    
     try {
       req.login(username, password);
-      if (req.getUserPrincipal() != null && db.verifyUser(username, password)) {
+      if (req.getUserPrincipal() != null && req.isUserInRole("admin")) {
         resp.sendRedirect("/adminpage");
       }
       else {
@@ -41,7 +43,6 @@ public class LoginServlet extends HttpServlet {
       forwardToLoginPage(req, resp, e.getMessage());
     }
   }
-
   public static void forwardToLoginPage(HttpServletRequest req,
       HttpServletResponse resp, String errorMessage)
       throws ServletException, IOException {

@@ -16,7 +16,7 @@ import com.ibm.watson.discovery.v1.model.QueryPassages;
 import com.ibm.watson.discovery.v1.model.QueryResponse;
 import com.ibm.watson.discovery.v1.model.QueryResult;
 
-public class QueryEngine {
+public class QueryEngine implements SearchEngine {
   
   private WatsonDiscovery wdisc;
   

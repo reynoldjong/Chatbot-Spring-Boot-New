@@ -17,7 +17,7 @@ public class LoginServletTest {
   @Before
   public void setUp() {
     db = new MockDatabase();
-    servlet = new LoginServlet(db);
+    //servlet = new LoginServlet(db);
   }
   
   @Test
