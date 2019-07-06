@@ -1,8 +1,5 @@
 /target/
-/temp/
-/tomcat.8080/
-/bin/
 .classpath
 .settings
 .project
-/src/main/webapp/node_modules
+chatbot.iml
