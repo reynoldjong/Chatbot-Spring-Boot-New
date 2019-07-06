@@ -2,7 +2,7 @@ package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +14,8 @@ public class QueryServlet extends HttpServlet {
 	
   private SearchEngine queryEngine;
 
-  public QueryServlet(SearchEngine engine) {
-    this.queryEngine = engine;
+  public void init(ServletConfig config) {
+    this.queryEngine = new QueryEngine(WatsonDiscovery.buildDiscovery());
   }
 
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
