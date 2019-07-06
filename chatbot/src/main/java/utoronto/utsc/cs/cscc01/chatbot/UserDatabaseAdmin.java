@@ -22,7 +22,7 @@ public class UserDatabaseAdmin implements UserDatabase {
      */
     public boolean connect() {
 
-        // Connect to FileDatabase.db at project folder and return true if it is successful.
+        // Connect to Users.db at project folder and return true if it is successful.
         try {
 
             this.connection = DriverManager.getConnection("jdbc:sqlite:Users.db");
@@ -59,7 +59,7 @@ public class UserDatabaseAdmin implements UserDatabase {
 
         String pw = getPassword(username);
 
-        if (pw != null) {
+        if (pw.equals("")) {
 
             try {
                 // Create SQL statement for inserting
@@ -71,6 +71,7 @@ public class UserDatabaseAdmin implements UserDatabase {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
+
         } else {
             System.out.println("Username is already used!");
         }
@@ -105,6 +106,7 @@ public class UserDatabaseAdmin implements UserDatabase {
      */
 
     public boolean verifyUser(String username, String password) {
+
         // update sql
         String pwGot = getPassword(username);
 
@@ -115,17 +117,22 @@ public class UserDatabaseAdmin implements UserDatabase {
         return false;
     }
 
+
     public String getPassword(String username) {
 
 
-        String sql = "SELECT * FROM Users WHERE username=?";
+        String sql = "SELECT * FROM Users WHERE username = ?";
         String password = "";
-        Statement statement = null;
+        ResultSet rs;
+        PreparedStatement stmt;
         try {
-            statement = this.connection.createStatement();
-            ResultSet result = statement.executeQuery(sql);
+            stmt = this.connection.prepareStatement(sql);
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
 
-            password = result.getString("password");
+            while (rs.next()) {
+                password = rs.getString("password");
+            }
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -136,15 +143,13 @@ public class UserDatabaseAdmin implements UserDatabase {
 
     public static void main(String[] args) {
 
-//        UserDatabaseAdmin db = new UserDatabaseAdmin();
-//        if (db.connect()) {
-//            db.insertUser("test", "test");
-//            System.out.println(db.getPassword("test"));
-//            System.out.println(db.getPassword("test2"));
-//            System.out.println(db.verifyUser("test", "test"));
-//            System.out.println(db.verifyUser("test", "test2"));
-//            db.removeUser("test");
-//        }
+        UserDatabaseAdmin db = new UserDatabaseAdmin();
+        if (db.connect()) {
+            db.insertUser("test", "test");
+            System.out.println(db.verifyUser("test", "test"));
+            System.out.println(db.verifyUser("test", "test2"));
+            db.removeUser("test");
+        }
 
     }
 
