@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Chatbot from './containers/Chatbot/Chatbot';
 import './App.css';
 
@@ -7,8 +7,11 @@ import Hero from './components/Hero/Hero';
 import LogoBar from './components/Navbar/LogoBar/LogoBar';
 import MiddleNav from './components/Navbar/MiddleNav/MiddleNav';
 import Footer from './components/Footer/Footer';
-function App() {
-  return (
+
+
+class App extends Componenet {
+  render(){
+    return (
     <div className="App">
       <LogoBar/>
       <Navbar/>
@@ -19,6 +22,7 @@ function App() {
     </div>
   
   );
+}
 }
 
 export default App;
