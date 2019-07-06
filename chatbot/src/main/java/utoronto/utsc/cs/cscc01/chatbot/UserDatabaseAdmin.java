@@ -1,8 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
-import java.io.*;
+
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 /**
@@ -83,7 +82,7 @@ public class UserDatabaseAdmin implements UserDatabase {
      *
      * @param username
      */
-    public void remove(String username) {
+    public void removeUser(String username) {
         PreparedStatement stmt;
 
         // SQL code for delete
@@ -133,6 +132,20 @@ public class UserDatabaseAdmin implements UserDatabase {
         }
 
         return password;
+    }
+
+    public static void main(String[] args) {
+
+//        UserDatabaseAdmin db = new UserDatabaseAdmin();
+//        if (db.connect()) {
+//            db.insertUser("test", "test");
+//            System.out.println(db.getPassword("test"));
+//            System.out.println(db.getPassword("test2"));
+//            System.out.println(db.verifyUser("test", "test"));
+//            System.out.println(db.verifyUser("test", "test2"));
+//            db.removeUser("test");
+//        }
+
     }
 
 
