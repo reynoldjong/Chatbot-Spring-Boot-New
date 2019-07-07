@@ -4,11 +4,12 @@ import AboutUs from './AboutUs/AboutUs';
 import Features from './Features/Features';
 import Chatbot from '../../containers/Chatbot/Chatbot';
 import Navbar from './Navbar/Navbar';
-
+import Login from './Login/Login';
 const home = (props) =>{
     return(
         <React.Fragment>
-            <Navbar loggedIn={props.loggedIn}/>
+            <Login showModal={props.showModal}/>
+            <Navbar loggedIn={props.loggedIn} showModal={props.showModal}/>
             <Hero/>
             <div className='container' style={{width:'90%'}}>
             <AboutUs/>

@@ -22,8 +22,8 @@ const navbar = (props) =>{
             <React.Fragment>
 
        
-                <Link to="/admin/">  <li>Login</li> </Link>
-                <Link to="/"> <li>Register</li></Link>
+                <li><button className='btn'>Login</button></li>
+                <Link to="/admin"> <li>Register</li></Link>
                 <Link to="/">  <li>Help</li></Link>
                 </React.Fragment>
         );
