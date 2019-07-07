@@ -3,11 +3,14 @@ import Hero from './Hero/Hero';
 import AboutUs from './AboutUs/AboutUs';
 import Features from './Features/Features';
 import Chatbot from '../../containers/Chatbot/Chatbot';
-const home = () =>{
+import Navbar from './Navbar/Navbar';
+
+const home = (props) =>{
     return(
         <React.Fragment>
+            <Navbar loggedIn={props.loggedIn}/>
             <Hero/>
-            <div className='container'>
+            <div className='container' style={{width:'90%'}}>
             <AboutUs/>
             <Features/>
             </div>

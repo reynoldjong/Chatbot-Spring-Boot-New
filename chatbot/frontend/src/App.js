@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
@@ -16,15 +15,19 @@ class App extends Component {
     <div className="App">
 
       <Router>
-        <Navbar loggedIn={this.state.loggedIn}  home={Home} admin={Admin}/>
+       
         
-        <Route path="/" exact component={Home}/>
+        <Route 
+          exact path="/" 
+          render={(props)=> <Home {...props} loggedIn={this.state.loggedIn}/>}
+          />
 
         
         <Route 
           path="/admin/" 
           render={(props)=> <Admin {...props} loggedIn={this.state.loggedIn}/>}
           />
+
         <Router/>
 
       </Router>

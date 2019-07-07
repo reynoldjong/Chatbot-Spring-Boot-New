@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Navbar.module.css';
 import image from './images/DFILogo.png';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navbar = (props) =>{
     let navbarLinks = null;
