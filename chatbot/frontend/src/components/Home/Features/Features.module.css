@@ -1,18 +1,19 @@
 .AboutUs{
     display:flex;
     justify-content: space-around;
-    height:600px;
-    margin-top:80px;
+    height:400px;
+    margin-top:50px;
+    margin-bottom:50px;
 }
 
 .Picture{
     flex:1;
-    background-image:url('./images/chatbot.png'); 
+    background-image:url('./images/analytics.png'); 
     background-size:cover;
     background-repeat:no-repeat;
     background-size:100% 100%;
     width:100%;
-    margin-left:20px;
+    margin-right:20px;
 }
 
 .Text{
