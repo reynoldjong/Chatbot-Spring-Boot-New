@@ -1,19 +1,26 @@
 .Sidebar{
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 160px; /* Set the width of the sidebar */
+    width: 180px; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
     left: 0;
-    background-color: #111; /* Black */
+    background-image:linear-gradient(#434343,#000000);
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
 }
 
 .Sidebar a {
     padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  font-size: 1.2em;
+  color: #f0f0f0;
   display: block;
+}
+
+.Sidebar h5{
+  color: #f0f0f0;
 }

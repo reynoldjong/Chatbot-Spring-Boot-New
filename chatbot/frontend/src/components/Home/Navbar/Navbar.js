@@ -9,9 +9,10 @@ const navbar = (props) =>{
     if(props.loggedIn){
         navbarLinks = (
             <React.Fragment>
-              <Link to="/admin/"> <li>Logout</li></Link>
-              <Link to="/"> <li>Admin Dashboard</li> </Link>
-              <Link to="/">   <li>Account</li></Link>
+             
+              <Link to="/admin/"> <li>Admin Dashboard</li> </Link>
+              <Link to="/admin/">   <li>Account</li></Link>
+              <Link to="/"> <li>Logout</li></Link>
             </React.Fragment>
 
         )
