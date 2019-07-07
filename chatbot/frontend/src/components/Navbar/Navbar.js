@@ -1,6 +1,7 @@
 import React from 'react';
 import classes from './Navbar.module.css';
 import image from './images/DFILogo.png';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const navbar = (props) =>{
     let navbarLinks = null;
@@ -8,9 +9,9 @@ const navbar = (props) =>{
     if(props.loggedIn){
         navbarLinks = (
             <React.Fragment>
-                <li><a href="sass.html">Logout</a></li>
-                <li><a href="badges.html">Admin Dashboard</a></li>
-                <li><a href="badges.html">Account</a></li>
+              <Link to="/admin/"> <li>Logout</li></Link>
+              <Link to="/"> <li>Admin Dashboard</li> </Link>
+              <Link to="/">   <li>Account</li></Link>
             </React.Fragment>
 
         )
@@ -20,9 +21,9 @@ const navbar = (props) =>{
             <React.Fragment>
 
        
-            <li><a href="sass.html">Login</a></li>
-                <li><a href="badges.html">Register</a></li>
-                <li><a href="badges.html">Help</a></li>
+                <Link to="/admin/">  <li>Login</li> </Link>
+                <Link to="/"> <li>Register</li></Link>
+                <Link to="/">  <li>Help</li></Link>
                 </React.Fragment>
         );
 
@@ -35,7 +36,7 @@ const navbar = (props) =>{
             <div className="nav-wrapper" >
                 <a href="https://www.digitalfinanceinstitute.org/" className={classes.NavbarLogo} > <img src={image} alt="DFI Logo"/> </a>
 
-            <ul id="nav-mobile" class="right hide-on-med-and-down" >
+            <ul id="nav-mobile" className={ classes.Display + " right hide-on-med-and-down"} style={{display:'inline-block'}} >
                {navbarLinks}
             </ul>
 

@@ -42,10 +42,10 @@ class Chatbot extends React.Component{
                     ) }
                    </div>
 
-                   <div classname={classes.Send}>
+                   <div className={classes.Send}>
                        <form onSubmit={this.sendMessage}>
                        
-                       <input  autocomplete="off" name="send" ></input>
+                       <input  autoComplete="off" name="send" ></input>
                        </form>
                        </div>
             </div>
