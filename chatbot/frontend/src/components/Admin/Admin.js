@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Admin.module.css';
 import Sidebar from './Sidebar/Sidebar';;
-//import ChatbotControls from './';
+import AdminControls from './AdminControls/AdminControls';
 
 const admin = (props) =>{
     let admin = null;
@@ -12,6 +12,7 @@ const admin = (props) =>{
 
            <div className={classes.Sidebar}>
                <Sidebar/>
+               <AdminControls/>
                </div>
             
             <div className={classes.Content}>
@@ -24,7 +25,7 @@ const admin = (props) =>{
         admin = <h2>Not Logged in</h2>
     }
 
-    
+
     return(
         <div className={classes.Admin}>
             {admin}
