@@ -8,6 +8,6 @@
 .project
 chatbot.iml
 .idea
-./frontend/build
-./frontend/node_modules
-.vscode
+frontend/build/
+frontend/node_modules/
+.vscode/
