@@ -1,7 +1,7 @@
 .Modal{
     background-color:white;
     border:1px solid #ccc;
-    top:30vh;
+    top:20vh;
     left:40vw;
     z-index:9999;
     position:absolute;

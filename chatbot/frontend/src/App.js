@@ -8,7 +8,7 @@ import axios from 'axios';
 
 class App extends Component {
   state ={
-    loggedIn: true,
+    loggedIn: false,
     showModal:false,
   }
   
@@ -18,6 +18,7 @@ class App extends Component {
       ...this.state,
       showModal:loggedIn
     });
+    console.log('Done');
 
   }
 
@@ -30,7 +31,7 @@ class App extends Component {
         
         <Route 
           exact path="/" 
-          render={(props)=> <Home {...props} loggedIn={this.state.loggedIn} showModal={this.state.showModal}/>}
+          render={(props)=> <Home {...props} loggedIn={this.state.loggedIn} showModal={this.state.showModal} modalClickHandler={this.modalClickHandler}/>}
           />
 
         

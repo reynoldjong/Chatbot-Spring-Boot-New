@@ -9,7 +9,7 @@ const home = (props) =>{
     return(
         <React.Fragment>
             <Login showModal={props.showModal}/>
-            <Navbar loggedIn={props.loggedIn} showModal={props.showModal}/>
+            <Navbar loggedIn={props.loggedIn}  modalClickHandler={props.modalClickHandler}/>
             <Hero/>
             <div className='container' style={{width:'90%'}}>
             <AboutUs/>

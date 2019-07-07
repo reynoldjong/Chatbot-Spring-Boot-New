@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './AdminLogin.module.css';
+import classes from './Login.module.css';
 
-const adminLogin = (props) => {
+const login = (props) => {
   let displayStyle = null;
   if (props.showModal === true) {
     displayStyle = { display: 'block' };
@@ -17,18 +17,18 @@ const adminLogin = (props) => {
       <div className={classes.Modal}>
         <form>
           <h4>Sign in</h4>
-          <div class="row">
-            <div class="input-field col s12">
+          <div className="row">
+            <div className="input-field col s12">
 
               <input type="text" id="email" class="autocomplete" />
               <label for="email">Email</label>
             </div>
           </div>
 
-          <div class="row">
-            <div class="input-field col s12">
+          <div className="row">
+            <div className="input-field col s12">
 
-              <input type="password" id="password" class="autocomplete" />
+              <input type="password" id="password" className="autocomplete" />
               <label for="password">Password</label>
             </div>
           </div>
@@ -45,4 +45,4 @@ const adminLogin = (props) => {
 };
 
 
-export default adminLogin;
+export default login;
