@@ -3,7 +3,7 @@ import React from 'react';
 const footer = () =>{
     return(
         <React.Fragment>
-        <footer className="page-footer blue lighten-1">
+        <footer className="page-footer blue darken-3">
           <div className="container">
             <div className="row">
               <div className="col l6 s12">
