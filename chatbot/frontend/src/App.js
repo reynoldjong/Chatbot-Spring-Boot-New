@@ -12,7 +12,12 @@ class App extends Component {
     showModal:false,
   }
   
-  login = (ev) =>{
+  modalClickHandler = () =>{
+    const loggedIn = !this.state.loggedIn;
+    this.setState({
+      ...this.state,
+      showModal:loggedIn
+    });
 
   }
 
