@@ -34,6 +34,7 @@ const login = (props) => {
           </div>
 
           <button href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
+          <button href="#!" className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
         </form>
 
 
