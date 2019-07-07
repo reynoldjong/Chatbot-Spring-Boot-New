@@ -74,9 +74,9 @@ public class FilesDatabaseAdmin {
      * Insert the given information to the database, filename and the content of files
      *
      * @param filename
-     * @param b
+     * @param content
      */
-    public void insertFile(String filename, byte[] b) {
+    public void insertFile(String filename, InputStream content, long size) {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO FILES(FILENAME, FILE) VALUES(?, ?)";
@@ -84,34 +84,12 @@ public class FilesDatabaseAdmin {
             // Create SQL statement for inserting
             stmt = this.connection.prepareStatement(insertSQL);
             stmt.setString(1, filename);
-            stmt.setBytes(2, b);
+            stmt.setBinaryStream(2, content, (int) size);
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-    }
-
-    /**
-     * Read the content of the file into bytes
-     *
-     * @param f
-     */
-    public byte[] readFile(File f) {
-        ByteArrayOutputStream bos = null;
-        try {
-            FileInputStream fis = new FileInputStream(f);
-            // Create a byte array
-            byte[] buffer = new byte[1024];
-            bos = new ByteArrayOutputStream();
-            // Read each bytes into the outputstream
-            for (int len; (len = fis.read(buffer)) != -1;) {
-                bos.write(buffer, 0, len);
-            }
-        } catch (IOException e2) {
-            System.out.println(e2.getMessage());
-        }
-        return bos != null ? bos.toByteArray() : null;
     }
 
     /**
@@ -142,9 +120,39 @@ public class FilesDatabaseAdmin {
 
     public void extractFile(String filename) {
         // update sql
+
+        FileOutputStream fos;
+        // Connection conn = null;
+        ResultSet rs = checkFile(filename);
+
+
+        if (rs != null) {
+            // write binary stream into file
+            try {
+
+                File file = new File(filePath + filename);
+                fos = new FileOutputStream(file);
+
+                while (rs.next()) {
+                    InputStream input = rs.getBinaryStream(1);
+                    byte[] buffer = new byte[1024];
+                    while (input.read(buffer) > 0) {
+                        fos.write(buffer);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public ResultSet checkFile(String filename) {
         String selectSQL = "SELECT file FROM FILES WHERE filename=?";
         ResultSet rs = null;
-        FileOutputStream fos;
         // Connection conn = null;
         PreparedStatement stmt = null;
 
@@ -153,42 +161,11 @@ public class FilesDatabaseAdmin {
             stmt.setString(1, filename);
             rs = stmt.executeQuery();
 
-
-            // write binary stream into file
-            File file = new File(filePath + filename);
-            fos = new FileOutputStream(file);
-
-            while (rs.next()) {
-                InputStream input = rs.getBinaryStream(1);
-                byte[] buffer = new byte[1024];
-                while (input.read(buffer) > 0) {
-                    fos.write(buffer);
-                }
-            }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (stmt != null) {
-                    stmt.close();
-                }
-
-                //if (conn != null) {
-                //    conn.close();
-                //}
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
         }
+
+        return rs;
     }
 
     public List<UploadedFile> list() throws SQLException {
