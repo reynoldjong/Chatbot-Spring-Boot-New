@@ -4,15 +4,26 @@
 		 http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 	
-	<!--	 
-	<servlet>
-		<servlet-name>loginpage</servlet-name>
-		<jsp-file>src/main/webapp/WEB-INF/view/login.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>loginpage</servlet-name>
-		<url-pattern>/loginpage</url-pattern>
-	</servlet-mapping>
-	-->
+	<!--
+	<security-role>
+ 		<role-name>admin</role-name>
+ 	</security-role>
+ 
+ 	<security-constraint>
+ 		<display-name>AdminPage</display-name>
+ 		<web-resource-collection>
+ 		<web-resource-name>adminpage</web-resource-name>
+ 		<url-pattern>/adminpage/*</url-pattern>
+ 		</web-resource-collection>
+ 		<auth-constraint>
+ 		<role-name>admin</role-name>
+ 		</auth-constraint>
+ 	</security-constraint>
+ 
+ 	<login-config>
+ 	<auth-method>BASIC</auth-method>
+ 	<realm-name>Chatbot Admin Area</realm-name>
+ 	</login-config>
+ 	-->
 	
 </web-app>
