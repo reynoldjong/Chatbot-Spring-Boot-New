@@ -3,3 +3,8 @@
     clear:both;
     margin-left:20px;
 }
+
+.NavbarFixed {
+    position: absolute;
+    z-index:999999999;
+}
