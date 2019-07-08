@@ -10,4 +10,5 @@ chatbot.iml
 .idea
 /frontend/build/
 /frontend/node_modules/
+/src/main/webapp/static/
 .vscode/
