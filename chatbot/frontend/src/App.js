@@ -23,6 +23,14 @@ class App extends Component {
 
   }
 
+  logOutHandler = () =>{
+    const loggedOut = false;
+    this.setState({
+      ...this.state,
+      loggedIn:loggedOut
+    });
+  }
+
   loginHandler = (event) =>{
     event.preventDefault();
     const target = event.target;
@@ -49,6 +57,8 @@ class App extends Component {
    
   }
 
+ 
+
 
 
   render(){
@@ -65,6 +75,7 @@ class App extends Component {
             showModal={this.state.showModal} 
             modalClickHandler={this.modalClickHandler}
             loginHandler={this.loginHandler}
+            logOutHandler={this.logOutHandler}
             />}
           />
 
