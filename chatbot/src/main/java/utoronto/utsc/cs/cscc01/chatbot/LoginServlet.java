@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @WebServlet(urlPatterns = "/login")
 /*
  * This class handles the user logins and 
@@ -27,22 +28,34 @@ public class LoginServlet extends HttpServlet {
     // grab username and password from the fields
     String username = req.getParameter("username");
     String password = req.getParameter("password");
-    
+
     try {
       req.login(username, password);
       if (req.getUserPrincipal() != null && req.isUserInRole("admin")) {
-        resp.sendRedirect("/adminpage");
+      
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write("{\"authenticated\":\"true\"}");
+
+        //resp.sendRedirect("localhost:8080/");
       }
       else {
         // if we couldn't verify the user, try again
-        forwardToLoginPage(req, resp, "Incorrect user name or password.");
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        resp.getWriter().write("{\"authenticated\":\"false\"}");
       }
       
     } catch (ServletException e) {
       // System.out.println(e.getMessage());
-      forwardToLoginPage(req, resp, e.getMessage());
+
+      resp.setContentType("application/json");
+      resp.setCharacterEncoding("UTF-8");
+      resp.getWriter().write("{\"authenticated\":\"false\"}");
     }
   }
+
+
   public static void forwardToLoginPage(HttpServletRequest req,
       HttpServletResponse resp, String errorMessage)
       throws ServletException, IOException {

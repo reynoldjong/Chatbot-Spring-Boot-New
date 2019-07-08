@@ -15,13 +15,13 @@ const login = (props) => {
 
 
       <div className={classes.Modal}>
-        <form>
+        <form onSubmit={props.loginHandler} method="post">
           <h4>Sign in</h4>
           <div className="row">
             <div className="input-field col s12">
 
-              <input type="text" id="email" class="autocomplete" />
-              <label for="email">Email</label>
+              <input type="text" id="username" class="autocomplete" />
+              <label for="username">Username</label>
             </div>
           </div>
 
@@ -33,8 +33,8 @@ const login = (props) => {
             </div>
           </div>
 
-          <button href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
-          <button href="#!" className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
+          <button type="submit" href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
+          <button href="#!" style={{marginLeft:"20px"}}className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
         </form>
 
 

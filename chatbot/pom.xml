@@ -58,7 +58,7 @@
 	  <artifactId>ibm-watson</artifactId>
 	  <version>7.1.1</version>
 	</dependency>
-	
+
 
 
   </dependencies>

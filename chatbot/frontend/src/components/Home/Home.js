@@ -8,7 +8,7 @@ import Login from './Login/Login';
 const home = (props) =>{
     return(
         <React.Fragment>
-            <Login showModal={props.showModal} modalClickHandler={props.modalClickHandler}/>
+            <Login showModal={props.showModal} loginHandler={props.loginHandler} modalClickHandler={props.modalClickHandler}/>
             <Navbar loggedIn={props.loggedIn}  modalClickHandler={props.modalClickHandler}/>
             <Hero/>
             <div className='container' style={{width:'90%'}}>
