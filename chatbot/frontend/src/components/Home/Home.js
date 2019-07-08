@@ -11,7 +11,7 @@ const home = (props) =>{
             <Login showModal={props.showModal} loginHandler={props.loginHandler}  modalClickHandler={props.modalClickHandler}/>
             <Navbar loggedIn={props.loggedIn} logOutHandler={props.logOutHandler} modalClickHandler={props.modalClickHandler}/>
             <Hero/>
-            <div className='container' style={{width:'90%'}}>
+            <div className='container' style={{width:'80%'}}>
             <AboutUs/>
             <Features/>
             </div>
