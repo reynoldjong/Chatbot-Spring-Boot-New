@@ -30,7 +30,7 @@ public class QueryEngine implements SearchEngine {
     String environmentId = wdisc.getEnvironmentId();
     String crawlerCollectionId = wdisc.getCrawlerCollectionId();
     String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
-    // query result of crawler for now, hard coded
+    // query on IBM watson discovery
     FederatedQueryOptions.Builder queryBuilder = new FederatedQueryOptions.Builder(environmentId);
     queryBuilder.naturalLanguageQuery(q);
     queryBuilder.collectionIds(crawlerCollectionId + "," + uploadedFilesCollectionId);

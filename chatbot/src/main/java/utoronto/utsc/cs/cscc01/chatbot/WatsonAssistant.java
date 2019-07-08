@@ -38,40 +38,4 @@ public class WatsonAssistant {
     return this.assistantId;
   }
   
-  // 
-  public static void main(String[] args) {
-    WatsonAssistant wa = WatsonAssistant.buildAssistant();
-    Assistant service = wa.getAssistant();
-    
-    CreateSessionOptions options = new CreateSessionOptions.Builder(wa.getAssistantId()).build();
-    SessionResponse response = service.createSession(options).execute().getResult();
-    String sessionId = response.getSessionId();
-    
-    MessageInput input = new MessageInput.Builder()
-        .messageType("text")
-        .text("What is context switch?")
-        .build();
-
-    MessageOptions msgOptions = new MessageOptions.Builder(wa.getAssistantId(), sessionId)
-      .input(input)
-      .build();
-
-    MessageResponse msgResponse = service.message(msgOptions).execute().getResult();
-
-    //System.out.println(msgResponse);
-    
-    MessageOutput output = msgResponse.getOutput();
-    List<DialogRuntimeResponseGeneric> outputList = output.getGeneric();
-    
-   
-    for (DialogRuntimeResponseGeneric generic : outputList) {
-      if (generic.getResponseType().equals("text")){
-        System.out.println(generic.getText());
-      }
-      else if (generic.getResponseType().equals("image")) {
-        System.out.println(generic.getSource());
-      }
-    }
-    
-  }
 }
