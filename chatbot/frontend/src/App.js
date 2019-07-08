@@ -34,8 +34,13 @@ class App extends Component {
     password:password1    }
 
    axios.post('/login', qs.stringify(data),)
-     .then(function (response) {
-     console.log(response['data']['authenticated']);
+     .then( (response) =>{
+     const status = response['data']['authenticated'];
+     this.setState({
+      ...this.state,
+      showModal:false,
+      loggedIn:status
+    });
     })
  .catch(function (error) {
      console.log(error);
@@ -43,6 +48,8 @@ class App extends Component {
 
    
   }
+
+
 
   render(){
     return (
