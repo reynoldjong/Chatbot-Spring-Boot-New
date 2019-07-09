@@ -9,8 +9,8 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
     -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
--moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
 }
 
 .Sidebar a {
@@ -20,6 +20,10 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.12);
   color: black;
   display: block;
   text-align:left;
+}
+
+.Sidebar a:hover{
+  background-color:red;
 }
 
 .Sidebar h5{

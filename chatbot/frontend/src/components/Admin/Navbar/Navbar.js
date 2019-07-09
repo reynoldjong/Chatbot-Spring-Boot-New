@@ -7,11 +7,11 @@ const navbar = () =>{
      
         <nav className={classes.Navbar}>
         <div className={classes.Navbar + " nav-wrapper  blue-grey darken-3"}>
-          <a href="www.google.com" className="brand-logo">Logo</a>
+          <a  style={{position:'relative',float:'left', marginLeft:'40px'}}href="www.google.com" className="brand-logo">DFI Cloud</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="sass.html">Sass</a></li>
-            <li><a href="badges.html">Components</a></li>
-            <li><a href="collapsible.html">JavaScript</a></li>
+            <li><a href="sass.html">Docs</a></li>
+            <li><a href="badges.html">Support</a></li>
+            <li><a href="collapsible.html">Resources</a></li>
           </ul>
         </div>
       </nav>

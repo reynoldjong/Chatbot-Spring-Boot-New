@@ -7,6 +7,7 @@ import Navbar from './Navbar/Navbar';
 import Login from './Login/Login';
 import Footer from './Footer/Footer';
 const home = (props) =>{
+    document.body.style = 'background: white';
     return(
         <React.Fragment>
             <Login showModal={props.showModal} loginHandler={props.loginHandler}  modalClickHandler={props.modalClickHandler}/>

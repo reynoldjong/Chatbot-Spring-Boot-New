@@ -7,7 +7,9 @@ const admin = (props) =>{
     let admin = null;
    
     if(props.loggedIn){
+        document.body.style = 'background: rgba(0,0,0,0.05);';
         admin = (
+            
             <React.Fragment>
        <Navbar/>
           
