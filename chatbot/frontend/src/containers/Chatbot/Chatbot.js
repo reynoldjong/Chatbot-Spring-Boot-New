@@ -28,12 +28,14 @@ class Chatbot extends React.Component{
         return(
             <div className={classes.Chatbot}>
 
-                <div className={classes.Header + " blue"}>
+                <div className={classes.Header}>
                     <div className={classes.Robot}>
                         <img src={robot} width="40px" alt=""/>
                     </div>
                         <h4 className={classes.Title}>Chatbot</h4> 
                 </div>
+
+
                 <div className={classes.Body}>
                    { this.state.chatlog.map((item, i) =>{
                     return <Message key={i} text={item}/>

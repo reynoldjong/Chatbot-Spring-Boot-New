@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import './App.css';
-import Footer from './components/Footer/Footer';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Home from './components/Home/Home';
 import Admin from './components/Admin/Admin';
@@ -9,7 +8,7 @@ import qs from 'qs';
 
 class App extends Component {
   state ={
-    loggedIn: false,
+    loggedIn: true,
     showModal:false,
   }
   
@@ -88,7 +87,7 @@ class App extends Component {
         <Router/>
 
       </Router>
-      <Footer/>
+
     </div>
   
   );

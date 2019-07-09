@@ -5,6 +5,7 @@ import Features from './Features/Features';
 import Chatbot from '../../containers/Chatbot/Chatbot';
 import Navbar from './Navbar/Navbar';
 import Login from './Login/Login';
+import Footer from './Footer/Footer';
 const home = (props) =>{
     return(
         <React.Fragment>
@@ -16,7 +17,7 @@ const home = (props) =>{
             <Features/>
             </div>
             <Chatbot/>
-           
+           <Footer/>
         </React.Fragment>
     );
 
