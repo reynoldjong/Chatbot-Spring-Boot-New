@@ -1,6 +1,10 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
@@ -24,13 +28,13 @@ public class QueryEngine implements SearchEngine {
     this.wdisc = wdisc;
   }
   
-  public String simpleQuery(String q) {
+  public Hashtable<String, ArrayList<String>> simpleQuery(String q) {
     Discovery discovery = wdisc.getDiscovery();
     
     String environmentId = wdisc.getEnvironmentId();
     String crawlerCollectionId = wdisc.getCrawlerCollectionId();
     String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
-    // query result of crawler for now, hard coded
+    // query on IBM watson discovery
     FederatedQueryOptions.Builder queryBuilder = new FederatedQueryOptions.Builder(environmentId);
     queryBuilder.naturalLanguageQuery(q);
     queryBuilder.collectionIds(crawlerCollectionId + "," + uploadedFilesCollectionId);
@@ -39,7 +43,28 @@ public class QueryEngine implements SearchEngine {
     QueryResponse queryResponse = discovery.federatedQuery(queryBuilder.build()).execute().getResult();
 
     List<QueryResult> resultList = queryResponse.getResults();
-    String result = "";
+    String jsonString = "{";
+    // we have 4 kinds of expected return from the query
+    // text, url, image, files
+    Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
+    
+    ArrayList<String> text = new ArrayList<>();
+    ArrayList<String> image = new ArrayList<>();
+    ArrayList<String> url = new ArrayList<>();
+    ArrayList<String> file = new ArrayList<>();
+    
+    dict.put("text", text);
+    dict.put("image", image);
+    dict.put("url", url);
+    dict.put("file", file);
+    // now we have {"text":[], "image":[], "url":[], "file":[]} this will help us build our json string
+    
+    String passageText = "";
+    List<QueryPassages> passageList = queryResponse.getPassages();
+    // grab most relevant passage from the text
+    if (passageList.size() > 0)
+      passageText = passageList.get(0).getPassageText();
+    
     // first check to see if we have any results
     if (resultList.size() > 0) {
       QueryResult firstResult = resultList.get(0);
@@ -48,19 +73,20 @@ public class QueryEngine implements SearchEngine {
         Map<String, Object> map = firstResult.getProperties();
         Map<String, String> fileMap = (Map<String, String>) map.get("extracted_metadata");
         String filename = fileMap.get("filename");
-        result = filename;
+        String fileString = "{\"filename\":\"" + filename + "\",\"passage\":\"" + passageText + "\"}";
+        file.add(fileString);
       }
       // if this was from crawler indexing the webpage
       else if (firstResult.getCollectionId().equals(wdisc.getCrawlerCollectionId())) {
         Map<String, Map<String, String>> map = firstResult.getMetadata();
-        String url = map.get("source").get("url");
-        result = url;
+        String link = map.get("source").get("url");
+        // the "s from html is crashing my json, not sure how discovery does it
+        //String urlString = "{\"link\":\"" + link + "\",\"passage\":\"" + passageText + "\"}";
+        url.add(link);
       }
     }
     
-    List<QueryPassages> passageList = queryResponse.getPassages();
-    
-    return result;
+    return dict;
   }
 
   public static void main(String[] args) {
@@ -68,7 +94,19 @@ public class QueryEngine implements SearchEngine {
     QueryEngine qe = new QueryEngine(watsonDiscovery);
     
     System.out.println(qe.simpleQuery("What is context switch?"));
-    System.out.println(qe.simpleQuery("Who is DFI?"));
+    //System.out.println(qe.simpleQuery("Who is DFI?"));
+    
+    Hashtable<String, ArrayList> dict = new Hashtable<>();
+    
+    ArrayList<String> text = new ArrayList<>();
+    ArrayList<String> image = new ArrayList<>();
+    ArrayList<String> url = new ArrayList<>();
+    ArrayList<String> file = new ArrayList<>();
+    
+    dict.put("text", text);
+    dict.put("image", image);
+    dict.put("url", url);
+    dict.put("file", file);
     
   }
 }
