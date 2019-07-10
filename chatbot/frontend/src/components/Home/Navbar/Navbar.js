@@ -10,8 +10,8 @@ const navbar = (props) =>{
         navbarLinks = (
             <React.Fragment>
               
-              <Link to="/admin/"> <li>Admin Dashboard</li> </Link>
-              <Link to="/admin/">   <li>Account</li></Link>
+              <Link to="/admin"> <li>Admin Dashboard</li> </Link>
+              <Link to="/admin">   <li>Account</li></Link>
               <li><button className="btn" onClick={props.logOutHandler}>Logout</button></li>
            
             </React.Fragment>

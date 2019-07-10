@@ -80,7 +80,7 @@ class App extends Component {
 
         
         <Route 
-          path="/admin/" 
+          path="/admin" 
           render={(props)=> <Admin {...props} loggedIn={this.state.loggedIn}/>}
           />
 

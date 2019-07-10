@@ -1,5 +1,6 @@
 .Navbar{
     z-index:999;
+    display:block;
 }
 .Dashboard{
     padding:20px;
@@ -10,5 +11,6 @@
     color:#3D3D3D;
     text-align:left;
     margin-left:40px;
+    display:block;
 
 }
