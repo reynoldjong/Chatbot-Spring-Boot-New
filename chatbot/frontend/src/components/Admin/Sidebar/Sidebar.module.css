@@ -23,7 +23,8 @@
 }
 
 .Sidebar a:hover{
-  background-color:red;
+  color:blue;
+  transition:0.5s ease-in;
 }
 
 .Sidebar h5{
