@@ -3,6 +3,7 @@ import classes from "./Admin.module.css";
 import AdminDocuments from "./AdminDocuments/AdminDocuments";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
+import Dashboard from './Dashboard/dashboard';
 const admin = props => {
   let admin = null;
 
@@ -14,12 +15,15 @@ const admin = props => {
           <Navbar />
          
           <Router>
-            
+          <Route 
+            exact path="/admin/" 
+          render={(props)=> <Dashboard {...props}  />}
+          />
 
            
           <Route 
-             path="/admin/" 
-          render={(props)=> <AdminDocuments {...props} />}
+           exact path="/admin/documents/" 
+          render={(props)=> <AdminDocuments {...props} addFileHandler={props.addFileHandler} />}
           />
  
           </Router>

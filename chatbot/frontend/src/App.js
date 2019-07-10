@@ -56,6 +56,23 @@ class App extends Component {
    
   }
 
+  addFileHandler = (event) => {
+    event.preventDefault();
+    const target = event.target;
+    const file = target.elements.files[0];
+
+    let data = new FormData();
+    data.append('file', file);
+
+    axios.post('/upload', data,).then( (response) =>{
+     console.log('uploaded a file?');
+    })
+  .catch(function (error) {
+      console.log(error);
+    });
+
+  }
+
  
 
 
@@ -81,7 +98,7 @@ class App extends Component {
         
         <Route 
           path="/admin" 
-          render={(props)=> <Admin {...props} loggedIn={this.state.loggedIn}/>}
+          render={(props)=> <Admin {...props} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
           />
 
         <Router/>
