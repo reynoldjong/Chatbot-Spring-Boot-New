@@ -126,7 +126,7 @@ public class HandleFilesServlet extends HttpServlet {
     public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
-        List<Part> fileParts = null; // Retrieves <input type="file" name="file" multiple="true">
+        List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
         try {
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
             for (Part filePart : fileParts) {

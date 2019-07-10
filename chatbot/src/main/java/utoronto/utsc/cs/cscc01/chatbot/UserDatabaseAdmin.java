@@ -146,6 +146,7 @@ public class UserDatabaseAdmin implements UserDatabase {
         UserDatabaseAdmin db = new UserDatabaseAdmin();
         if (db.connect()) {
             db.insertUser("test", "test");
+            db.insertUser("test", "test");
             System.out.println(db.verifyUser("test", "test"));
             System.out.println(db.verifyUser("test", "test2"));
             db.removeUser("test");

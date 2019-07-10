@@ -146,6 +146,8 @@ public class FilesDatabaseAdmin {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println("File uploaded");
         }
     }
 
