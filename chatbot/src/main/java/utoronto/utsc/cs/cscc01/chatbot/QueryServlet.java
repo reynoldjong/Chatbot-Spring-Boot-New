@@ -22,7 +22,27 @@ public class QueryServlet extends HttpServlet {
     this.queryEngine = new QueryEngine(WatsonDiscovery.buildDiscovery());
     this.queryAssistant = new QueryAssistant(WatsonAssistant.buildAssistant());
   }
-
+  
+  /* Primary method for user to make a query to the chatbot, it will first send
+   * the user query to assistant. If assistant is unsuccessful, it will send that query
+   * instead to Discovery and our custom query. It will return a json object as a response
+   * 
+   * below is an example of what it may look like
+   * 
+   * {"text":"lots of text"}
+   * {"url":"link"}
+   * {"image":"link to image"}
+   * {"file": { 
+   *            "filename":"name of file"
+   *            "passage":"sample passage"
+   *          }}
+   *          
+   * or in the case where there may be more than 1
+   * 
+   * {"text": ["text1", "text2", "text3"]}
+   * {"url": ["link1", "link2", "link3"]}
+   * 
+   */
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    String reply;
 	    // we are returning json to the front end
