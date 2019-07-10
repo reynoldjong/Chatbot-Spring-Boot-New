@@ -1,5 +1,5 @@
 import React from "react";
-
+import DocumentTable from './DocumentsTable/DocumentsTable';
 const adminDocuments = () => {
   return (
     <React.Fragment>
@@ -15,7 +15,7 @@ const adminDocuments = () => {
         </p>
         <input type="file" className="validate"/>
         </form>
-       
+       <DocumentTable/>
       
         </div>
     </React.Fragment>
