@@ -1,5 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.ibm.watson.assistant.v2.Assistant;
@@ -18,10 +20,20 @@ public class QueryAssistant implements SearchAssistant {
 		this.wa = assistant;
 	}
 	
-	public String simpleAssistantQuery(String q) {
+	public Hashtable<String, ArrayList<String>> simpleAssistantQuery(String q) {
 	    Assistant service = wa.getAssistant();
 	    
-	    String result = "";
+	    Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
+	    
+	    ArrayList<String> text = new ArrayList<>();
+	    ArrayList<String> image = new ArrayList<>();
+	    ArrayList<String> url = new ArrayList<>();
+	    ArrayList<String> queryFlag = new ArrayList<>();
+	    
+	    dict.put("text", text);
+	    dict.put("image", image);
+	    dict.put("url", url);
+	    dict.put("queryFlag", queryFlag);
 	    // TODO: we may have to move this session to query servlet itself
 	    // so we aren't creating new session everytime
 	    CreateSessionOptions options = new CreateSessionOptions.Builder(wa.getAssistantId()).build();
@@ -48,17 +60,24 @@ public class QueryAssistant implements SearchAssistant {
 	    List<DialogRuntimeResponseGeneric> outputList = output.getGeneric();
 	    
 	    // we only care about text and image response right now
-	    // and we will append that to our result
+	    // and we will create json string for that result
 	    // if assistant pattern match fails, it will return "Need to query"
 	    for (DialogRuntimeResponseGeneric generic : outputList) {
 	      if (generic.getResponseType().equals("text")){
-	        result += generic.getText();
+	        if (generic.getText().equals("Need to query")) {
+	          // special case - assistant cannot find answer
+	          queryFlag.add("Need to query");
+	          return dict;
+	        }
+	        // general case, add text to our hashtable
+	        else
+	          text.add(generic.getText());
 	      }
+	      // image case
 	      else if (generic.getResponseType().equals("image")) {
-	        result += generic.getSource();
+	        image.add(generic.getSource());
 	      }
 	    }
-	    
-	    return result;
+	    return dict;
 	}
 }
