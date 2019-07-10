@@ -25,15 +25,14 @@ public class FilesDatabaseAdminTest {
 //        db.uploadFiles("../chatbot/files");
 //        assertEquals("testing", db.query("test"));
 //    }
-
     /**
      * Test if the file is successfully removed by checking the content of file. Query should return an empty string.
      */
     /*
     @Test
     public void testRemove() {
-        db.remove("test");
-        assertEquals("", db.query("test"));
+//        db.remove("test");
+//        assertEquals("", db.query("test"));
     }
     */
 }
