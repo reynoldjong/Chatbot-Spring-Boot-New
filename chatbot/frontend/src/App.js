@@ -59,17 +59,45 @@ class App extends Component {
   addFileHandler = (event) => {
     event.preventDefault();
     const target = event.target;
-    const file = target.file[0];
-
+    const file2 = target.file.files[0];
+    console.log(file2.name);
+    
     let data = new FormData();
-    data.append('file', file);
-    console.log("hello");
-    axios.post('/upload', data,).then( (response) =>{
-     console.log('uploaded a file?');
+    data.append('action', 'upload');
+    data.append('file', file2);
+/*
+    
+    axios.post('/handlefiles', data,).then( (response) =>{
+      console.log('uploaded a file?');
+     })
+   .catch(function (error) {
+       console.log(error);
+     });
+ */
+/*
+    let data2 = {
+      action:"upload",
+      file:file2
+    }
+    axios.post('/handlefiles', qs.stringify(data2),).then( (response) =>{
+      console.log(file2);
+     })
+   .catch(function (error) {
+       console.log(error);
+     });
+     
+*/
+     fetch('/handlefiles', {
+    // content-type header should not be specified!
+    method: 'POST',
+    body: data,
+  })
+    .then(response => response.json())
+    .then(success => {
+      // Do something with the successful response
     })
-  .catch(function (error) {
-      console.log(error);
-    });
+    .catch(error => console.log(error)
+  );
 
   }
 

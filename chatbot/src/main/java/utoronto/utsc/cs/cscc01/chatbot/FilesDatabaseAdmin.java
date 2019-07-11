@@ -80,14 +80,22 @@ public class FilesDatabaseAdmin {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO FILES(FILENAME, FILE) VALUES(?, ?)";
+        System.out.println(filename);
+        System.out.println(content);
+        System.out.println(size);
         try {
             // Create SQL statement for inserting
             stmt = this.connection.prepareStatement(insertSQL);
+            System.out.println("UH OH1");
             stmt.setString(1, filename);
+            System.out.println("UH O2");
             stmt.setBinaryStream(2, content, (int) size);
+            System.out.println("UH OH3");
             stmt.executeUpdate();
+            System.out.println("UH OH");
 
         } catch (SQLException e) {
+            System.out.println("UH OH");
             e.printStackTrace();
         }
     }

@@ -109,8 +109,6 @@
        </configuration>
      </plugin>
 
-<<<<<<< HEAD
-
      <plugin>
     <groupId>com.github.eirslett</groupId>
     <artifactId>frontend-maven-plugin</artifactId>
@@ -222,8 +220,7 @@
       </filesets>
     </configuration>
   </plugin>
-=======
->>>>>>> f4ff1177eb45c07e59ba136713bc09c689d558e9
+
     </plugins>
   </build>
 </project>
