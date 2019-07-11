@@ -74,19 +74,20 @@ class App extends Component {
        console.log(error);
      });
  */
-/*
+
     let data2 = {
       action:"upload",
       file:file2
     }
-    axios.post('/handlefiles', qs.stringify(data2),).then( (response) =>{
+    axios.post('/handlefiles', data,).then( (response) =>{
       console.log(file2);
      })
    .catch(function (error) {
        console.log(error);
      });
      
-*/
+
+/*
      fetch('/handlefiles', {
     // content-type header should not be specified!
     method: 'POST',
@@ -98,7 +99,7 @@ class App extends Component {
     })
     .catch(error => console.log(error)
   );
-
+*/
   }
 
  
