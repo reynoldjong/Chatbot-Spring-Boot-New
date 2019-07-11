@@ -79,9 +79,7 @@ public class FilesDatabaseAdmin {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO FILES(FILENAME, FILE) VALUES(?, ?)";
-        System.out.println(filename);
-        System.out.println(content);
-        System.out.println(size);
+
 
         try {
             // Create SQL statement for inserting
