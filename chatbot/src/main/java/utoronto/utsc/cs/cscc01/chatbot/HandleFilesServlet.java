@@ -133,13 +133,10 @@ public class HandleFilesServlet extends HttpServlet {
         try {
             
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
-            System.out.println("here1 " + fileParts);
+           
             for (Part filePart : fileParts) {
-                System.out.println("here2 " + filePart);
                 String fileName = getFileName(filePart);
-                System.out.println("here3 " + fileName);
                 InputStream fileContent = filePart.getInputStream();
-                System.out.println("here3 " + fileContent);
                 db.insertFile(fileName, fileContent, filePart.getSize());
                 
 

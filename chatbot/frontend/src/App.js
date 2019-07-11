@@ -80,7 +80,7 @@ class App extends Component {
       file:file2
     }
     axios.post('/handlefiles', data,).then( (response) =>{
-      console.log(file2);
+      console.log(response);
      })
    .catch(function (error) {
        console.log(error);
