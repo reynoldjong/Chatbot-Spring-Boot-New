@@ -27,7 +27,6 @@ public class FilesDatabaseAdmin {
 
         // Connect to FileDatabase.db at project folder and return true if it is successful.
         try {
-
             this.connection = DriverManager.getConnection("jdbc:sqlite:Files.db");
             return true;
 
@@ -83,20 +82,21 @@ public class FilesDatabaseAdmin {
         System.out.println(filename);
         System.out.println(content);
         System.out.println(size);
+
         try {
             // Create SQL statement for inserting
+            this.connect();
             stmt = this.connection.prepareStatement(insertSQL);
-            System.out.println("UH OH1");
             stmt.setString(1, filename);
-            System.out.println("UH O2");
             stmt.setBinaryStream(2, content, (int) size);
-            System.out.println("UH OH3");
             stmt.executeUpdate();
-            System.out.println("UH OH");
+         
 
         } catch (SQLException e) {
-            System.out.println("UH OH");
             e.printStackTrace();
+        }
+        finally{
+            this.close();
         }
     }
 
