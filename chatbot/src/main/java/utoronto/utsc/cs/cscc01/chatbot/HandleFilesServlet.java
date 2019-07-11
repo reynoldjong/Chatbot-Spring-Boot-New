@@ -1,7 +1,6 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,12 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
-
 
 @WebServlet (urlPatterns = "/handlefiles")
 @MultipartConfig
@@ -33,7 +26,7 @@ public class HandleFilesServlet extends HttpServlet {
 
     // private int maxFileSize = 1024 * 1024;
     // private int maxMemSize = 4 * 1024;
-    private File file ;
+
 
 
 //    public HandleFilesServlet(FilesDatabaseAdmin db){
@@ -94,8 +87,10 @@ public class HandleFilesServlet extends HttpServlet {
             dispatcher.forward(request, response);
 
         } catch (SQLException e) {
+
             e.printStackTrace();
             throw new ServletException(e);
+
         }
     }
 
@@ -107,14 +102,6 @@ public class HandleFilesServlet extends HttpServlet {
         String fileName =request.getParameter("file");
         if (db.connect()) {
             db.remove(fileName);
-//
-//            if( fileName.lastIndexOf("\\") >= 0 ) {
-//                file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\")));
-//            } else {
-//                file = new File( filePath + fileName.substring(fileName.lastIndexOf("\\")+1));
-//            }
-//
-//            file.delete();
 
             String text = "You successfully removed: " + fileName;
             response.setContentType("text/plain");
@@ -132,7 +119,8 @@ public class HandleFilesServlet extends HttpServlet {
             for (Part filePart : fileParts) {
                 String fileName = getFileName(filePart);
                 InputStream fileContent = filePart.getInputStream();
-                db.insertFile(fileName, fileContent, filePart.getSize());
+                InputStream fileContentForDb = filePart.getInputStream();
+                db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
                 out.println("Uploaded Filename: " + fileName);
 
             }
@@ -206,7 +194,7 @@ public class HandleFilesServlet extends HttpServlet {
 //
 //                    out.println("Uploaded Filename: " + fileName + "<br>");
 //
-//                    db.insertFile(fileName, b);
+//                    db.insert(fileName, b);
 //
 //                }
 //            }
