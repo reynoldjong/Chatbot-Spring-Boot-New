@@ -16,7 +16,7 @@ const adminDocuments = (props) => {
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat.
         </p>
-        <input type="file" name="file" className="validate" multiple/>
+        <input type="file" name="file" className="validate" size = "1024" id = "file" multiple/>
         <button type="submit" className="btn waves-effect waves-light blue">upload file</button>
         </form>
         </div>

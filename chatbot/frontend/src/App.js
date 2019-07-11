@@ -63,22 +63,23 @@ class App extends Component {
     console.log(file2.name);
     
     let data = new FormData();
-    data.append('action', 'upload');
-    data.append('file', file2);
-/*
-    
+    data.append("action", "upload");
+    data.append("file", file2);
+
+
+
+    let data2 = {
+      action:"upload",
+      file:file2
+    }
     axios.post('/handlefiles', data,).then( (response) =>{
       console.log('uploaded a file?');
      })
    .catch(function (error) {
        console.log(error);
      });
- */
 
-    let data2 = {
-      action:"upload",
-      file:file2
-    }
+    /*
     axios.post('/handlefiles', data,).then( (response) =>{
       console.log(file2);
      })
@@ -86,16 +87,16 @@ class App extends Component {
        console.log(error);
      });
      
-
+*/
 /*
-     fetch('/handlefiles', {
+     fetch("/handlefiles", {
     // content-type header should not be specified!
     method: 'POST',
     body: data,
   })
     .then(response => response.json())
     .then(success => {
-      // Do something with the successful response
+     console.log(success);
     })
     .catch(error => console.log(error)
   );
