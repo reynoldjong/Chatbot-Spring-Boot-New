@@ -59,11 +59,11 @@ class App extends Component {
   addFileHandler = (event) => {
     event.preventDefault();
     const target = event.target;
-    const file = target.elements.files[0];
+    const file = target.file[0];
 
     let data = new FormData();
     data.append('file', file);
-
+    console.log("hello");
     axios.post('/upload', data,).then( (response) =>{
      console.log('uploaded a file?');
     })

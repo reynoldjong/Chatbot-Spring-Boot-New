@@ -4,7 +4,7 @@ import AdminDocuments from "./AdminDocuments/AdminDocuments";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Dashboard from './Dashboard/dashboard';
-const admin = (props, { match }) => {
+const admin = (props) => {
   let admin = null;
 
   if (props.loggedIn) {
@@ -13,19 +13,8 @@ const admin = (props, { match }) => {
 
       <React.Fragment>
           <Navbar />
-         
+          <AdminDocuments addFileHandler={props.addFileHandler} />
         
-          <Route 
-            exact path="/admin/" 
-          render={(props)=> <Dashboard {...props}  />}
-          />
-
-           
-          <Route 
-           exact path="/admin/documents/" 
-          render={(props)=> <AdminDocuments {...props} addFileHandler={props.addFileHandler} />}
-          />
- 
      
       
       </React.Fragment>
@@ -41,3 +30,15 @@ const admin = (props, { match }) => {
 };
 
 export default admin;
+/*
+<Route 
+exact path="/admin/" 
+render={(props)=> <Dashboard {...props}  />}
+/>
+
+
+<Route 
+path="/admin/documents/" 
+render={(props)=> <AdminDocuments {...props} addFileHandler={props.addFileHandler} />}
+/>
+*/
