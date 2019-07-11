@@ -73,11 +73,13 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
+
+	  <groupId>com.ibm.watson</groupId>
+	  <artifactId>ibm-watson</artifactId>
+	  <version>7.1.1</version>
+	</dependency>
+
+
 
   </dependencies>
 
@@ -86,6 +88,7 @@
     <plugins>
 
      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-compiler-plugin</artifactId>
        <version>3.5.1</version>
        <configuration>
@@ -105,6 +108,118 @@
          <tomcatUsers>src/main/webapp/config/tomcat-users.xml</tomcatUsers>
        </configuration>
      </plugin>
+
+     <plugin>
+    <groupId>com.github.eirslett</groupId>
+    <artifactId>frontend-maven-plugin</artifactId>
+    <version>1.6</version>
+    <configuration>
+        <workingDirectory>frontend</workingDirectory>
+        <installDirectory>target</installDirectory>
+    </configuration>
+
+    <executions>
+        <execution>
+            <id>install node and npm</id>
+            <goals>
+                <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+                <nodeVersion>v10.15.1</nodeVersion>
+                <npmVersion>6.9.0</npmVersion>
+            </configuration>
+        </execution>
+
+        <execution>
+            <id>npm install</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>install</arguments>
+            </configuration>
+        </execution>
+
+        <execution>
+            <id>npm run build</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>run build</arguments>
+            </configuration>
+        </execution>
+
+    </executions>
+
+</plugin>
+<plugin>
+    <artifactId>maven-antrun-plugin</artifactId>
+    <executions>
+        <execution>
+            <phase>generate-resources</phase>
+            <configuration>
+                <tasks>
+              
+                    <copy todir="${project.build.directory}/classes/public">
+                        <fileset dir="${project.basedir}/frontend/build"/>
+                    </copy>
+                  
+               
+                    <copy todir="${project.basedir}/src/main/webapp">
+                        <fileset dir="${project.basedir}/frontend/build"/>
+                    </copy>
+                  
+                </tasks>
+            </configuration>
+            <goals>
+                <goal>run</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+
+     <plugin>
+    <artifactId>maven-clean-plugin</artifactId>
+    <version>3.1.0</version>
+    <configuration>
+      <filesets>
+        <fileset>
+          <directory>./src/main/webapp</directory>
+          <includes>
+            <include>*</include>
+          </includes>
+          <excludes>
+            <exclude>config/</exclude>
+            <exclude>WEB-INF</exclude>
+          </excludes>
+          <followSymlinks>false</followSymlinks>
+        </fileset>
+                <fileset>
+          <directory>./src/main/webapp/static</directory>
+          <includes>
+            <include>**</include>
+          </includes>
+          <followSymlinks>false</followSymlinks>
+        </fileset>
+
+              <fileset>
+          <directory>./frontend/build</directory>
+          <includes>
+            <include>**</include>
+          </includes>
+          <followSymlinks>false</followSymlinks>
+        </fileset>
+             <fileset>
+          <directory>./target</directory>
+          <includes>
+            <include>**</include>
+          </includes>
+          <followSymlinks>false</followSymlinks>
+        </fileset>
+      </filesets>
+    </configuration>
+  </plugin>
 
     </plugins>
   </build>

@@ -1,0 +1,26 @@
+.AboutUs{
+    display:flex;
+    justify-content: space-around;
+    height:600px;
+    margin-top:80px;
+}
+
+.Picture{
+    flex:1;
+    background-image:url('./images/chatbot.png'); 
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+    width:100%;
+    margin-right:40px;
+}
+
+.Text{
+    flex:1;
+}
+
+.Text p{
+    text-align:left;
+    font-size:1.1em;
+    line-height: 1.7em;
+}

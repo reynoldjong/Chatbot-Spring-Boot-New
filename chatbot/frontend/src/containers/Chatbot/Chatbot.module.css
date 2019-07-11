@@ -1,0 +1,56 @@
+.Chatbot{
+    position:fixed;
+    width:350px;
+    height:500px;
+    bottom:50px;
+    right:30px;
+
+    overflow-y:scroll;
+    z-index:10000;
+
+    background-color:white;;
+    border:1px solid #ccc;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    box-sizing:border-box;
+}
+
+.Header{
+    display:block;
+    width:100%;
+    height:60px;
+    border-bottom:1px solid #ccc;
+    flex:1/2;
+    box-sizing:border-box;
+    background-image: linear-gradient(#d31027
+
+    ,#ea384d);
+}
+
+.Title{
+    margin:0px;
+    text-align:center;
+    color:white;
+}
+.Robot{
+    float:left;
+    margin-left:20px;
+    clear:right;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+
+.Body{
+    
+    border-bottom:1px solid black;
+    overflow-y:scroll;
+    flex:5;
+
+}
+
+.Send{
+    flex:1/2;
+    height:50px;
+
+}

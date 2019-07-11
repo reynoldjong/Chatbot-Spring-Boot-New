@@ -29,7 +29,6 @@ public class FilesDatabaseAdmin {
 
         // Connect to FileDatabase.db at project folder and return true if it is successful.
         try {
-
             this.connection = DriverManager.getConnection("jdbc:sqlite:Files.db");
             return true;
 
@@ -101,11 +100,11 @@ public class FilesDatabaseAdmin {
             stmt.setBinaryStream(2, contentForDb, (int) size);
             stmt.setString(3, filename);
             stmt.executeUpdate();
+         
 
         } catch (SQLException e) {
             System.err.println("Can't update file");
         }
-
     }
 
     /**

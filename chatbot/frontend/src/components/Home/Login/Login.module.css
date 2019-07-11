@@ -1,0 +1,19 @@
+.Modal{
+    background-color:white;
+    border:1px solid #ccc;
+    top:20vh;
+    left:40vw;
+    z-index:9999;
+    position:absolute;
+    padding:10px;
+    width:500px;
+    border-radius:5px;
+}
+
+.background{
+    background-color:rgba(0,0,0,0.4);
+    width:100%;
+    height:100%;
+    z-index:9999;
+    position:absolute;
+}

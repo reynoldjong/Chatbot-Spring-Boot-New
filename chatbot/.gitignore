@@ -8,3 +8,14 @@
 .project
 chatbot.iml
 .idea
+/frontend/build/
+/frontend/node_modules/
+/src/main/webapp/static/
+/src/main/webapp/asset-manifest.json
+/src/main/webapp/favicon.ico
+/src/main/webapp/index.html
+/src/main/webapp/logo.png
+/src/main/webapp/manifest.json
+/src/main/webapp/service-worker.js
+/src/main/webapp/precache*
+.vscode/
