@@ -1,0 +1,20 @@
+.NavbarLogo{
+    float:left;
+    clear:both;
+    margin-left:20px;
+}
+
+.NavbarFixed {
+    position: absolute;
+    z-index:999999999;
+}
+.Display{
+    width:600px;
+
+
+}
+
+.Display li{
+   margin-left:40px;
+
+}

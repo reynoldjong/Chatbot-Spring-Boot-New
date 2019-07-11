@@ -16,6 +16,6 @@ chatbot.iml
 /src/main/webapp/index.html
 /src/main/webapp/logo.png
 /src/main/webapp/manifest.json
-/src/main/webapp/precache-manifest.95cbdcd390791931c24a8a566aad09a1.js
 /src/main/webapp/service-worker.js
+/src/main/webapp/precache*
 .vscode/

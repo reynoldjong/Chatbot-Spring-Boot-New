@@ -48,12 +48,13 @@ public class HandleFilesServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-
+        System.out.println("here");
         String action = request.getParameter("action");
-
+        System.out.println(action);
 
         if ("upload".equals(action)) {
             try {
+                System.out.println("here2");
                 upload(request, response);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -105,6 +106,7 @@ public class HandleFilesServlet extends HttpServlet {
 //        File file;
 
         String fileName =request.getParameter("file");
+       
         if (db.connect()) {
             db.remove(fileName);
 //
@@ -126,16 +128,20 @@ public class HandleFilesServlet extends HttpServlet {
     public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
+        System.out.println(request.getParameterMap());
         List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
         try {
+            
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+           
             for (Part filePart : fileParts) {
                 String fileName = getFileName(filePart);
                 InputStream fileContent = filePart.getInputStream();
                 db.insertFile(fileName, fileContent, filePart.getSize());
-                out.println("Uploaded Filename: " + fileName);
+                
 
             }
+            
         } catch (ServletException e) {
             out.println("Can't upload any files");
         }
