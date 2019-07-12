@@ -19,3 +19,4 @@ chatbot.iml
 /src/main/webapp/service-worker.js
 /src/main/webapp/precache*
 .vscode/
+/hs_err_pid*
