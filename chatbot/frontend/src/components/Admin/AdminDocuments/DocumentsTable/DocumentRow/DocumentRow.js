@@ -6,7 +6,7 @@ const documentRow = (props) =>{
           <tr>
             <td>{props.name}</td>
             <td>{props.type}</td>
-            <td><button className="btn red">Remove</button></td>
+            <td><button onClick={props.removeFileHandler} className="btn red">Remove</button></td>
           </tr>
     </React.Fragment>
     );

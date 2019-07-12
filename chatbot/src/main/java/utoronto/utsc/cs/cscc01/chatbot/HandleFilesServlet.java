@@ -115,7 +115,8 @@ public class HandleFilesServlet extends HttpServlet {
 //        File file;
 
         String fileName =request.getParameter("file");
-       
+       System.out.println(fileName.toString());
+        
         if (db.connect()) {
             db.remove(fileName);
 //
@@ -131,6 +132,7 @@ public class HandleFilesServlet extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(text);
+            db.close();
         }
     }
 

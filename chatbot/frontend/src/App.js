@@ -75,21 +75,32 @@ class App extends Component {
       file:file2
     }
     axios.post('/handlefiles', data,).then( (response) =>{
-      console.log('uploaded a file?');
+      
      })
    .catch(function (error) {
        console.log(error);
      });
 
+  }
 
-    /*
-    axios.post('/handlefiles', data,).then( (response) =>{
-      console.log(response);
-     })
-   .catch(function (error) {
-       console.log(error);
-     });
-    */
+  removeFileHandler = (fileName) => {
+    let data = new FormData();
+
+    data.append("action", "remove");
+    data.append("file", fileName);
+    const data2={
+      "action":"remove",
+      "file":fileName
+    }
+
+    axios.post('/handlefiles',data,).then( (response) =>{
+      this.viewAllFilesHandler();
+     
+    })
+  .catch(function (error) {
+      console.log(error);
+    });
+
   }
 
   viewAllFilesHandler = () => {
@@ -100,6 +111,7 @@ class App extends Component {
       this.setState({
         files:data
       })
+      this.viewAllFilesHandler();
     })
  .catch(function (error) {
      console.log(error);
@@ -134,7 +146,7 @@ class App extends Component {
         
         <Route 
           path="/admin" 
-          render={(props)=> <Admin {...props} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
+          render={(props)=> <Admin {...props} removeFileHandler={this.removeFileHandler} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
           />
 
         <Router/>

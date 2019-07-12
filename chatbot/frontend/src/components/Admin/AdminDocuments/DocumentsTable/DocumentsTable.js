@@ -3,6 +3,7 @@ import classes from './DocumentsTable.module.css';
 import DocumentRow from './DocumentRow/DocumentRow';
 
 const documentsTable = (props) => {
+
   return (
     <React.Fragment>
 
@@ -19,11 +20,12 @@ const documentsTable = (props) => {
 
         <tbody>
           {props.files.map((item, i) => {
+        
             const itemArray = item.split(".");
             const name = itemArray[0];
             const type = itemArray[1];
 
-            return <DocumentRow key={i} name={name} type={type}/>
+            return <DocumentRow key={i} removeFileHandler={(fileName) => props.removeFileHandler(name+"."+type)} name={name} type={type}/>
           }
 
           )}
