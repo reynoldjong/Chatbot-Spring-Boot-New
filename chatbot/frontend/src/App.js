@@ -64,8 +64,10 @@ class App extends Component {
     console.log(file2.name);
     
     let data = new FormData();
-    data.append('action', 'upload');
-    data.append('file', file2);
+
+    data.append("action", "upload");
+    data.append("file", file2);
+
 
 
     let data2 = {
@@ -73,12 +75,21 @@ class App extends Component {
       file:file2
     }
     axios.post('/handlefiles', data,).then( (response) =>{
+      console.log('uploaded a file?');
+     })
+   .catch(function (error) {
+       console.log(error);
+     });
+
+
+    /*
+    axios.post('/handlefiles', data,).then( (response) =>{
       console.log(response);
      })
    .catch(function (error) {
        console.log(error);
      });
-    
+    */
   }
 
   viewAllFilesHandler = () => {

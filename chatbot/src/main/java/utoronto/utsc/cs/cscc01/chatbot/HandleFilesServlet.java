@@ -142,6 +142,7 @@ public class HandleFilesServlet extends HttpServlet {
         try {
             
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+<<<<<<< HEAD
     
             for (Part filePart : fileParts) {
             
@@ -149,6 +150,12 @@ public class HandleFilesServlet extends HttpServlet {
             
                 InputStream fileContent = filePart.getInputStream();
          
+=======
+           
+            for (Part filePart : fileParts) {
+                String fileName = getFileName(filePart);
+                InputStream fileContent = filePart.getInputStream();
+>>>>>>> 41bfc60a5e0ae1948eb3ee856e38db68bab346c8
                 db.insertFile(fileName, fileContent, filePart.getSize());
 
                 
