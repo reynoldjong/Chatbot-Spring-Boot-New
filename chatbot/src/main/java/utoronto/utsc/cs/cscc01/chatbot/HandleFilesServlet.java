@@ -19,7 +19,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 
 
 @WebServlet (urlPatterns = "/handlefiles")
@@ -89,10 +90,18 @@ public class HandleFilesServlet extends HttpServlet {
 
             db.connect();
             List<UploadedFile> listUploadedFile = db.list();
+            
             request.setAttribute("listUploadedFile", listUploadedFile);
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher("handlefiles.jsp");
-            dispatcher.forward(request, response);
+            ArrayList<String> list = new ArrayList<>();
+            for(UploadedFile f:listUploadedFile){
+                list.add(f.getFilename());
+            }
+            Gson gsonBuilder = new GsonBuilder().create();
+            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.format("{\"files\": %s }",jsonFromJavaArrayList));
+          
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -128,19 +137,20 @@ public class HandleFilesServlet extends HttpServlet {
     public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
-        System.out.println(request.getParameterMap());
+
         List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
         try {
             
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
-            System.out.println("here1 " + fileParts);
+    
             for (Part filePart : fileParts) {
-                System.out.println("here2 " + filePart);
+            
                 String fileName = getFileName(filePart);
-                System.out.println("here3 " + fileName);
+            
                 InputStream fileContent = filePart.getInputStream();
-                System.out.println("here3 " + fileContent);
+         
                 db.insertFile(fileName, fileContent, filePart.getSize());
+
                 
 
             }

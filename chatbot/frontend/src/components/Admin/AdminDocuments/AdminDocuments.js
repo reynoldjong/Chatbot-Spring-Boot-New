@@ -2,6 +2,7 @@ import React from "react";
 import DocumentTable from './DocumentsTable/DocumentsTable';
 import classes from './AdminDocuments.module.css';
 const adminDocuments = (props) => {
+  props.viewAllFilesHandler();
   return (
     <React.Fragment>
      <div className="container">
@@ -22,7 +23,7 @@ const adminDocuments = (props) => {
         </div>
         <div className={classes.Card}>
 
-       <DocumentTable/>
+       <DocumentTable files={props.files} />
        </div>
         </div>
     </React.Fragment>

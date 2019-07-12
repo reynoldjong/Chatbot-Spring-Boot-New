@@ -80,23 +80,20 @@ public class FilesDatabaseAdmin {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO FILES(FILENAME, FILE) VALUES(?, ?)";
-        System.out.println(filename);
-        System.out.println(content);
-        System.out.println(size);
         try {
             // Create SQL statement for inserting
+            this.connect();
             stmt = this.connection.prepareStatement(insertSQL);
-            System.out.println("UH OH1");
             stmt.setString(1, filename);
-            System.out.println("UH O2");
             stmt.setBinaryStream(2, content, (int) size);
-            System.out.println("UH OH3");
             stmt.executeUpdate();
-            System.out.println("UH OH");
-
+            
         } catch (SQLException e) {
             System.out.println("UH OH");
             e.printStackTrace();
+        }
+        finally{
+            this.close();
         }
     }
 
@@ -111,6 +108,7 @@ public class FilesDatabaseAdmin {
         // SQL code for delete
         String deleteSQL = "DELETE FROM FILES WHERE filename = ?";
         try {
+           
             // Create SQL statement for deleting
             stmt = this.connection.prepareStatement(deleteSQL);
             stmt.setString(1, filename);
@@ -118,6 +116,7 @@ public class FilesDatabaseAdmin {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+       
     }
 
     /**
@@ -137,7 +136,7 @@ public class FilesDatabaseAdmin {
         if (rs != null) {
             // write binary stream into file
             try {
-
+                
                 File file = new File(filePath + filename);
                 fos = new FileOutputStream(file);
 
