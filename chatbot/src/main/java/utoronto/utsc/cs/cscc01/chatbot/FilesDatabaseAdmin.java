@@ -18,7 +18,10 @@ public class FilesDatabaseAdmin {
 
     public FilesDatabaseAdmin() {
         this.connection = null;
-        this.fileEngine = new HandleFilesEngine(WatsonDiscovery.buildDiscovery());
+       
+        WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
+        this.fileEngine = new HandleFilesEngine(w);
+ 
     }
 
 
@@ -211,10 +214,10 @@ public class FilesDatabaseAdmin {
         List<UploadedFile> listUploadedFile = new ArrayList<>();
         try{
           
-            System.out.println("hello1");
+           
             String sql = "SELECT * FROM files ORDER BY filename";
             this.connect();
-            System.out.println("hello2");
+
             Statement statement = this.connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
     

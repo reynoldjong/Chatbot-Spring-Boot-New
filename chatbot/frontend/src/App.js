@@ -8,7 +8,7 @@ import qs from 'qs';
 
 class App extends Component {
   state ={
-    loggedIn: false,
+    loggedIn: true,
     showModal:false,
     files:[],
   }
@@ -75,7 +75,7 @@ class App extends Component {
       file:file2
     }
     axios.post('/handlefiles', data,).then( (response) =>{
-      
+      this.viewAllFilesHandler();
      })
    .catch(function (error) {
        console.log(error);
@@ -83,7 +83,7 @@ class App extends Component {
 
   }
 
-  removeFileHandler = (fileName) => {
+  removeFileHandler = async (fileName) => {
     let data = new FormData();
 
     data.append("action", "remove");
@@ -93,7 +93,8 @@ class App extends Component {
       "file":fileName
     }
 
-    axios.post('/handlefiles',data,).then( (response) =>{
+   let res = await axios.post('/handlefiles',data,).then( (response) =>{
+      console.log('response')
       this.viewAllFilesHandler();
      
     })
@@ -101,17 +102,20 @@ class App extends Component {
       console.log(error);
     });
 
+   
   }
 
   viewAllFilesHandler = () => {
+    console.log('called viewAllFilesHandler');
 
     axios.get('/handlefiles',)
      .then( (response) =>{
        const data = response['data']['files'];
+ 
       this.setState({
         files:data
       })
-      this.viewAllFilesHandler();
+     
     })
  .catch(function (error) {
      console.log(error);

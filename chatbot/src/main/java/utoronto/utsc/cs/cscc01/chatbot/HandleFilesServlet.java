@@ -25,6 +25,7 @@ public class HandleFilesServlet extends HttpServlet {
     private boolean isMultipart;
 //    private String filePath = "../chatbot/files/";
     private FilesDatabaseAdmin db;
+    private WatsonDiscovery wdisc;
     //TODO: see if these fields are needed
 
     // private int maxFileSize = 1024 * 1024;
@@ -39,7 +40,9 @@ public class HandleFilesServlet extends HttpServlet {
 //    }
 
     public void init () {
+      
         this.db = new FilesDatabaseAdmin();
+        this.wdisc = WatsonDiscovery.buildDiscovery();
     }
 
     @Override
@@ -70,6 +73,7 @@ public class HandleFilesServlet extends HttpServlet {
             throws ServletException, java.io.IOException {
 
         // request.getRequestDispatcher("/handlefiles.jsp").forward(request, response);
+        
         listUploadedFile(request, response);
 
     }
@@ -80,9 +84,9 @@ public class HandleFilesServlet extends HttpServlet {
 
         try {
 
-            System.out.println("byebye");
+           
             List<UploadedFile> listUploadedFile = db.list();
-            System.out.println("byebye3");
+        
             request.setAttribute("listUploadedFile", listUploadedFile);
 
 

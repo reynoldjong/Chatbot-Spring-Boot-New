@@ -1,10 +1,11 @@
-import React, {useState,useEffect} from "react";
+import React, {useEffect} from "react";
 import DocumentTable from './DocumentsTable/DocumentsTable';
 import classes from './AdminDocuments.module.css';
 const AdminDocuments = (props) => {
 
    // Similar to componentDidMount and componentDidUpdate:
    useEffect(() => {
+     console.log('called');
     props.viewAllFilesHandler();
   },[]);
 

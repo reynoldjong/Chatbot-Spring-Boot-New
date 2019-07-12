@@ -10,13 +10,17 @@ import java.io.*;
 public class HandleFilesEngine {
 
     private WatsonDiscovery wdisc;
-
+    private String environmentId; 
+    private String uploadedFilesCollectionId;
+  
     public HandleFilesEngine(WatsonDiscovery wdisc) {
         this.wdisc = wdisc;
+        this.environmentId = this.wdisc.getEnvironmentId();
+        this.uploadedFilesCollectionId = this.wdisc.getUploadedFilesCollectionId();
     }
 
-    String environmentId = wdisc.getEnvironmentId();
-    String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
+   // String environmentId = wdisc.getEnvironmentId();
+    //String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
 
 
     public String uploadFiles(InputStream documentStream, String filename) {
