@@ -79,11 +79,8 @@ public class FilesDatabaseAdmin {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO FILES(FILENAME, FILE) VALUES(?, ?)";
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 41bfc60a5e0ae1948eb3ee856e38db68bab346c8
         try {
             // Create SQL statement for inserting
             this.connect();
@@ -91,12 +88,8 @@ public class FilesDatabaseAdmin {
             stmt.setString(1, filename);
             stmt.setBinaryStream(2, content, (int) size);
             stmt.executeUpdate();
-<<<<<<< HEAD
-            
-=======
          
 
->>>>>>> 41bfc60a5e0ae1948eb3ee856e38db68bab346c8
         } catch (SQLException e) {
             e.printStackTrace();
         }

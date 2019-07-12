@@ -49,13 +49,10 @@ public class HandleFilesServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("here");
         String action = request.getParameter("action");
-        System.out.println(action);
 
         if ("upload".equals(action)) {
             try {
-                System.out.println("here2");
                 upload(request, response);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -107,6 +104,9 @@ public class HandleFilesServlet extends HttpServlet {
             e.printStackTrace();
             throw new ServletException(e);
         }
+        finally{
+            db.close();
+        }
     }
 
     protected void remove(HttpServletRequest request, HttpServletResponse response)
@@ -142,20 +142,10 @@ public class HandleFilesServlet extends HttpServlet {
         try {
             
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
-<<<<<<< HEAD
-    
-            for (Part filePart : fileParts) {
-            
-                String fileName = getFileName(filePart);
-            
-                InputStream fileContent = filePart.getInputStream();
-         
-=======
            
             for (Part filePart : fileParts) {
                 String fileName = getFileName(filePart);
                 InputStream fileContent = filePart.getInputStream();
->>>>>>> 41bfc60a5e0ae1948eb3ee856e38db68bab346c8
                 db.insertFile(fileName, fileContent, filePart.getSize());
 
                 
