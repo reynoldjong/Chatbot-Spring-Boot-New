@@ -10,6 +10,7 @@ class App extends Component {
   state ={
     loggedIn: true,
     showModal:false,
+    files:[],
   }
   
   modalClickHandler = () =>{
@@ -63,6 +64,7 @@ class App extends Component {
     console.log(file2.name);
     
     let data = new FormData();
+
     data.append("action", "upload");
     data.append("file", file2);
 
@@ -73,35 +75,55 @@ class App extends Component {
       file:file2
     }
     axios.post('/handlefiles', data,).then( (response) =>{
-      console.log('uploaded a file?');
+      this.viewAllFilesHandler();
      })
    .catch(function (error) {
        console.log(error);
      });
 
-    /*
-    axios.post('/handlefiles', data,).then( (response) =>{
-      console.log(response);
-     })
-   .catch(function (error) {
-       console.log(error);
-     });
-     
-*/
-/*
-     fetch("/handlefiles", {
-    // content-type header should not be specified!
-    method: 'POST',
-    body: data,
-  })
-    .then(response => response.json())
-    .then(success => {
-     console.log(success);
-    })
-    .catch(error => console.log(error)
-  );
-*/
   }
+
+  removeFileHandler = async (fileName) => {
+    let data = new FormData();
+
+    data.append("action", "remove");
+    data.append("file", fileName);
+    const data2={
+      "action":"remove",
+      "file":fileName
+    }
+
+   let res = await axios.post('/handlefiles',data,).then( (response) =>{
+      console.log('response')
+      this.viewAllFilesHandler();
+     
+    })
+  .catch(function (error) {
+      console.log(error);
+    });
+
+   
+  }
+
+  viewAllFilesHandler = () => {
+    console.log('called viewAllFilesHandler');
+
+    axios.get('/handlefiles',)
+     .then( (response) =>{
+       const data = response['data']['files'];
+ 
+      this.setState({
+        files:data
+      })
+     
+    })
+ .catch(function (error) {
+     console.log(error);
+   });
+
+  }
+
+
 
  
 
@@ -128,7 +150,7 @@ class App extends Component {
         
         <Route 
           path="/admin" 
-          render={(props)=> <Admin {...props} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
+          render={(props)=> <Admin {...props} removeFileHandler={this.removeFileHandler} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
           />
 
         <Router/>

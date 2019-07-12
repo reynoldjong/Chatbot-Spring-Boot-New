@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+
 
 @WebServlet (urlPatterns = "/handlefiles")
 @MultipartConfig
@@ -22,6 +25,7 @@ public class HandleFilesServlet extends HttpServlet {
     private boolean isMultipart;
 //    private String filePath = "../chatbot/files/";
     private FilesDatabaseAdmin db;
+    private WatsonDiscovery wdisc;
     //TODO: see if these fields are needed
 
     // private int maxFileSize = 1024 * 1024;
@@ -36,18 +40,17 @@ public class HandleFilesServlet extends HttpServlet {
 //    }
 
     public void init () {
+      
         this.db = new FilesDatabaseAdmin();
+        this.wdisc = WatsonDiscovery.buildDiscovery();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("here");
         String action = request.getParameter("action");
-        System.out.println(action);
 
         if ("upload".equals(action)) {
             try {
-                System.out.println("here2");
                 upload(request, response);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -70,6 +73,7 @@ public class HandleFilesServlet extends HttpServlet {
             throws ServletException, java.io.IOException {
 
         // request.getRequestDispatcher("/handlefiles.jsp").forward(request, response);
+        
         listUploadedFile(request, response);
 
     }
@@ -80,18 +84,32 @@ public class HandleFilesServlet extends HttpServlet {
 
         try {
 
-            db.connect();
+           
             List<UploadedFile> listUploadedFile = db.list();
+        
             request.setAttribute("listUploadedFile", listUploadedFile);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("handlefiles.jsp");
-            dispatcher.forward(request, response);
+
+
+            ArrayList<String> list = new ArrayList<>();
+            for(UploadedFile f:listUploadedFile){
+                list.add(f.getFilename());
+            }
+            Gson gsonBuilder = new GsonBuilder().create();
+            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.format("{\"files\": %s }",jsonFromJavaArrayList));
+          
 
         } catch (SQLException e) {
 
             e.printStackTrace();
             throw new ServletException(e);
 
+        }
+        finally{
+            db.close();
         }
     }
 
@@ -101,7 +119,8 @@ public class HandleFilesServlet extends HttpServlet {
 //        File file;
 
         String fileName =request.getParameter("file");
-       
+       System.out.println(fileName.toString());
+        
         if (db.connect()) {
             db.remove(fileName);
 
@@ -109,13 +128,14 @@ public class HandleFilesServlet extends HttpServlet {
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(text);
+            db.close();
         }
     }
 
     public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
-        System.out.println(request.getParameterMap());
+
         List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
         try {
             

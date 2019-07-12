@@ -18,7 +18,10 @@ public class FilesDatabaseAdmin {
 
     public FilesDatabaseAdmin() {
         this.connection = null;
-        this.fileEngine = new HandleFilesEngine(WatsonDiscovery.buildDiscovery());
+       
+        WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
+        this.fileEngine = new HandleFilesEngine(w);
+ 
     }
 
 
@@ -72,6 +75,7 @@ public class FilesDatabaseAdmin {
             String documentId = this.fileEngine.uploadFiles(content, filename);
 
             try {
+                this.connect();
                 // Create SQL statement for inserting
                 stmt = this.connection.prepareStatement(insertSQL);
                 stmt.setString(1, documentId);
@@ -81,6 +85,9 @@ public class FilesDatabaseAdmin {
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+            }
+            finally{
+                this.close();
             }
 
         } else {
@@ -94,6 +101,7 @@ public class FilesDatabaseAdmin {
         String updateSQL = "UPDATE FILES SET DOCUMENTID = ?, FILE = ? WHERE FILENAME = ?";
         String documentId = this.fileEngine.updateFiles(content, filename, existDocumentId);
         try {
+            this.connect();
             // Create SQL statement for inserting
             stmt = this.connection.prepareStatement(updateSQL);
             stmt.setString(1, documentId);
@@ -104,6 +112,9 @@ public class FilesDatabaseAdmin {
 
         } catch (SQLException e) {
             System.err.println("Can't update file");
+        }
+        finally{
+            this.close();
         }
     }
 
@@ -122,12 +133,16 @@ public class FilesDatabaseAdmin {
 
         if (result.equals("deleted")) {
             try {
+                this.connect();
                 // Create SQL statement for deleting
                 stmt = this.connection.prepareStatement(deleteSQL);
                 stmt.setString(1, filename);
                 stmt.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+            }
+            finally{
+                this.close();
             }
         }
     }
@@ -176,6 +191,7 @@ public class FilesDatabaseAdmin {
         String documentId = "";
 
         try {
+            this.connect();
             stmt = this.connection.prepareStatement(selectSQL);
             stmt.setString(1, filename);
             rs = stmt.executeQuery();
@@ -187,27 +203,42 @@ public class FilesDatabaseAdmin {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        finally{
+            this.close();
+        }
 
         return documentId;
     }
 
     public List<UploadedFile> list() throws SQLException {
-
         List<UploadedFile> listUploadedFile = new ArrayList<>();
+        try{
+          
+           
+            String sql = "SELECT * FROM files ORDER BY filename";
+            this.connect();
 
-        String sql = "SELECT * FROM files ORDER BY filename";
-        Statement statement = this.connection.createStatement();
-        ResultSet result = statement.executeQuery(sql);
-
-        while (result.next()) {
-            int id = result.getInt("documentId");
-            String filename = result.getString("filename");
-            UploadedFile file = new UploadedFile(id, filename);
-
-            listUploadedFile.add(file);
+            Statement statement = this.connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+    
+            while (result.next()) {
+                int id = result.getInt("documentId");
+                String filename = result.getString("filename");
+                UploadedFile file = new UploadedFile(id, filename);
+    
+                listUploadedFile.add(file);
+            }
+    
+            
         }
-
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally{
+            this.close();
+        }
         return listUploadedFile;
+       
     }
 
 }
