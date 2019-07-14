@@ -41,7 +41,7 @@ const MessageInput = (props) => {
     return (
 
         <div className={classes.root}>
-             <form onSubmit={props.addMessageHandler}>
+             <form onSubmit={props.addMessageHandler} autocomplete="off">
             <Paper>
 
 
@@ -57,7 +57,7 @@ const MessageInput = (props) => {
                                 label="message"
                                 name="userMessage"
                                 className={classes.textField}
-                               
+                                autocomplete="off"
                                 style={{ width: '95%' }}
                                 margin="normal"
                               
