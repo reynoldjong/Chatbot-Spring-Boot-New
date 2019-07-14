@@ -40,12 +40,15 @@ const Chatbot = () =>{
     event.preventDefault();
     const target = event.target;
     const message = target.userMessage.value;
-    target.userMessage.value = " ";
-    console.log(message);
-    const newMessages = [...values.messages, {'type':'user','message':message}]
+    target.userMessage.value = "";
+    if(message.length === 0 || /^\s*$/.test(message) )
+   { 
+     console.log("empty");
+}else{
+  const newMessages = [...values.messages, {'type':'user','message':message}]
 
    setValues({ ...values, messages: newMessages });
-
+}
     
   }
 
