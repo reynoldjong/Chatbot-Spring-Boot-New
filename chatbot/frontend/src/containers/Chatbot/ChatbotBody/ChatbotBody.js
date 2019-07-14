@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
   },
  
 }));
-const ChatbotBody = () =>{
+const ChatbotBody = (props) =>{
     const classes = useStyles();
     return(
         <div>
@@ -25,8 +25,10 @@ const ChatbotBody = () =>{
              <Paper className={classes.root} style={{height:'500px'}}>
            
                 <Message text="hello this is some text how look" type='bot'/>
-                <Message text='Wow this is a reply from the wrong person' type='human'/>
-              
+             
+                {props.messages.map((item, index) => (
+                   <Message key={index} type={item.type} text={item.message} />
+                ))}
             </Paper>
          
 

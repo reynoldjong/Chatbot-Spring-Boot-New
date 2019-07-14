@@ -35,45 +35,45 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const MessageInput = () => {
-
-    const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value });
-    };
-
-    const [values, setValues] = React.useState({
-        name: '',
-    });
+const MessageInput = (props) => {
 
     const classes = useStyles();
     return (
 
         <div className={classes.root}>
+             <form onSubmit={props.addMessageHandler}>
             <Paper>
 
 
                 <Grid container spacing={0}>
+               
                     <Grid item xs={10}>
+                 
                         <div className={remove.removeStyles}>
+                           
+
                             <TextField
                                 id="standard-name"
-                                label="Name"
+                                label="message"
+                                name="userMessage"
                                 className={classes.textField}
-                                value={values.name}
+                               
                                 style={{ width: '95%' }}
                                 margin="normal"
-                                onChange={handleChange('name')}
+                              
                             />
                         </div>
                     </Grid>
                     <Grid item xs={2}>
-                        <Fab color="primary" aria-label="Send" className={classes.icon}>
+                        <Fab color="primary" aria-label="Send" className={classes.icon} type="submit">
                             <SendIcon />
                         </Fab>
+                      
                     </Grid>
-
+              
                 </Grid>
             </Paper>
+            </form> 
         </div>
     );
 };

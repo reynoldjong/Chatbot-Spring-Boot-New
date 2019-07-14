@@ -30,17 +30,22 @@ const Chatbot = () =>{
 // Functional State
 
     const [values, setValues] = React.useState({
-      message: [],
+      messages: [],
   });
 
   const classes = useStyles();
 
   const addMessageHandler = (event) =>{
+    
     event.preventDefault();
     const target = event.target;
     const message = target.userMessage.value;
-    const newMessages = [...values.message, {'type':'user','message':message}]
-    setValues({ ...values, [message]: newMessages });
+    target.userMessage.value = " ";
+    console.log(message);
+    const newMessages = [...values.messages, {'type':'user','message':message}]
+
+   setValues({ ...values, messages: newMessages });
+
     
   }
 
@@ -49,7 +54,7 @@ const Chatbot = () =>{
             
              <Container className={classes.fab} maxWidth="false" style={{maxWidth:'450px'}}>
                 <ChatbotHeader title="DFI Chatbot"/>
-                <ChatbotBody/>
+                <ChatbotBody messages={values.messages}/>
                 <MessageInput addMessageHandler={addMessageHandler}/>
                 
                 
