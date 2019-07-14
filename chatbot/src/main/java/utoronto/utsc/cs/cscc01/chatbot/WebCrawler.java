@@ -10,47 +10,46 @@ import java.util.HashMap;
 
 public class WebCrawler {
 
-    private HashMap<String, String> links;
+    private static HashMap<String, String> links;
+    private int maxDepth;
 
-    public WebCrawler() {
+    public WebCrawler(int maxDepth) {
         this.links = new HashMap<>();
+        this.maxDepth = maxDepth;
     }
 
-    public void crawl(String url, int targetDepth) {
+    public void crawl(String url, int currDepth) {
 
-        int currDepth = 0;
-
-        if ((!links.containsKey(url) && (currDepth < targetDepth))) {
+        if ((!links.containsKey(url) && (currDepth < maxDepth))) {
 
             try {
-                Document document = Jsoup.connect(url).get();
+                Document document = Jsoup.connect(url).userAgent("Mozilla").get();
                 document.getElementsByTag("header").remove();
                 document.getElementsByTag("footer").remove();
-                links.put(url, document.text());
-                Elements elements = document.select("a[href]");
+                Elements elements = document.body().select("a[href]");
+                links.put(url, document.body().text());
                 currDepth ++;
                 for (Element element : elements) {
                     // Link and Text of the links on the website
                     String sublink = element.attributes().get("href");
-                    if (sublink.startsWith("http")) {
-                        crawl(element.attributes().get("href"), currDepth);
-                    }
-
+                        if (sublink.startsWith("http")) {
+                            crawl(sublink, currDepth);
+                        }
                 }
 
             } catch(IOException e){
                 System.err.println("For '" + url + "': " + e.getMessage());
             }
         }
-
-        for (HashMap.Entry<String, String> entry : links.entrySet()) {
-            System.out.println(entry.getKey() + " : " + entry.getValue());
-        }
     }
 
     public static void main(String[] args) {
-        WebCrawler wc = new WebCrawler();
-        wc.crawl("https://www.digitalfinanceinstitute.org/", 2);
+        WebCrawler wc = new WebCrawler(2);
+        wc.crawl("https://www.digitalfinanceinstitute.org/", 0);
+        for (HashMap.Entry<String, String> entry : links.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+
     }
 
 }

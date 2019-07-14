@@ -26,21 +26,13 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 @MultipartConfig
 public class HandleFilesServlet extends HttpServlet {
 
-    private boolean isMultipart;
-//    private String filePath = "../chatbot/files/";
+
     private FilesDatabaseAdmin db;
     //TODO: see if these fields are needed
 
     // private int maxFileSize = 1024 * 1024;
     // private int maxMemSize = 4 * 1024;
-    private File file ;
 
-
-//    public HandleFilesServlet(FilesDatabaseAdmin db){
-//        // Get the file location where it would be stored.
-//        this.db = db;
-//
-//    }
 
     public void init () {
         this.db = new FilesDatabaseAdmin();
@@ -48,13 +40,12 @@ public class HandleFilesServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("here");
+
         String action = request.getParameter("action");
-        System.out.println(action);
+
 
         if ("upload".equals(action)) {
             try {
-                System.out.println("here2");
                 upload(request, response);
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -76,7 +67,6 @@ public class HandleFilesServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, java.io.IOException {
 
-        // request.getRequestDispatcher("/handlefiles.jsp").forward(request, response);
         listUploadedFile(request, response);
 
     }
@@ -138,7 +128,6 @@ public class HandleFilesServlet extends HttpServlet {
                 String fileName = getFileName(filePart);
                 InputStream fileContent = filePart.getInputStream();
                 db.insertFile(fileName, fileContent, filePart.getSize());
-                
 
             }
             
