@@ -19,7 +19,8 @@ public class LoginServlet extends HttpServlet {
   private UserDatabase db;
   
   public void init(ServletConfig config) {
-    this.db = new TempDatabase();
+    this.db = new UserDatabaseAdmin();
+    db.connect();
   }
   
   @Override
@@ -31,7 +32,7 @@ public class LoginServlet extends HttpServlet {
 
     try {
       req.login(username, password);
-      if (req.getUserPrincipal() != null && req.isUserInRole("admin")) {
+      if (req.getUserPrincipal() != null && db.verifyUser(username, password)) {
       
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");

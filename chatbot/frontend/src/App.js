@@ -47,7 +47,7 @@ class App extends Component {
      this.setState({
       ...this.state,
       showModal:false,
-      loggedIn:status
+      loggedIn:status	
     });
     })
  .catch(function (error) {
