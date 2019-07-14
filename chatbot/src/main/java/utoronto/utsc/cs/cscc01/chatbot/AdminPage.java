@@ -15,7 +15,7 @@ public class AdminPage extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     Principal principal = req.getUserPrincipal();
-    if (principal == null) {
+    if (principal == null || !req.isUserInRole("admin")) {
       LoginServlet.forwardToLoginPage(req, resp,
           "User authentication is required.");
       return;

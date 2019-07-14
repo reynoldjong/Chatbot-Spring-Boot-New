@@ -8,7 +8,7 @@
         }
      %>
 </div>
-<form action="/loginServlet" method="post">
+<form action="/login" method="post">
     <table>
         <tr>
             <td> User Name:</td>

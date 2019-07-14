@@ -1,0 +1,16 @@
+.Navbar{
+    z-index:999;
+    display:block;
+}
+.Dashboard{
+    padding:20px;
+    background-color:white;
+}
+.Dashboard h5{
+    margin:0px;
+    color:#3D3D3D;
+    text-align:left;
+    margin-left:40px;
+    display:block;
+
+}
