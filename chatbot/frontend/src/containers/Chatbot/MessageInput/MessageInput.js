@@ -40,9 +40,11 @@ const MessageInput = () => {
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value });
     };
+
     const [values, setValues] = React.useState({
         name: '',
     });
+
     const classes = useStyles();
     return (
 
@@ -65,7 +67,7 @@ const MessageInput = () => {
                         </div>
                     </Grid>
                     <Grid item xs={2}>
-                        <Fab color="secondary" aria-label="Send" className={classes.icon}>
+                        <Fab color="primary" aria-label="Send" className={classes.icon}>
                             <SendIcon />
                         </Fab>
                     </Grid>

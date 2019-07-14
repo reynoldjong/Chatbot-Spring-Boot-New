@@ -24,11 +24,9 @@ const ChatbotBody = () =>{
              
              <Paper className={classes.root} style={{height:'500px'}}>
            
-                <Message text="hello this is some text how look"/>
-                <Box style={{position:'relative', top:'290px'}}>
-
-               
-                </Box>
+                <Message text="hello this is some text how look" type='bot'/>
+                <Message text='Wow this is a reply from the wrong person' type='human'/>
+              
             </Paper>
          
 
