@@ -19,7 +19,8 @@ public class LoginServlet extends HttpServlet {
   private UserDatabase db;
   
   public void init(ServletConfig config) {
-    this.db = new TempDatabase();
+    this.db = new UserDatabaseAdmin();
+    db.connect();
   }
   
   @Override
