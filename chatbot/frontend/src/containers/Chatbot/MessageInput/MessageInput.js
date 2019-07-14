@@ -7,7 +7,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Icon from '@material-ui/core/Icon';
 import { grey } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
-import remove from './MessageInput.module.css';
+import removeClasses from './MessageInput.module.css';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,7 +49,7 @@ const MessageInput = (props) => {
                
                     <Grid item xs={10}>
                  
-                        <div className={remove.removeStyles}>
+                        <div className={removeClasses.Remove}>
                            
 
                             <TextField
