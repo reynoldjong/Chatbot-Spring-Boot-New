@@ -8,7 +8,8 @@ import Paper from '@material-ui/core/Paper';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 const useStyles = makeStyles({
   root:{
-    display:'block'
+    display:'flex',
+ 
   },
   avatar: {
     margin: 10,
