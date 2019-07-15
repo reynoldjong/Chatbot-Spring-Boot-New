@@ -82,7 +82,7 @@ const Message = (props) => {
          
           {
               
-               props.picture? <img src={props.picture} width="100px" height="100px" alt="DFI visual" />:null
+               props.picture? <img src={props.picture}  width="200px" height="200px" alt="DFI visual" />:null
               
           }
          

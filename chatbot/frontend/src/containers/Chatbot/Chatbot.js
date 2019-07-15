@@ -90,7 +90,7 @@ const convertToGet = (message) =>{
         botMessage['message'] = response['data']['text'];
 
         if(response['data']['image']){
-        botMessage['picture'] = response['data']['image'];
+        botMessage['picture'] = response['data']['image'].replace(/['"]+/g, '');
       }
         if(response['data']['url']){
           botMessage['link'] = response['data']['url'];
