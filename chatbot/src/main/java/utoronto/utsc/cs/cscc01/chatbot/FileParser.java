@@ -1,89 +1,108 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import org.apache.pdfbox.cos.COSDocument;
-import org.apache.pdfbox.pdfparser.PDFParser;
+
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
+import java.io.*;
 
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
+
 
 public class FileParser {
 
 
-    public void parsePdf(String docName) {
-        File f = new File(docName);
-        String parsedText;
-        PDFParser parser = null;
+    public String parsePdf(String docName) {
+        PDDocument pdDoc;
+        String parsedText = "";
+        PDFTextStripper pdfStripper;
+
         try {
-            parser = new PDFParser(new RandomAccessFile(f, "r"));
-            parser.parse();
-            COSDocument cosDoc = parser.getDocument();
-            PDFTextStripper pdfStripper = new PDFTextStripper();
-            PDDocument pdDoc = new PDDocument(cosDoc);
+            pdDoc = PDDocument.load(new File(docName));
+            pdfStripper = new PDFTextStripper();
             parsedText = pdfStripper.getText(pdDoc);
+//            PrintWriter pw = new PrintWriter("src/output/pdf.txt");
+//            pw.print(parsedText);
+//            pw.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return parsedText;
+
     }
 
 
-
-    public void parseDoc(String docName) {
+    public String parseDocx(String docName) {
 
         FileInputStream fis;
+        String parsedText = "";
 
-        if(docName.substring(docName.length() -1).equals("x")){
-            try {
-                fis = new FileInputStream(new File(docName));
-                XWPFDocument doc = new XWPFDocument(fis);
-                XWPFWordExtractor extract = new XWPFWordExtractor(doc);
-                System.out.println(extract.getText());
-            } catch (IOException e) {
+        try {
+            fis = new FileInputStream(new File(docName));
+            XWPFDocument doc = new XWPFDocument(fis);
+            XWPFWordExtractor extract = new XWPFWordExtractor(doc);
+            parsedText = extract.getText();
+        } catch (IOException e) {
 
-                e.printStackTrace();
-            }
-
-        } else {
-            try {
-                fis = new FileInputStream(new File(docName));
-                HWPFDocument doc = new HWPFDocument(fis);
-                WordExtractor extractor = new WordExtractor(doc);
-                System.out.println(extractor.getText());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
+
+        return parsedText;
+    }
+
+    public String parseDoc(String docName) {
+
+        FileInputStream fis;
+        String parsedText = "";
+
+        try {
+            fis = new FileInputStream(new File(docName));
+            HWPFDocument doc = new HWPFDocument(fis);
+            WordExtractor extractor = new WordExtractor(doc);
+            parsedText = extractor.getText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return parsedText;
     }
 
 
     public String parse(String docName) {
+        String docType = FilenameUtils.getExtension(docName);
+        System.out.println(docType);
+        String text = "";
         switch (docType) {
-            case ".doc":
-                parseDoc(docName);
+            case "doc":
+                text = parseDoc(docName);
                 break;
-            case ".pdf":
-                parsePdf(docName);
+            case "docx":
+                text = parseDocx(docName);
                 break;
-            case ".html":
-                ;
+            case "pdf":
+                text = parsePdf(docName);
+                break;
+            case "html":
+                text = "";
                 break;
         }
+        return text;
+
+    }
+
+    public static void main (String args[]) {
+        FileParser fp = new FileParser();
+        System.out.println(fp.parse("../chatbot/files/Design.pdf"));
+
 
     }
 }
