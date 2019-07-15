@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 const useStyles = makeStyles({
+  root:{
+    display:'block'
+  },
   avatar: {
     margin: 10,
  
@@ -54,29 +57,50 @@ const Message = (props) => {
 
   if (props.type === 'bot') {
     message = (
-      <React.Fragment>
+
+     
+      <div className={classes.root}>
+
+    
         <Avatar alt="Chatbot" src={robot} className={classes.avatar} />
         <Box boxShadow={2} className={classes.textBot}>
 
           <Typography variant="body1" >
             {props.text}
+            {
+              
+              props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null
+             
+         }
           </Typography>
+         
+          {
+              
+               props.picture? <img src={props.picture} width="100px" height="100px" />:null
+              
+          }
+         
+     
+          
         </Box>
-      </React.Fragment>
+        </div>
+      
     );
   }
 
   else{
     message = (
-      <React.Fragment>
+      <div className={classes.root}>
          <Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
         <Box boxShadow={2} className={classes.textHuman} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
 
           <Typography variant="body1" >
             {props.text}
+         
           </Typography>
+        
         </Box>
-      </React.Fragment>
+      </div>
     );
   }
 
