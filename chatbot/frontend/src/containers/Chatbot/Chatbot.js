@@ -11,6 +11,10 @@ import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Switch from '@material-ui/core/Switch';
 import Grow from '@material-ui/core/Grow';
+import axios from 'axios';
+import qs from 'qs';
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
@@ -27,9 +31,6 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-
-
-
 const Chatbot = () => {
 
   // Functional State
@@ -41,20 +42,53 @@ const Chatbot = () => {
 
   const classes = useStyles();
 
+const convertToGet = (message) =>{
+  const messageArray = message.split(" ");
+  const length = messageArray.length;
+  let getMessage = "";
+  messageArray.forEach(function (item, index) {
+    if(index === length -1){
+  
+      getMessage += item;
+    
+    }
+    else{
+     
+      getMessage += item + "+";
+      
+     }
+    
+  });
+  return getMessage;
+}
   const addMessageHandler = (event) => {
 
     event.preventDefault();
     const target = event.target;
-    const message = target.userMessage.value;
-    target.userMessage.value = "";
-    if (message.length === 0 || /^\s*$/.test(message)) {
+    const userMessage = target.userMessage.value;
+    
+    if (userMessage.length === 0 || /^\s*$/.test(userMessage)) {
       console.log("empty");
     }
     else {
-      const newMessages = [...values.messages, { 'type': 'user', 'message': message }]
-
+      const newMessages = [...values.messages, { 'type': 'user', 'message': userMessage }]
       setValues({ ...values, messages: newMessages });
+    
+      console.log(userMessage);
+      const getMessage = convertToGet(userMessage);
+      console.log(getMessage);
+      // axios.get("/userquery?"+ getMessage, qs.stringify(userMessage)).then((response) => {
+      //   const botMessage = response['data']
+      //   console.log(botMessage);
+      
+      //  })
+      //    .catch(function (error) {
+      //      console.log(error);
+      //   });
+     
     }
+
+    target.userMessage.value = "";
 
   }
 
