@@ -57,18 +57,6 @@ class App extends Component {
         console.log(error);
       });
 
-   axios.post('/login', qs.stringify(data),)
-     .then( (response) =>{
-     const status = response['data']['authenticated'];
-     this.setState({
-      ...this.state,
-      showModal:false,
-      loggedIn:status	
-    });
-    })
- .catch(function (error) {
-     console.log(error);
-   });
 
   }
 
