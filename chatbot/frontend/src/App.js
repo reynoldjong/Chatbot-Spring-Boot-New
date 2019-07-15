@@ -8,7 +8,7 @@ import qs from 'qs';
 
 class App extends Component {
   state ={
-    loggedIn: true,
+    loggedIn: false,
     showModal:false,
     files:[],
   }
