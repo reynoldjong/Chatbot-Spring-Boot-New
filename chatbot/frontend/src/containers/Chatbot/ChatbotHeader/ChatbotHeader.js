@@ -45,7 +45,7 @@ const ChatbotHeader = props => {
       <Typography variant="h4" component="h2" className={classes.title}>
         {props.title}
       </Typography>
-      <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu">
+      <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={props.clickHandler}>
             <Minimize />
           </IconButton>
       </Toolbar>
