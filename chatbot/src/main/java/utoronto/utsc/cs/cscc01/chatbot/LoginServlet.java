@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
       
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("{\"authenticated\":\"true\"}");
+        resp.getWriter().write("{\"authenticated\":true}");
 
         //resp.sendRedirect("localhost:8080/");
       }
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         // if we couldn't verify the user, try again
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("{\"authenticated\":\"false\"}");
+        resp.getWriter().write("{\"authenticated\":false}");
       }
       
     } catch (ServletException e) {
@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 
       resp.setContentType("application/json");
       resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write("{\"authenticated\":\"false\"}");
+      resp.getWriter().write("{\"authenticated\":false}");
     }
   }
 
