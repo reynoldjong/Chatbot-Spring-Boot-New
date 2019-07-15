@@ -1,60 +1,63 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Home from './components/Home/Home';
 import Admin from './components/Admin/Admin';
 import axios from 'axios';
 import qs from 'qs';
 
 class App extends Component {
-  state ={
+  state = {
     loggedIn: false,
-    showModal:false,
-    files:[],
+    showModal: false,
+    files: [],
   }
-  
-  modalClickHandler = () =>{
-    const loggedIn = !this.state.loggedIn;
+
+  modalClickHandler = () => {
+
+    const loggedIn = !this.state.showModal;
+ 
     this.setState({
       ...this.state,
-      showModal:loggedIn
+      showModal: loggedIn
     });
-    console.log('Done');
+
 
   }
 
-  logOutHandler = () =>{
+  logOutHandler = () => {
     const loggedOut = false;
     this.setState({
       ...this.state,
-      loggedIn:loggedOut
+      loggedIn: loggedOut
     });
   }
 
-  loginHandler = (event) =>{
+  loginHandler = (event) => {
     event.preventDefault();
     const target = event.target;
     const username1 = target.elements.username.value;
     const password1 = target.elements.password.value;
 
-    const data ={
-      username:username1,
-    password:password1    }
+    const data = {
+      username: username1,
+      password: password1
+    }
 
-   axios.post('/login', qs.stringify(data),)
-     .then( (response) =>{
-     const status = response['data']['authenticated'];
-     this.setState({
-      ...this.state,
-      showModal:false,
-      loggedIn:status
-    });
-    })
- .catch(function (error) {
-     console.log(error);
-   });
+    axios.post('/login', qs.stringify(data))
+      .then((response) => {
+        const status = response['data']['authenticated'];
+        this.setState({
+          ...this.state,
+          showModal: false,
+          loggedIn: status
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
-   
+
   }
 
   addFileHandler = (event) => {
@@ -62,7 +65,7 @@ class App extends Component {
     const target = event.target;
     const file2 = target.file.files[0];
     console.log(file2.name);
-    
+
     let data = new FormData();
 
     data.append("action", "upload");
@@ -71,15 +74,15 @@ class App extends Component {
 
 
     let data2 = {
-      action:"upload",
-      file:file2
+      action: "upload",
+      file: file2
     }
-    axios.post('/handlefiles', data,).then( (response) =>{
+    axios.post('/handlefiles', data).then((response) => {
       this.viewAllFilesHandler();
-     })
-   .catch(function (error) {
-       console.log(error);
-     });
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
 
   }
 
@@ -88,79 +91,79 @@ class App extends Component {
 
     data.append("action", "remove");
     data.append("file", fileName);
-    const data2={
-      "action":"remove",
-      "file":fileName
+    const data2 = {
+      "action": "remove",
+      "file": fileName
     }
 
-   let res = await axios.post('/handlefiles',data,).then( (response) =>{
+    let res = await axios.post('/handlefiles', data).then((response) => {
       console.log('response')
       this.viewAllFilesHandler();
-     
-    })
-  .catch(function (error) {
-      console.log(error);
-    });
 
-   
+    })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+
   }
 
   viewAllFilesHandler = () => {
     console.log('called viewAllFilesHandler');
 
-    axios.get('/handlefiles',)
-     .then( (response) =>{
-       const data = response['data']['files'];
- 
-      this.setState({
-        files:data
+    axios.get('/handlefiles')
+      .then((response) => {
+        const data = response['data']['files'];
+
+        this.setState({
+          files: data
+        })
+
       })
-     
-    })
- .catch(function (error) {
-     console.log(error);
-   });
+      .catch(function (error) {
+        console.log(error);
+      });
 
   }
 
 
 
- 
 
 
 
-  render(){
+
+  render() {
     return (
-    <div className="App">
+      <div className="App">
 
-      <Router>
-       
-        
-        <Route 
-          exact path="/" 
-          render={(props)=> <Home {...props} 
-            loggedIn={this.state.loggedIn} 
-            showModal={this.state.showModal} 
-            modalClickHandler={this.modalClickHandler}
-            loginHandler={this.loginHandler}
-            logOutHandler={this.logOutHandler}
+        <Router>
+
+
+          <Route
+            exact path="/"
+            render={(props) => <Home {...props}
+              loggedIn={this.state.loggedIn}
+              showModal={this.state.showModal}
+              modalClickHandler={this.modalClickHandler}
+              loginHandler={this.loginHandler}
+              logOutHandler={this.logOutHandler}
             />}
           />
 
-        
-        <Route 
-          path="/admin" 
-          render={(props)=> <Admin {...props} removeFileHandler={this.removeFileHandler} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn}/>}
+
+          <Route
+            path="/admin"
+            render={(props) => <Admin {...props} removeFileHandler={this.removeFileHandler} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn} />}
           />
 
-        <Router/>
+          <Router />
 
-      </Router>
+        </Router>
 
-    </div>
-  
-  );
-}
+      </div>
+
+    );
+  }
 }
 
 export default App;
