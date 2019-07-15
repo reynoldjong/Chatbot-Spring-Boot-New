@@ -6,7 +6,12 @@ import robot from './images/robot.png';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
+import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles({
+  root:{
+    display:'flex',
+ 
+  },
   avatar: {
     margin: 10,
  
@@ -22,6 +27,7 @@ const useStyles = makeStyles({
     borderRadius: 10,
     borderTopLeftRadius: 0,
     width: '80%',
+    display:'block',
     position: 'relative',
     right: '0px',
     backgroundColor: 'white',
@@ -54,29 +60,61 @@ const Message = (props) => {
 
   if (props.type === 'bot') {
     message = (
-      <React.Fragment>
+
+     
+      <div className={classes.root}>
+
+<Grid container spacing={1}>
+        <Grid item xs={12}>
         <Avatar alt="Chatbot" src={robot} className={classes.avatar} />
+        </Grid>
+        <Grid item xs={12}>
         <Box boxShadow={2} className={classes.textBot}>
 
           <Typography variant="body1" >
             {props.text}
+            {
+              
+              props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null
+             
+         }
           </Typography>
+         
+          {
+              
+               props.picture? <img src={props.picture}  width="200px" height="200px" alt="DFI visual" />:null
+              
+          }
+         
+     
+          
         </Box>
-      </React.Fragment>
+        </Grid></Grid>
+        </div>
+      
     );
   }
 
   else{
     message = (
-      <React.Fragment>
+      <div className={classes.root}>
+        <Grid container spacing={1}>
+        <Grid item xs={12}>
          <Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
+         </Grid>
+         <Grid item xs={12}>
         <Box boxShadow={2} className={classes.textHuman} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
 
           <Typography variant="body1" >
             {props.text}
+         
           </Typography>
+        
         </Box>
-      </React.Fragment>
+        </Grid>
+      </Grid>
+      
+      </div>
     );
   }
 

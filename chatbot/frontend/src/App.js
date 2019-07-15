@@ -114,7 +114,7 @@ class App extends Component {
     axios.get('/handlefiles')
       .then((response) => {
         const data = response['data']['files'];
-
+        
         this.setState({
           files: data
         })

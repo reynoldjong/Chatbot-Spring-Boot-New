@@ -6,7 +6,7 @@ import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Message from './Message/Message';
 import MessageInput from '../MessageInput/MessageInput';
-
+import robot from './Message/images/robot.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,23 +36,8 @@ const ChatbotBody = (props) =>{
 
   let messages = (
     props.messages.map((item, index) =>{ 
-      if(length === index){
-        return(<Message key={index} type={item.type} text={item.message}/>)
-      }
-      else{
-        return(
-        <React.Fragment>
-
-      
-        <Message key={index} type={item.type} id="bottom" text={item.message} />
-       
-      
-        </React.Fragment>)
-      }
     
-     
-
-
+        return( <Message key={index} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link}/>)
 
    })
   )
@@ -67,7 +52,10 @@ const ChatbotBody = (props) =>{
              <Paper className={classes.root} id="out" style={{height:'500px'}}>
            
                 <Message text="hello this is some text how look" type='bot'/>
-             
+                
+                <Message text="hello this is some text how look" type='user'/>
+                <Message link="www.google.com" text="hello this is some text llo this is some text how loollo this is some text how loollo this is some text how loollo this is some text how loohow look" type='bot' picture={robot} />
+              
                 {
                   
                  messages
