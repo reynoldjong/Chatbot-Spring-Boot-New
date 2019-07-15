@@ -23,11 +23,22 @@ public class WebCrawler {
         if ((!links.containsKey(url) && (currDepth < maxDepth))) {
 
             try {
-                Document document = Jsoup.connect(url).userAgent("Mozilla").get();
+                Document document = Jsoup.connect(url).userAgent("Mozilla").ignoreHttpErrors(true).timeout(10000).
+                        ignoreContentType(true).followRedirects(true).get();
                 document.getElementsByTag("header").remove();
                 document.getElementsByTag("footer").remove();
-                Elements elements = document.body().select("a[href]");
-                links.put(url, document.body().text());
+                Elements elements = document.select("a[href]");
+                Elements articles = document.select("article");
+                // System.out.println(Jsoup.parse(url));
+                for (Element article : articles) {
+                    if(links.get(url) == null) {
+                        links.put(url, article.text());
+                    }
+                    else {
+                        links.put(url, links.get(url) + " " + article.text());
+                    }
+                }
+
                 currDepth ++;
                 for (Element element : elements) {
                     // Link and Text of the links on the website
@@ -44,7 +55,7 @@ public class WebCrawler {
     }
 
     public static void main(String[] args) {
-        WebCrawler wc = new WebCrawler(2);
+        WebCrawler wc = new WebCrawler(3);
         wc.crawl("https://www.digitalfinanceinstitute.org/", 0);
         for (HashMap.Entry<String, String> entry : links.entrySet()) {
             System.out.println(entry.getKey() + " : " + entry.getValue());

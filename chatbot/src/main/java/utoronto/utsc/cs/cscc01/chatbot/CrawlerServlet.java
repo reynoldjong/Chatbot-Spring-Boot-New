@@ -24,7 +24,7 @@ public class CrawlerServlet extends HttpServlet {
         String url = request.getParameter("url");
         String depth = request.getParameter("depth");
 
-        this.crawler = new WebCrawler(2);
+        this.crawler = new WebCrawler(Integer.parseInt(depth));
         crawler.crawl(url, 0);
 
         String text = "Website is crawled";
@@ -38,15 +38,13 @@ public class CrawlerServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+
     }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // TODO: this will have to change based on front end implementation
-        request.getRequestDispatcher("/crawler.jsp").forward(request, response);
         doPost(request, response);
-
     }
 
 }
