@@ -25,7 +25,7 @@ public class CrawlerServlet extends HttpServlet {
         String depth = request.getParameter("depth");
 
         this.crawler = new WebCrawler(Integer.parseInt(depth));
-        crawler.crawl(url, 0);
+        crawler.crawl(url, 0, "?page_id", "?p");
 
         String text = "Website is crawled";
         response.setContentType("text/plain");
