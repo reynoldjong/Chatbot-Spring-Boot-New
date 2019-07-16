@@ -12,17 +12,15 @@ public class CrawlerEngine {
     private String credentialType;
     private String sourceType;
     private String languageCode;
+    private String collectionId;
 
     public CrawlerEngine(WatsonDiscovery wdisc) {
         this.wdisc = wdisc;
         this.environmentId = this.wdisc.getEnvironmentId();
+        this.collectionId = this.wdisc.getCrawlerCollectionId();
         this.credentialType = "noauth";
         this.sourceType = "web_crawl";
         this.languageCode = "en";
-    }
-
-    public void configureWebCrawling(String url) {
-
     }
 
     public String createCredential(String url) {
@@ -96,6 +94,37 @@ public class CrawlerEngine {
 
     }
 
+    public String updateConfiguration(String configurationId, String credentialId, String name) {
+        Discovery discovery = wdisc.getDiscovery();
+        Configuration updatedConfiguration = new Configuration();
+        UpdateConfigurationOptions.Builder updateBuilder = new UpdateConfigurationOptions.Builder()
+                .environmentId(environmentId)
+                .configurationId(configurationId)
+                .name(name);
+        updatedConfiguration.setName(name);
+        Source source = new Source();
+        source.setCredentialId(credentialId);
+        source.setType(sourceType);
+        updateBuilder.source(source);
+        updateBuilder.configuration(updatedConfiguration);
+        Configuration updateResponse = discovery.updateConfiguration(updateBuilder.build()).execute().getResult();
+        return updateResponse.getConfigurationId();
+    }
+
+    public void listConfiguration() {
+        Discovery discovery = wdisc.getDiscovery();
+        ListConfigurationsOptions listOptions = new ListConfigurationsOptions.Builder(environmentId).build();
+        ListConfigurationsResponse listResponse = discovery.listConfigurations(listOptions).execute().getResult();
+        System.out.println(listResponse.getConfigurations());
+    }
+
+    public String getCredentialId() {
+        Discovery discovery = wdisc.getDiscovery();
+        GetConfigurationOptions getOptions = new GetConfigurationOptions.Builder(environmentId, getConfigurationId()).build();
+        Configuration getResponse = discovery.getConfiguration(getOptions).execute().getResult();
+        return getResponse.getSource().getCredentialId();
+    }
+
     public String createCrawlerCollection(String configurationId, String collectionName) {
 
         Discovery discovery = wdisc.getDiscovery();
@@ -109,13 +138,42 @@ public class CrawlerEngine {
         return createResponse.getCollectionId();
     }
 
+    public String getConfigurationId() {
+        Discovery discovery = wdisc.getDiscovery();
+        GetCollectionOptions getOptions = new GetCollectionOptions.Builder(environmentId, collectionId).build();
+        Collection getResponse = discovery.getCollection(getOptions).execute().getResult();
+        return getResponse.getConfigurationId();
+    }
+
+    public String updateCollection(String configurationId) {
+
+        Discovery discovery = wdisc.getDiscovery();
+
+        String updateCollectionName = "Web-crawl";
+
+        UpdateCollectionOptions updateOptions = new UpdateCollectionOptions.Builder(environmentId, collectionId)
+                .name(updateCollectionName)
+                .configurationId(configurationId)
+                .build();
+
+        Collection updatedCollection = discovery.updateCollection(updateOptions).execute().getResult();
+        return updatedCollection.getCollectionId();
+
+    }
+
     public static void main (String args[]) {
 
         WatsonDiscovery widsc = WatsonDiscovery.buildDiscovery();
         CrawlerEngine ce = new CrawlerEngine(widsc);
-        String credId = ce.createCredential("https://www.digitalfinanceinstitute.org");
-        String configId = ce.createConfiguration("dfiConfig", credId);
-        System.out.println(ce.createCrawlerCollection(configId, "dfiWebsite"));
+//        String credId = ce.createCredential("https://utsctscpa.weebly.com/");
+//        ce.listConfiguration();
+//        String configId = ce.getConfigurationId();
+//        System.out.println(configId);
+//        String configId2 = ce.updateConfiguration(configId, credId, "newConfig");
+//        System.out.println(configId2);
+//        ce.updateCollection(configId2);
+        // System.out.println(ce.createCrawlerCollection(configId, "dfiWebsite"));
+        System.out.println(ce.getCredentialId());
 
     }
 }
