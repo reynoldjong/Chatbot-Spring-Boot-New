@@ -1,8 +1,5 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -17,27 +14,26 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-public class HashTableIndexer {
+public class Indexer {
 
-  private IndexWriter writer;
-
-  public HashTableIndexer(String indexDirectoryPath) throws IOException {
-    Directory indexDirectory = FSDirectory.open(Paths.get(indexDirectoryPath));
+  private IndexWriterConfig iwc;
+  private Directory indexDirectory;
+  
+  // need to specify where we are writing to
+  // filePath = "../chatbot/index/" for testing
+  public Indexer(String indexDirPath) throws IOException {
+    this.indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
     StandardAnalyzer analyzer = new StandardAnalyzer();
-    IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
-    writer = new IndexWriter(indexDirectory, iwc);
+    iwc = new IndexWriterConfig(analyzer);
   }
 
-  public void close() throws CorruptIndexException, IOException {
-    writer.close();
-  }
 
   private Document buildUrlDoc(String titleKey, String headerKey, String body) {
     Document document = new Document();
 
     StringField titleField = new StringField("title", titleKey, Field.Store.YES);
     StringField headerField = new StringField("header", headerKey, Field.Store.YES);
-    StringField bodyField = new StringField("body", body, Field.Store.YES);
+    TextField bodyField = new TextField("body", body, Field.Store.YES);
 
     document.add(titleField);
     document.add(headerField);
@@ -50,7 +46,7 @@ public class HashTableIndexer {
     Document document = new Document();
     
     StringField titleField = new StringField("title", title, Field.Store.YES);
-    StringField bodyField = new StringField("body", body, Field.Store.YES);
+    TextField bodyField = new TextField("body", body, Field.Store.YES);
 
     document.add(titleField);
     document.add(bodyField);
@@ -64,6 +60,7 @@ public class HashTableIndexer {
    * So we will index for each title -> for each header -> body
    */
   public void indexUrl(HashMap<String, HashMap<String, String>> titleHash) throws IOException {
+    IndexWriter writer = new IndexWriter(indexDirectory, iwc);
     // for title in hashmap
     for (String titleKey : titleHash.keySet()) {
       HashMap<String, String> headerHash = titleHash.get(titleKey);
@@ -76,6 +73,7 @@ public class HashTableIndexer {
         writer.addDocument(doc);
       }
     }
+    writer.close();
   }
   
   /*
@@ -83,7 +81,42 @@ public class HashTableIndexer {
    * the document
    */
   public void indexDoc(String title, String body) throws IOException {
+    IndexWriter writer = new IndexWriter(indexDirectory, iwc);
     Document doc = buildTextDoc(title, body);
     writer.addDocument(doc);
+    writer.close();
+  }
+  
+  public static void main(String[] args) {
+    HashMap<String, HashMap<String, String>> testUrlHash = new HashMap<>();
+    HashMap<String, String> testJournalHash = new HashMap<>();
+    HashMap<String, String> testHeaderHash = new HashMap<>();
+    
+    testJournalHash.put("Journal entry 1", "This is a great morning to exercise!");
+    testJournalHash.put("Journal entry 2", "The weather today is kind of poop.");
+    testJournalHash.put("Journal entry 3", "Wow, it is still raining today.");
+    testJournalHash.put("Journal entry 4", "The rain finally stopped, but it is still cloudy");
+    testJournalHash.put("Journal entry 5", "The sun is finally back! All praise the sun!");
+    
+    testUrlHash.put("www.myjournals.net", testJournalHash);
+    
+    testHeaderHash.put("Work schedule day 1", "Write unit test for my indexer");
+    testHeaderHash.put("Work schedule day 2", "Research on Apache Lucene");
+    testHeaderHash.put("Work schedule day 3", "Start writing my indexer");
+    testHeaderHash.put("Work schedule day 4", "Continuing to write my indexer");
+    testHeaderHash.put("Work schedule day 5", "Finally done with indexer!");
+    
+    testUrlHash.put("www.workschedule.com", testHeaderHash);
+    
+    String filePath = "../chatbot/testindex/";
+    
+    try {
+      Indexer myIndexer = new Indexer(filePath);
+      myIndexer.indexUrl(testUrlHash);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      System.out.println("error pathing to index");
+      e.printStackTrace();
+    }
   }
 }
