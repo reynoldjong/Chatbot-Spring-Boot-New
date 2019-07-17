@@ -17,11 +17,19 @@ import org.apache.lucene.queryparser.classic.ParseException;
 public class QueryServlet extends HttpServlet {
 	
   private SearchEngine queryEngine;
+  private SearchEngine luceneQueryEngine;
   private SearchAssistant queryAssistant;
 
   public void init(ServletConfig config) {
     this.queryEngine = new QueryEngine(WatsonDiscovery.buildDiscovery());
     this.queryAssistant = new QueryAssistant(WatsonAssistant.buildAssistant());
+    try {
+      // update this when ready
+      this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/testindex");
+    } catch (IOException e) {
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
   }
   
   /* Primary method for user to make a query to the chatbot, it will first send
@@ -45,14 +53,19 @@ public class QueryServlet extends HttpServlet {
    * 
    */
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-	    String reply;
+	    String watsonReply;
+	    String luceneReply;
+	    String fullReply;
+	    
 	    // we are returning json to the front end
 	    resp.setContentType("application/json");
 	    resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
+		
 		// get user request from http request, and decode it so we have it standardized between browsers
 		String userQuery = req.getQueryString();
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
+		
 		// first try watson assistant
 		Hashtable<String, ArrayList<String>> assistantHashTable = queryAssistant.simpleAssistantQuery(userQuery);
 		// if assistant cannot pattern match the user input, query flag
@@ -60,16 +73,20 @@ public class QueryServlet extends HttpServlet {
 		if (assistantHashTable.get("queryFlag").size() > 0 && assistantHashTable.get("queryFlag").get(0).equals("Need to query")) {
 			// query watson discovery
 			Hashtable<String, ArrayList<String>> watsonHashTable = queryEngine.simpleQuery(userQuery);
-			// TODO: query our own index
-			//reply += 2ndqueryEngine.simpleQuery(userQuery);
-			reply = hashToJson(watsonHashTable);
+			watsonReply = hashToJson(watsonHashTable);
 		}
 		// if watson assistant is able to answer, we simply return that answer
 		else {
-		  reply = hashToJson(assistantHashTable);
+		  watsonReply = hashToJson(assistantHashTable);
 		}
 		
-		writer.write(reply);
+		// now query the index created by lucene
+		Hashtable<String, ArrayList<String>> luceneHashTable = luceneQueryEngine.simpleQuery(userQuery);
+		luceneReply = hashToJson(luceneHashTable);
+		
+		fullReply = "{\"watson\":" + watsonReply + ",\"lucene\":" + luceneReply + "}";
+		
+		writer.write(fullReply);
   }
   
   // we will have to modify this to include our query's result

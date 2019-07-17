@@ -74,11 +74,11 @@ public class LuceneQueryEngine implements SearchEngine {
   public static void main(String[] args) throws IOException {
     String filePath = "../chatbot/testindex";
     LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
-    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("what is the weather?");
+    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("is it raining today?");
     System.out.println(searchResult);
-    searchResult = qe.simpleQuery("indexer");
+    searchResult = qe.simpleQuery("how do I make Apache Lucene indexer?");
     System.out.println(searchResult);
-    searchResult = qe.simpleQuery("Haskell");
+    searchResult = qe.simpleQuery("tell me about Haskell");
     System.out.println(searchResult);
   }
 
