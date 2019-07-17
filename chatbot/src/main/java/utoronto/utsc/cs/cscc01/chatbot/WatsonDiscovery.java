@@ -8,7 +8,7 @@ public class WatsonDiscovery {
   private Discovery discovery;
   private static final String environmentId = "e4164f4e-d658-4fb5-b2a5-92608aa5a2b7";
   private static final String uploadedFilesCollectionId = "5907e278-2e52-440a-b6e2-8dd58d0d956b";
-  private static final String crawlerCollectionId = "56312aeb-7765-42aa-baaf-889b681960d4";
+  private static final String crawlerCollectionId = "aba76d4b-3d3c-4316-9f69-2dda0c1cb08d";
   
   private WatsonDiscovery() {
     IamOptions options = new IamOptions.Builder()
