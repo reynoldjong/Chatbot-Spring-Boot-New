@@ -15,15 +15,12 @@ import org.apache.lucene.store.FSDirectory;
 
 public class Indexer {
 
-  private IndexWriterConfig iwc;
   private Directory indexDirectory;
   
   // need to specify where we are writing to
   // filePath = "../chatbot/index/" for testing
   public Indexer(String indexDirPath) throws IOException {
     this.indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
-    StandardAnalyzer analyzer = new StandardAnalyzer();
-    iwc = new IndexWriterConfig(analyzer);
   }
 
 
@@ -63,6 +60,8 @@ public class Indexer {
    * So we will index for each title -> for each header -> body
    */
   public void indexUrl(HashMap<String, HashMap<String, String>> titleHash) throws IOException {
+    StandardAnalyzer analyzer = new StandardAnalyzer();
+    IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
     IndexWriter writer = new IndexWriter(indexDirectory, iwc);
     // for title in hashmap
     for (String titleKey : titleHash.keySet()) {
@@ -84,6 +83,8 @@ public class Indexer {
    * the document
    */
   public void indexDoc(String title, String body) throws IOException {
+    StandardAnalyzer analyzer = new StandardAnalyzer();
+    IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
     IndexWriter writer = new IndexWriter(indexDirectory, iwc);
     Document doc = buildTextDoc(title, body);
     writer.addDocument(doc);
@@ -116,6 +117,9 @@ public class Indexer {
     try {
       Indexer myIndexer = new Indexer(filePath);
       myIndexer.indexUrl(testUrlHash);
+      myIndexer.indexDoc("The Life of Pie", "Something something tiger, boat, stranded.");
+      myIndexer.indexDoc("Operating Systems", "Context switch is the process where the CPU is passed between processes...");
+      myIndexer.indexDoc("Learning Haskell", "Learning Haskell is as easy as 1, 2, lol you're dead");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       System.out.println("error pathing to index");

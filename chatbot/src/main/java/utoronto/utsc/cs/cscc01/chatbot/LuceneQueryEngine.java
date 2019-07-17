@@ -3,6 +3,7 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -22,9 +23,9 @@ public class LuceneQueryEngine implements SearchEngine {
   private QueryParser parser;
   private Query q;
   
+  // path for testing is "../chatbot/testindex"
   public LuceneQueryEngine(String indexDirPath) throws IOException {
-     Directory indexDirectory = 
-     FSDirectory.open(Paths.get(indexDirPath));
+     Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
      IndexReader reader = DirectoryReader.open(indexDirectory);
      searcher = new IndexSearcher(reader);
      parser = new QueryParser("body", new StandardAnalyzer());
@@ -43,7 +44,7 @@ public class LuceneQueryEngine implements SearchEngine {
     try {
       q = parser.parse(s);
     } catch (ParseException e) {
-      // TODO Auto-generated catch block
+      System.out.println(e.getMessage());
       e.printStackTrace();
     }
     // we only care about the top hit or else we are printing too much on chatbot
@@ -62,14 +63,23 @@ public class LuceneQueryEngine implements SearchEngine {
       
       // if we have a file, add to the file list
       else if (filetype.equals("file")) {
-        String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + "body" + "\"}";
+        String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + doc.get("body") + "\"}";
         file.add(fileString);
       }
       
     }
-    
-    
     return dict;
+  }
+  
+  public static void main(String[] args) throws IOException {
+    String filePath = "../chatbot/testindex";
+    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
+    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("what is the weather?");
+    System.out.println(searchResult);
+    searchResult = qe.simpleQuery("indexer");
+    System.out.println(searchResult);
+    searchResult = qe.simpleQuery("Haskell");
+    System.out.println(searchResult);
   }
 
 }
