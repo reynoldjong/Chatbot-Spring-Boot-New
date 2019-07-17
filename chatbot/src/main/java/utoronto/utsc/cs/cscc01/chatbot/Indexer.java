@@ -8,7 +8,6 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -31,10 +30,12 @@ public class Indexer {
   private Document buildUrlDoc(String titleKey, String headerKey, String body) {
     Document document = new Document();
 
+    StringField typeField = new StringField("type", "url", Field.Store.YES);
     StringField titleField = new StringField("title", titleKey, Field.Store.YES);
     StringField headerField = new StringField("header", headerKey, Field.Store.YES);
     TextField bodyField = new TextField("body", body, Field.Store.YES);
 
+    document.add(typeField);
     document.add(titleField);
     document.add(headerField);
     document.add(bodyField);
@@ -45,9 +46,11 @@ public class Indexer {
   private Document buildTextDoc(String title, String body) {
     Document document = new Document();
     
+    StringField typeField = new StringField("type", "file", Field.Store.YES);
     StringField titleField = new StringField("title", title, Field.Store.YES);
     TextField bodyField = new TextField("body", body, Field.Store.YES);
 
+    document.add(typeField);
     document.add(titleField);
     document.add(bodyField);
     
