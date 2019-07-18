@@ -1,6 +1,8 @@
 import React from 'react';
 import classes from './Login.module.css';
-
+import TextField from '@material-ui/core/TextField';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 const login = (props) => {
   let displayStyle = null;
   if (props.showModal === true) {
@@ -12,34 +14,39 @@ const login = (props) => {
   console.log(displayStyle);
   return (
     <div style={displayStyle} className={classes.background}>
-
-
       <div className={classes.Modal}>
-        <form onSubmit={props.loginHandler} method="post">
-          <h4>Sign in</h4>
-          <div className="row">
-            <div className="input-field col s12">
+        <Container>
+          <form onSubmit={props.loginHandler} autocomplete="off" method="post">
 
-              <input type="text" id="username" class="autocomplete" />
-              <label for="username">Username</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="input-field col s12">
-
-              <input type="password" id="password" className="autocomplete" />
-              <label for="password">Password</label>
-            </div>
-          </div>
-
-          <button type="submit" href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
-          <button style={{marginLeft:"20px"}}className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
-        </form>
-
-
-
-
+            <h4>Sign in</h4>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  id="username"
+                  label="Username"
+                  margin="normal"
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="password"
+                  label="Password"
+                  type="password"
+                  margin="normal"
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+              <button type="submit" href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
+              </Grid>
+              <Grid item xs={6}>
+            <button className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
+            </Grid>
+            </Grid>
+          
+          </form>
+        </Container>
       </div>
     </div>
   );

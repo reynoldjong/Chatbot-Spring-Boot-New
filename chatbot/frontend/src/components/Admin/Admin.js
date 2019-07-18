@@ -13,7 +13,7 @@ const admin = (props) => {
 
       <React.Fragment>
           <Navbar />
-          <AdminDocuments addFileHandler={props.addFileHandler} />
+          <AdminDocuments files={props.files} removeFileHandler={props.removeFileHandler} viewAllFilesHandler={props.viewAllFilesHandler} addFileHandler={props.addFileHandler} />
         
      
       

@@ -1,9 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 import DocumentTable from './DocumentsTable/DocumentsTable';
 import classes from './AdminDocuments.module.css';
-const adminDocuments = (props) => {
+const AdminDocuments = (props) => {
+
+   // Similar to componentDidMount and componentDidUpdate:
+   useEffect(() => {
+     console.log('called');
+    props.viewAllFilesHandler();
+  },[]);
+
+ 
   return (
+   
     <React.Fragment>
+
      <div className="container">
         <div className={classes.Card}>
 
@@ -22,11 +32,11 @@ const adminDocuments = (props) => {
         </div>
         <div className={classes.Card}>
 
-       <DocumentTable/>
+       <DocumentTable removeFileHandler={props.removeFileHandler} files={props.files} />
        </div>
         </div>
     </React.Fragment>
   );
 };
 
-export default adminDocuments;
+export default AdminDocuments;

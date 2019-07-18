@@ -1,7 +1,6 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,11 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
+import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 
 
 @WebServlet (urlPatterns = "/handlefiles")
@@ -28,6 +24,7 @@ public class HandleFilesServlet extends HttpServlet {
 
 
     private FilesDatabaseAdmin db;
+    private WatsonDiscovery wdisc;
     //TODO: see if these fields are needed
 
     // private int maxFileSize = 1024 * 1024;
@@ -35,14 +32,15 @@ public class HandleFilesServlet extends HttpServlet {
 
 
     public void init () {
+      
         this.db = new FilesDatabaseAdmin();
+        this.wdisc = WatsonDiscovery.buildDiscovery();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
 
         String action = request.getParameter("action");
-
 
         if ("upload".equals(action)) {
             try {
@@ -77,16 +75,32 @@ public class HandleFilesServlet extends HttpServlet {
 
         try {
 
-            db.connect();
+           
             List<UploadedFile> listUploadedFile = db.list();
+        
             request.setAttribute("listUploadedFile", listUploadedFile);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("handlefiles.jsp");
-            dispatcher.forward(request, response);
+
+
+            ArrayList<String> list = new ArrayList<>();
+            for(UploadedFile f:listUploadedFile){
+                list.add(f.getFilename());
+            }
+            Gson gsonBuilder = new GsonBuilder().create();
+            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.format("{\"files\": %s }",jsonFromJavaArrayList));
+          
 
         } catch (SQLException e) {
+
             e.printStackTrace();
             throw new ServletException(e);
+
+        }
+        finally{
+            db.close();
         }
     }
 
@@ -96,29 +110,23 @@ public class HandleFilesServlet extends HttpServlet {
 //        File file;
 
         String fileName =request.getParameter("file");
-       
+       System.out.println(fileName.toString());
+        
         if (db.connect()) {
             db.remove(fileName);
-//
-//            if( fileName.lastIndexOf("\\") >= 0 ) {
-//                file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\")));
-//            } else {
-//                file = new File( filePath + fileName.substring(fileName.lastIndexOf("\\")+1));
-//            }
-//
-//            file.delete();
 
             String text = "You successfully removed: " + fileName;
             response.setContentType("text/plain");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(text);
+            db.close();
         }
     }
 
     public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
-        System.out.println(request.getParameterMap());
+
         List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
         try {
             
@@ -127,7 +135,9 @@ public class HandleFilesServlet extends HttpServlet {
             for (Part filePart : fileParts) {
                 String fileName = getFileName(filePart);
                 InputStream fileContent = filePart.getInputStream();
-                db.insertFile(fileName, fileContent, filePart.getSize());
+                InputStream fileContentForDb = filePart.getInputStream();
+                db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
+                out.println("Uploaded Filename: " + fileName);
 
             }
             
@@ -201,7 +211,7 @@ public class HandleFilesServlet extends HttpServlet {
 //
 //                    out.println("Uploaded Filename: " + fileName + "<br>");
 //
-//                    db.insertFile(fileName, b);
+//                    db.insert(fileName, b);
 //
 //                }
 //            }

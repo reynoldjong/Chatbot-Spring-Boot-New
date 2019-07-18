@@ -10,4 +10,10 @@ public class MockDatabase implements UserDatabase {
     boolean validated = username == testUser && testPassword == password;
     return validated;
   }
+
+  @Override
+  public boolean connect() {
+    // TODO Auto-generated method stub
+    return false;
+  }
 }

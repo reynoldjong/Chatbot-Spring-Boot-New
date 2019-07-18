@@ -35,9 +35,13 @@ public class WatsonDiscovery {
   }
   
   public static WatsonDiscovery buildDiscovery() {
-    if (watsonDiscovery == null) 
-      return new WatsonDiscovery();
-    else
-      return watsonDiscovery;
+    if (WatsonDiscovery.watsonDiscovery == null) {
+      WatsonDiscovery.watsonDiscovery = new WatsonDiscovery();
+      return WatsonDiscovery.watsonDiscovery;
+    }
+    else{
+      return WatsonDiscovery.watsonDiscovery;
+    }
+     
   }
 }
