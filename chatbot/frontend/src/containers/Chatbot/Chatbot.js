@@ -5,14 +5,11 @@ import ChatbotBody from './ChatbotBody/ChatbotBody';
 import Box from '@material-ui/core/Box';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MessageInput from './MessageInput/MessageInput';
-import Fade from '@material-ui/core/Fade';
-import IconButton from '@material-ui/core/IconButton';
 import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
-import Switch from '@material-ui/core/Switch';
 import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
-import qs from 'qs';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -127,8 +124,6 @@ const convertToGet = (message) =>{
           <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler}/>
           <ChatbotBody messages={values.messages} />
           <MessageInput addMessageHandler={addMessageHandler} />
-
-
         </Container>
         </Grow>
       </React.Fragment>
