@@ -4,9 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import robot from './images/robot.png';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
+         //<Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
+        // borderTopRightRadius: 0,
 const useStyles = makeStyles({
   root:{
     display:'flex',
@@ -14,6 +14,7 @@ const useStyles = makeStyles({
   },
   avatar: {
     margin: 10,
+    flexGrow:1,
  
   },
   bigAvatar: {
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
     padding: 10,
     borderRadius: 10,
     borderTopLeftRadius: 0,
-    width: '80%',
+    width: '100%',
     display:'block',
     position: 'relative',
     right: '0px',
@@ -39,7 +40,7 @@ const useStyles = makeStyles({
     flexGrow: 1,
     padding: 10,
     borderRadius: 10,
-    borderTopRightRadius: 0,
+  
     width: '80%',
     position: 'relative',
     right: '0px',
@@ -65,10 +66,10 @@ const Message = (props) => {
       <div className={classes.root}>
 
 <Grid container spacing={1}>
-        <Grid item xs={12}>
+        <Grid item xs={4}>
         <Avatar alt="Chatbot" src={robot} className={classes.avatar} />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={8}>
         <Box boxShadow={2} className={classes.textBot}>
 
           <Typography variant="body1" >
@@ -100,7 +101,7 @@ const Message = (props) => {
       <div className={classes.root}>
         <Grid container spacing={1}>
         <Grid item xs={12}>
-         <Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
+
          </Grid>
          <Grid item xs={12}>
         <Box boxShadow={2} className={classes.textHuman} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>

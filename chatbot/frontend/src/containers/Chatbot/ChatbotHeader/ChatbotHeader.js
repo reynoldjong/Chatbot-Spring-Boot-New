@@ -15,7 +15,7 @@ const ChatbotHeader = props => {
       <AppBar position="static">
         <Box boxShadow={3} className={classes.Shadow}>
           <Toolbar>
-            <Typography variant="h4" component="h2" className={classes.title}>
+            <Typography variant="h5" component="h2" className={classes.title}>
               {props.title}
             </Typography>
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={props.clickHandler}>

@@ -122,12 +122,10 @@ const convertToGet = (message) =>{
     
      <Grow in={values.showChatbot}>
     
-        <Container className={classes.bottomRightPosition} maxWidth="false" style={{ maxWidth: '25vw', width:'100%' }}>
-       
+        <Container className={classes.bottomRightPosition} maxWidth="false" style={{ maxWidth: '23vw', minWidth:'400px'}}>
           <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler}/>
           <ChatbotBody messages={values.messages} />
           <MessageInput addMessageHandler={addMessageHandler} />
-       
         </Container>
       
         </Grow>
