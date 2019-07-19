@@ -22,8 +22,7 @@ import com.google.gson.Gson;
 @MultipartConfig
 public class HandleFilesServlet extends HttpServlet {
 
-    private boolean isMultipart;
-//    private String filePath = "../chatbot/files/";
+
     private FilesDatabaseAdmin db;
     private WatsonDiscovery wdisc;
     //TODO: see if these fields are needed
@@ -31,13 +30,6 @@ public class HandleFilesServlet extends HttpServlet {
     // private int maxFileSize = 1024 * 1024;
     // private int maxMemSize = 4 * 1024;
 
-
-
-//    public HandleFilesServlet(FilesDatabaseAdmin db){
-//        // Get the file location where it would be stored.
-//        this.db = db;
-//
-//    }
 
     public void init () {
       
@@ -47,6 +39,7 @@ public class HandleFilesServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
+
         String action = request.getParameter("action");
 
         if ("upload".equals(action)) {
@@ -72,8 +65,6 @@ public class HandleFilesServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, java.io.IOException {
 
-        // request.getRequestDispatcher("/handlefiles.jsp").forward(request, response);
-        
         listUploadedFile(request, response);
 
     }

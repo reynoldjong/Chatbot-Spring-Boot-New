@@ -10,4 +10,10 @@ public class TempDatabase implements UserDatabase{
     return true;
   }
 
+  @Override
+  public boolean connect() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
 }

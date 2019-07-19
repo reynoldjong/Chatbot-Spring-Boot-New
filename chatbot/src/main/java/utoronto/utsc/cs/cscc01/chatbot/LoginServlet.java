@@ -19,7 +19,8 @@ public class LoginServlet extends HttpServlet {
   private UserDatabase db;
   
   public void init(ServletConfig config) {
-    this.db = new TempDatabase();
+    this.db = new UserDatabaseAdmin();
+    db.connect();
   }
   
   @Override
@@ -31,11 +32,11 @@ public class LoginServlet extends HttpServlet {
 
     try {
       req.login(username, password);
-      if (req.getUserPrincipal() != null && req.isUserInRole("admin")) {
+      if (req.getUserPrincipal() != null && db.verifyUser(username, password)) {
       
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("{\"authenticated\":\"true\"}");
+        resp.getWriter().write("{\"authenticated\":true}");
 
         //resp.sendRedirect("localhost:8080/");
       }
@@ -43,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         // if we couldn't verify the user, try again
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write("{\"authenticated\":\"false\"}");
+        resp.getWriter().write("{\"authenticated\":false}");
       }
       
     } catch (ServletException e) {
@@ -51,7 +52,7 @@ public class LoginServlet extends HttpServlet {
 
       resp.setContentType("application/json");
       resp.setCharacterEncoding("UTF-8");
-      resp.getWriter().write("{\"authenticated\":\"false\"}");
+      resp.getWriter().write("{\"authenticated\":false}");
     }
   }
 
