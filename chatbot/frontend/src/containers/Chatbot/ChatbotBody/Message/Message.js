@@ -5,6 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import robot from './images/robot.png';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import { relative } from 'path';
          //<Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
         // borderTopRightRadius: 0,
 const useStyles = makeStyles({
@@ -15,6 +16,13 @@ const useStyles = makeStyles({
   avatar: {
     margin: 10,
     flexGrow:1,
+    bottom:0,
+    position:'relative',
+  
+    float:'left',
+    bottom:'0px',
+    
+    
  
   },
   bigAvatar: {
@@ -66,10 +74,10 @@ const Message = (props) => {
       <div className={classes.root}>
 
 <Grid container spacing={1}>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
         <Avatar alt="Chatbot" src={robot} className={classes.avatar} />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={9}>
         <Box boxShadow={2} className={classes.textBot}>
 
           <Typography variant="body1" >
