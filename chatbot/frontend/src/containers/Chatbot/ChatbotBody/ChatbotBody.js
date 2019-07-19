@@ -49,7 +49,7 @@ const ChatbotBody = (props) =>{
              
 
              
-             <Paper className={classes.root} id="out" style={{height:'500px'}}>
+             <Paper className={classes.root} id="out" style={{maxHeight:'50vh'}}>
            
                 <Message text="hello this is some text how look" type='bot'/>
                 

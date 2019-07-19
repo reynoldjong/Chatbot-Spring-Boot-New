@@ -9,7 +9,7 @@ import Add from '@material-ui/icons/Add';
 import Fab from '@material-ui/core/Fab';
 import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
-
+import css from './Chatbot.module.css';
 
 
 const useStyles = makeStyles(theme => ({
@@ -17,13 +17,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     width: 450,
     position: 'relative',
-    minHeight: 200,
-
   },
-  fab: {
+
+  bottomRightPosition: {
     position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom:10,
+    right:10,
+
   },
 
 }));
@@ -119,13 +119,19 @@ const convertToGet = (message) =>{
   if (values.showChatbot) {
     chatbot = (
       <React.Fragment>
+    
      <Grow in={values.showChatbot}>
-        <Container className={classes.fab} maxWidth="false" style={{ maxWidth: '450px' }}>
+    
+        <Container className={classes.bottomRightPosition} maxWidth="false" style={{ maxWidth: '25vw', width:'100%' }}>
+       
           <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler}/>
           <ChatbotBody messages={values.messages} />
           <MessageInput addMessageHandler={addMessageHandler} />
+       
         </Container>
+      
         </Grow>
+     
       </React.Fragment>
     )
   }
@@ -133,7 +139,7 @@ const convertToGet = (message) =>{
   else {
     chatbot = (
       
-      <Fab edge="start" className={classes.fab} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
+      <Fab edge="start" className={classes.bottomRightPosition} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
          <Add />
         </Fab>
      

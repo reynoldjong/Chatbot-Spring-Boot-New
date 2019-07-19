@@ -54,3 +54,10 @@
     height:50px;
 
 }
+
+.Shadow{
+    z-index:999;
+    -webkit-box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
+    -moz-box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
+    box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
+}
