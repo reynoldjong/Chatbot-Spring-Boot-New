@@ -23,7 +23,7 @@ public class QueryServlet extends HttpServlet {
     this.queryAssistant = new QueryAssistant(WatsonAssistant.buildAssistant());
     try {
       // update this when ready
-      this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/testindex");
+      this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/index");
     } catch (IOException e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
