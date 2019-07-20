@@ -3,39 +3,19 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class LuceneQueryEngineTest {
-  private IndexSearcher searcher;
-  private QueryParser parser;
-  private Query q;
   private LuceneQueryEngine qe;
   // a test index is already created at target location
   private static final String luceneQueryTestDir = "../chatbot/index/testLuceneQuery";
   
   @Before
   public void setUp() throws IOException {
-     Directory indexDirectory = FSDirectory.open(Paths.get(luceneQueryTestDir));
-     IndexReader reader = DirectoryReader.open(indexDirectory);
-     searcher = new IndexSearcher(reader);
-     parser = new QueryParser("body", new StandardAnalyzer());
      qe = new LuceneQueryEngine(luceneQueryTestDir);
   }
   
