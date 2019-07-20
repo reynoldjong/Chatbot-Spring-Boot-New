@@ -49,11 +49,11 @@ const ChatbotBody = (props) =>{
              
 
              
-             <Paper className={classes.root} id="out" style={{maxHeight:'55vh', minHeight:'50vh'}}>
+             <Paper className={classes.root} id="out" style={{maxHeight:'60vh', minHeight:'50vh'}}>
            
                 <Message text="Hello and welcome to DFI!" type='bot'/>
                 
-                <Message text="hello this is some text how look" type='user'/>
+                <Message text="Hello this is some text how look?" type='user'/>
                 <Message link="www.google.com" text="hello this is some text llo this is some text how loollo this is some text how loollo this is some text how loollo this is some text how loohow look" type='bot' picture={robot} />
               
                 {

@@ -1,0 +1,43 @@
+.root {
+  display: flex;
+  margin:20px;
+  margin-left:0px;
+  margin-right:0px;
+}
+
+.avatar {
+ 
+  flex-grow: 1;
+  bottom: 0;
+  position: relative;
+
+  float: left;
+  bottom: 0px;
+  
+
+  width:60px;
+  height:60px;
+  padding:5px;
+ 
+}
+
+.text {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 15px;
+  display: block;
+  position: relative;
+  right: 0px;
+  background-color: white;
+  text-align: left;
+}
+.textBot {
+    background-color:white !important;
+   border-top-left-radius:2px;
+}
+
+.textHuman {
+  width: 75%;
+
+  margin-right: 0px;
+}

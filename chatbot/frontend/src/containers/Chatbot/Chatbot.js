@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MessageInput from './MessageInput/MessageInput';
 import Add from '@material-ui/icons/Add';
+import Chat from '@material-ui/icons/Chat';
 import Fab from '@material-ui/core/Fab';
 import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
@@ -21,8 +22,8 @@ const useStyles = makeStyles(theme => ({
 
   bottomRightPosition: {
     position: 'fixed',
-    bottom:10,
-    right:10,
+    bottom:15,
+    right:15,
 
   },
 
@@ -122,7 +123,7 @@ const convertToGet = (message) =>{
     
      <Grow in={values.showChatbot}>
     
-        <Container className={classes.bottomRightPosition} maxWidth="false" style={{ maxWidth: '23vw', minWidth:'400px'}}>
+        <Container className={classes.bottomRightPosition} maxWidth="false" style={{ maxWidth: '30vw', minWidth:'400px'}}>
           <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler}/>
           <ChatbotBody messages={values.messages} />
           <MessageInput addMessageHandler={addMessageHandler} />
@@ -138,7 +139,7 @@ const convertToGet = (message) =>{
     chatbot = (
       
       <Fab edge="start" className={classes.bottomRightPosition} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
-         <Add />
+         <Chat />
         </Fab>
      
     )

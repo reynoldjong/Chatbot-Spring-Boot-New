@@ -15,7 +15,7 @@ z-index:999;
   }
 .root{
       flex-grow: 1;
-      
+      border-top-left-radius: 25px;
     }
 
 .title {
@@ -24,3 +24,15 @@ z-index:999;
 .menuButton {
       margin-right: 0;
     }
+
+.avatar {
+    
+      flex-grow: 1;
+
+
+      width:5px;
+      height:45px;
+      padding:5px;
+      
+     
+}
