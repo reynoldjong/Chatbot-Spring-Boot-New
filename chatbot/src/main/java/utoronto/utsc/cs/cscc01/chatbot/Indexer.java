@@ -91,35 +91,37 @@ public class Indexer {
     writer.close();
   }
   
+  // this was run once before indexer ran so we get an empty index
   public static void main(String[] args) {
     HashMap<String, HashMap<String, String>> testUrlHash = new HashMap<>();
     HashMap<String, String> testJournalHash = new HashMap<>();
-    HashMap<String, String> testHeaderHash = new HashMap<>();
+    //HashMap<String, String> testHeaderHash = new HashMap<>();
     
-    testJournalHash.put("Journal entry 1", "This is a great morning to exercise!");
+/*    testJournalHash.put("Journal entry 1", "This is a great morning to exercise!");
     testJournalHash.put("Journal entry 2", "The weather today is kind of poop.");
     testJournalHash.put("Journal entry 3", "Wow, it is still raining today.");
     testJournalHash.put("Journal entry 4", "The rain finally stopped, but it is still cloudy");
-    testJournalHash.put("Journal entry 5", "The sun is finally back! All praise the sun!");
+    testJournalHash.put("Journal entry 5", "The sun is finally back! All praise the sun!");*/
+    testJournalHash.put("empty url", "empty url");
+    testUrlHash.put("empty url", testJournalHash);
     
-    testUrlHash.put("www.myjournals.net", testJournalHash);
-    
-    testHeaderHash.put("Work schedule day 1", "Write unit test for my indexer");
+/*    testHeaderHash.put("Work schedule day 1", "Write unit test for my indexer");
     testHeaderHash.put("Work schedule day 2", "Research on Apache Lucene");
     testHeaderHash.put("Work schedule day 3", "Start writing my indexer");
     testHeaderHash.put("Work schedule day 4", "Continuing to write my indexer");
     testHeaderHash.put("Work schedule day 5", "Finally done with indexer!");
     
     testUrlHash.put("www.workschedule.com", testHeaderHash);
-    
+*/    
     String filePath = "../chatbot/index/";
     
     try {
       Indexer myIndexer = new Indexer(filePath);
       myIndexer.indexUrl(testUrlHash);
-      myIndexer.indexDoc("The Life of Pie", "Something something tiger, boat, stranded.");
-      myIndexer.indexDoc("Operating Systems", "Context switch is the process where the CPU is passed between processes...");
-      myIndexer.indexDoc("Learning Haskell", "Learning Haskell is as easy as 1, 2, lol you're dead");
+      myIndexer.indexDoc("empty doc", "empty doc");
+      //myIndexer.indexDoc("The Life of Pie", "Something something tiger, boat, stranded.");
+      //myIndexer.indexDoc("Operating Systems", "Context switch is the process where the CPU is passed between processes...");
+      //myIndexer.indexDoc("Learning Haskell", "Learning Haskell is as easy as 1, 2, lol you're dead");
     } catch (IOException e) {
       // TODO Auto-generated catch block
       System.out.println("error pathing to index");
