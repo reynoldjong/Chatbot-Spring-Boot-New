@@ -32,10 +32,11 @@ const ChatbotBody = (props) => {
   let messages = props.messages.map((item, index) => {
     console.log(props);
     if (index === props.showing['question'] || index === props.showing['answer']) {
-      return (<Message key={index} showing={true} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+      
+      return (<Message showClickHandler={() => props.showClickHandler( item.type,index,)}   key={index} showing={true} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
     }
     else {
-      return (<Message key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+      return (<Message  showClickHandler={() => props.showClickHandler( item.type,index)} key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
     }
   });
 

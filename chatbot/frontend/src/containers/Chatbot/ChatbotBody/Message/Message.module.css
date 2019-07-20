@@ -18,7 +18,7 @@
  
 }
 .OpacityLow{
-  opacity:0.4;
+  opacity:0.3;
 }
 
 .text {
@@ -37,6 +37,7 @@
    font-family:Arial, Helvetica, sans-serif !important;
    max-width:80%;
    margin-right:0px;
+   cursor:pointer;
 
 }
 
@@ -45,5 +46,16 @@
   -webkit-font-smoothing: antialiased;
   margin-right: 0px;
   font-family:Arial !important;
+  cursor:pointer;
+}
+
+.textHuman:hover{
+  opacity:0.8 !important;
+  transition:.1s ease-in;
+}
+
+.textBot:hover{
+  opacity:0.8 !important;
+  transition:.1s ease-in;
 
 }

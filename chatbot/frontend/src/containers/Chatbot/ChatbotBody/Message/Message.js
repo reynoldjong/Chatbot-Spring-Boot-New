@@ -23,7 +23,7 @@ const Message = (props) => {
      
      
             
-<Grid container spacing={1} className={rootClasses}>
+<Grid container spacing={1} className={rootClasses} onClick={props.showClickHandler}>
         <Grid item xs={2} style={{marginRight:'0px'}}>
    
          
@@ -54,7 +54,7 @@ const Message = (props) => {
 
   else{
     message = (
-      <div className={rootClasses}>
+      <div className={rootClasses} onClick={props.showClickHandler}>
         <Grid container spacing={1}>
         <Grid item xs={12}>
 

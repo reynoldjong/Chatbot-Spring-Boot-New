@@ -37,8 +37,8 @@ const Chatbot = () => {
   // Functional State
 
   const [values, setValues] = React.useState({
-    messages: [{ 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }, 
-    { 'type': 'user', 'message': 'Hello and welcome to DFI the future chatbot' },
+    messages: [{ 'type': 'bot', 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it' }, 
+    { 'type': 'user', 'message': 'Hello Chatbot' },
      { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }, 
      { 'type': 'user', 'message': 'Hello and welcome to DFI the future chatbot' }, 
      { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }],
@@ -48,6 +48,31 @@ const Chatbot = () => {
 
   const classes = useStyles();
 
+  const showClickHandler = ( type,index) => {
+    // Need length of messages array to check for out of bounds cases
+    const length = values.messages.length;
+    console.log(index, type);
+    if(type === "bot"){
+      // Make sure that this doesn't apply to greeting message which has index 0
+      if (index != 0){
+        console.log("here")
+      setValues({
+        ...values,
+        showing:{'question':index, 'answer':index - 1}
+      });
+    }
+    }
+    else{
+      // Make sure there is an answer to follow up with
+      if(index + 1 < length){
+      setValues({
+        ...values,
+        showing:{'question':index + 1, 'answer':index}
+      });
+    }
+    }
+
+  }
   const convertToGet = (message) => {
     const messageArray = message.split(" ");
     const length = messageArray.length;
@@ -126,7 +151,7 @@ const Chatbot = () => {
 
           <Container className={classes.bottomRightPosition} maxWidth="false" style={{ width: '30vw', minWidth: '400px', maxWidth: '500px' }}>
             <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler} />
-            <ChatbotBody messages={values.messages} showing={values.showing} />
+            <ChatbotBody  showClickHandler={showClickHandler} messages={values.messages} showing={values.showing} />
             <MessageInput addMessageHandler={addMessageHandler} />
           </Container>
 
