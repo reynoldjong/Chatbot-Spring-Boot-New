@@ -3,7 +3,6 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -23,7 +22,7 @@ public class LuceneQueryEngine implements SearchEngine {
   private QueryParser parser;
   private Query q;
   
-  // path for testing is "../chatbot/testindex"
+  // path for index is "../chatbot/index"
   public LuceneQueryEngine(String indexDirPath) throws IOException {
      Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
      IndexReader reader = DirectoryReader.open(indexDirectory);
@@ -72,7 +71,7 @@ public class LuceneQueryEngine implements SearchEngine {
   }
   
   public static void main(String[] args) throws IOException {
-    String filePath = "../chatbot/testindex";
+    String filePath = "../chatbot/index";
     LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
     Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("is it raining today?");
     System.out.println(searchResult);

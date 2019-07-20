@@ -112,7 +112,7 @@ public class Indexer {
     
     testUrlHash.put("www.workschedule.com", testHeaderHash);
     
-    String filePath = "../chatbot/testindex/";
+    String filePath = "../chatbot/index/";
     
     try {
       Indexer myIndexer = new Indexer(filePath);
@@ -126,4 +126,5 @@ public class Indexer {
       e.printStackTrace();
     }
   }
+  
 }

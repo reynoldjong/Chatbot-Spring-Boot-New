@@ -6,12 +6,10 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.lucene.queryparser.classic.ParseException;
 
 @WebServlet("/userquery")
 public class QueryServlet extends HttpServlet {
@@ -37,20 +35,20 @@ public class QueryServlet extends HttpServlet {
    * instead to Discovery and our custom query. It will return a json object as a response
    * 
    * below is an example of what it may look like
-   * 
-   * {"text":"lots of text"}
-   * {"url":"link"}
-   * {"image":"link to image"}
-   * {"file": { 
+   * {"lucene":{
+   *     {"text":"lots of text"}
+   *     {"url":"link"}
+   *     {"image":"link to image"}
+   *     {"file": { 
    *            "filename":"name of file"
-   *            "passage":"sample passage"
-   *          }}
-   *          
+   *            "passage":"sample passage"}}
+   *     }
+   * }
    * or in the case where there may be more than 1
-   * 
-   * {"text": ["text1", "text2", "text3"]}
-   * {"url": ["link1", "link2", "link3"]}
-   * 
+   * {"watson":{
+   *    {"text": ["text1", "text2", "text3"]}
+   *    {"url": ["link1", "link2", "link3"]}
+   * }
    */
   public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 	    String watsonReply;
@@ -89,8 +87,8 @@ public class QueryServlet extends HttpServlet {
 		writer.write(fullReply);
   }
   
-  // we will have to modify this to include our query's result
-  // after it has been implemented
+  // converts a nested hashtable with form Hashtable<String, ArrayList<String>>
+  // into a json with form listed above in doGet
   private String hashToJson(Hashtable<String, ArrayList<String>> h) {
     String result = "{";
     for (String key : h.keySet()) {
