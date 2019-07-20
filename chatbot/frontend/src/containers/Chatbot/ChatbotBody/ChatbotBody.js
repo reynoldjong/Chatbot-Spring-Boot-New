@@ -1,75 +1,59 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
 import Message from './Message/Message';
-import MessageInput from '../MessageInput/MessageInput';
-import robot from './Message/images/robot.png';
-
+//'#F4F4F4'
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2),
-    backgroundColor:'#F4F4F4',
-    maxHeight:'500px',
-   overflowY:'scroll'
+    backgroundColor: 'white',
+    maxHeight: '500px',
+    overflowY: 'scroll'
   },
- 
+
 }));
-const ChatbotBody = (props) =>{
-  // Everytime the componenet is rendered we need to scroll to bottom
+const ChatbotBody = (props) => {
+  // Everytime the component is rendered we need to scroll to bottom
   useEffect(() => {
-   scrollBottom();
+    scrollBottom();
   });
 
 
-  const scrollBottom = () =>{
+  const scrollBottom = () => {
     console.log('called');
-      if(document.getElementById("bottom")){
-      document.getElementById("bottom").scrollIntoView({ behavior: 'smooth' });}
+    if (document.getElementById("bottom")) {
+      document.getElementById("bottom").scrollIntoView({ behavior: 'smooth' });
+    }
   }
-  
+
   const classes = useStyles();
   const length = props.messages.length;
 
+  let messages = props.messages.map((item, index) => {
+    console.log(props);
+    if (index === props.showing['question'] || index === props.showing['answer']) {
+      return (<Message key={index} showing={true} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+    }
+    else {
+      return (<Message key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+    }
+  });
 
-  let messages = (
-    props.messages.map((item, index) =>{ 
-    
-        return( <Message key={index} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link}/>)
-
-   })
-  )
   // Div with id at bottom is used as a dummy div to ensure that we
   // can keep the chat at the bottom
-    return(
-        <div>
-          
-             
-
-             
-             <Paper className={classes.root} id="out" style={{maxHeight:'60vh', minHeight:'50vh'}}>
-           
-                <Message text="Hello and welcome to DFI!" type='bot'/>
-                
-                <Message text="Hello this is some text how look?" type='user'/>
-                <Message link="www.google.com" text="hello this is some text llo this is some text how loollo this is some text how loollo this is some text how loollo this is some text how loohow look" type='bot' picture={robot} />
-              
-                {
-                  
-                 messages
-                }
-               <div id="bottom" style={{float:'left',clear:'both'}}>
-            
-            </div>
-            </Paper>
-          
-
+  return (
+    <div>
+      <Paper className={classes.root} id="out" style={{ maxHeight: '60vh', minHeight: '50vh' }}>
+        {
+          messages
+        }
+        <div id="bottom" style={{ float: 'left', clear: 'both' }}>
         </div>
-       
-    );
-    
+      </Paper>
+    </div>
+
+  );
+
 }
 
 export default ChatbotBody;

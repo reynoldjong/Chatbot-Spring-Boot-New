@@ -5,20 +5,20 @@
   margin-right:0px;
 }
 
-.avatar {
- 
+.avatar2{
   flex-grow: 1;
-  bottom: 0;
-  position: relative;
-
-  float: left;
-  bottom: 0px;
-  
-
-  width:60px;
-  height:60px;
-  padding:5px;
+  background-image:url('./images/robot.png');
+  background-size:cover;
+  background-position:center center;
+  max-height:43px;
+  max-width:50px;
+  height:100%;
+  width:100%;
+  margin-right:5px;
  
+}
+.OpacityLow{
+  opacity:0.4;
 }
 
 .text {
@@ -27,17 +27,23 @@
   border-radius: 15px;
   display: block;
   position: relative;
-  right: 0px;
   background-color: white;
   text-align: left;
 }
 .textBot {
-    background-color:white !important;
+    background-color:#f8f8f8 !important;
    border-top-left-radius:2px;
+   -webkit-font-smoothing: antialiased;
+   font-family:Arial, Helvetica, sans-serif !important;
+   max-width:80%;
+   margin-right:0px;
+
 }
 
 .textHuman {
-  width: 75%;
-
+  max-width:75%;
+  -webkit-font-smoothing: antialiased;
   margin-right: 0px;
+  font-family:Arial !important;
+
 }

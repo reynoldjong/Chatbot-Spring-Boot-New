@@ -1,8 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
-import robot from './images/robot.png';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import classes from './Message.module.css';
          //<Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
@@ -11,33 +8,36 @@ import classes from './Message.module.css';
 const Message = (props) => {
 
   let message = null;
+  let rootClasses = null;
 
+  if (props.showing){
+    rootClasses = classes.root;
+   
+  }
+  else{
+    rootClasses = classes.root + ' ' + classes.OpacityLow;
+  }
   if (props.type === 'bot') {
     message = (
 
      
      
             
-<Grid container spacing={1} className={classes.root}>
-        <Grid item xs={2}>
+<Grid container spacing={1} className={rootClasses}>
+        <Grid item xs={2} style={{marginRight:'0px'}}>
    
-          <Avatar alt="Chatbot" src={robot} className={classes.avatar} style={{}} />
          
+         <div className={classes.avatar2} ></div>
      
  
         </Grid>
         <Grid item xs={10}>
-          <p style={{textAlign:'left'}}>DFI Chatbot</p>
-        <Box boxShadow={2} className={classes.text + ' ' + classes.textBot}>
+          <p style={{textAlign:'left',fontWeight:'500', color:'#424242', fontSize:'0.8em',letterSpacing:'0.0.8em', marginBottom:'5px'}}>DFI Chatbot</p>
+        <Box boxShadow={1} style={{border:'1px solid rgba(0,0,0,0.03)'}}className={classes.text + ' ' + classes.textBot}>
 
-          <Typography variant="body1"  style={{fontSize:'1.1em'}}>
+          <p style={{fontSize:'1.1em', padding:'0px', marginTop:'0px', marginBottom:'0px'}} >
             {props.text}
-            {
-              
-              props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null
-             
-         }
-          </Typography>
+            { props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null} </p>
          
           {
               
@@ -54,13 +54,13 @@ const Message = (props) => {
 
   else{
     message = (
-      <div className={classes.root}>
+      <div className={rootClasses}>
         <Grid container spacing={1}>
         <Grid item xs={12}>
 
          </Grid>
          <Grid item xs={12}>
-        <Box boxShadow={2} className={classes.textHuman + ' ' + classes.text} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
+        <Box boxShadow={1} style={{border:'1px solid rgba(0,0,0,0.03)'}} className={classes.textHuman + ' ' + classes.text} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
 
           <p style={{fontSize:'1.1em', padding:'0px', marginTop:'0px', marginBottom:'0px'}}>
             {props.text}
