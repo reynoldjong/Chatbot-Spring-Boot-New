@@ -2,31 +2,25 @@ import React from 'react';
 import ChatbotHeader from './ChatbotHeader/ChatbotHeader';
 import Container from '@material-ui/core/Container';
 import ChatbotBody from './ChatbotBody/ChatbotBody';
-import Box from '@material-ui/core/Box';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MessageInput from './MessageInput/MessageInput';
-import Fade from '@material-ui/core/Fade';
-import IconButton from '@material-ui/core/IconButton';
-import Add from '@material-ui/icons/Add';
+import Chat from '@material-ui/icons/Chat';
 import Fab from '@material-ui/core/Fab';
-import Switch from '@material-ui/core/Switch';
 import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
-import qs from 'qs';
-
 
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: 450,
     position: 'relative',
-    minHeight: 200,
-
   },
-  fab: {
+
+  bottomRightPosition: {
     position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
+    bottom: 15,
+    right: 15,
+
   },
 
 }));
@@ -43,31 +37,113 @@ const Chatbot = () => {
   // Functional State
 
   const [values, setValues] = React.useState({
-    messages: [],
-    showChatbot: true
+    messages: [{ 'type': 'bot', 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it' }, 
+    { 'type': 'user', 'message': 'Hello Chatbot' },
+     { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }, 
+     { 'type': 'user', 'message': 'Hello and welcome to DFI the future chatbot' }, 
+     { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }],
+    showChatbot: true,
+    showing: { 'question': 0, 'answer': 1 }
   });
 
   const classes = useStyles();
 
-const convertToGet = (message) =>{
-  const messageArray = message.split(" ");
-  const length = messageArray.length;
-  let getMessage = "";
-  messageArray.forEach(function (item, index) {
-    if(index === length -1){
-  
-      getMessage += item;
-    
+  const showClickHandler = ( type,index) => {
+    // Need length of messages array to check for out of bounds cases
+    const length = values.messages.length;
+    console.log(index, type);
+    if(type === "bot"){
+      // Make sure that this doesn't apply to greeting message which has index 0
+      if (index != 0){
+        console.log("here")
+      setValues({
+        ...values,
+        showing:{'question':index, 'answer':index - 1}
+      });
+    }
     }
     else{
-     
-      getMessage += item + "+";
-      
-     }
+      // Make sure there is an answer to follow up with
+      if(index + 1 < length){
+      setValues({
+        ...values,
+        showing:{'question':index + 1, 'answer':index}
+      });
+    }
+    }
+
+  }
+  const convertToGet = (message) => {
+    const messageArray = message.split(" ");
+    const length = messageArray.length;
+    let getMessage = "";
+    messageArray.forEach(function (item, index) {
+      if (index === length - 1) {
+
+        getMessage += item;
+
+      }
+      else {
+
+        getMessage += item + "+";
+
+      }
+
+    });
+    return getMessage;
+  }
+
+  const getWatsonMessage = (response) =>{
+    let message = "";
+    if(response['data']['watson']['text']){
+
+      message += response['data']['watson']['text'];
+    }
+    if(response['data']['lucene']['text']){
+      message += "\n" + response['data']['lucene']['text']
+    }
     
-  });
-  return getMessage;
-}
+    if(message === ""){
+      message = "I couldn't find that!";
+    }
+    
+      return message;
+    
+  }
+
+  const getWatsonImage = (response) =>{
+    let image = null;
+
+    if(response['data']['watson']['image']){
+     image = response['data']['watson']['image'].replace(/['"]+/g, '');
+    }
+    else if(response['data']['lucene']['image']){
+      image = response['data']['lucene']['image'].replace(/['"]+/g, '');
+    }
+    return image;
+  }
+
+  const getWatsonLink = (response) =>{
+    let link = null;
+    if (response['data']['watson']['url']) {
+      link = response['data']['watson']['url'];
+    }
+    else if(response['data']['lucene']['url']){
+      link = response['data']['lucene']['url'];
+    }
+    return link;
+  }
+
+  const getWatsonPassage = (response) =>{
+    let file = null;
+    if (response['data']['lucene']['file']) {
+      file = response['data']['lucene']['file']['passage'];
+    }
+    return file;
+
+  }
+
+
   const addMessageHandler = (event) => {
 
     event.preventDefault();
@@ -80,38 +156,45 @@ const convertToGet = (message) =>{
     else {
       const newMessages = [...values.messages, { 'type': 'user', 'message': userMessage }]
       setValues({ ...values, messages: newMessages });
-    
+
       console.log(userMessage);
       const getMessage = convertToGet(userMessage);
-     
-      axios.get("/userquery?"+ getMessage,).then((response) => {
-        console.log(response);
-        let botMessage =  {};
-        botMessage['message'] = response['data']['text'];
 
-        if(response['data']['image']){
-        botMessage['picture'] = response['data']['image'].replace(/['"]+/g, '');
-      }
-        if(response['data']['url']){
-          botMessage['link'] = response['data']['url'];
-        }
-        botMessage['type'] = 'bot';
-       
-        const newMessagesBot = [...newMessages, botMessage]
-        setValues({ ...values, messages: newMessagesBot });
+      axios.get("/userquery?" + getMessage).then((response) => {
+        console.log(response);
+        let botMessage = {};
+        
       
-        })
-          .catch(function (error) {
-            console.log(error);
-         });
-     
+        botMessage['picture'] = getWatsonImage(response);
+        botMessage['link'] = getWatsonLink(response);
+        botMessage['file'] = getWatsonPassage(response);
+        botMessage['type'] = 'bot';
+        botMessage['message'] = getWatsonMessage(response);
+        
+        if((botMessage['link'] != null || botMessage['file'] != null) && botMessage['message'] === "I couldn't find that!"){
+          botMessage['message'] = 'Here you go!';
+        }
+        
+
+        const newMessagesBot = [...newMessages, botMessage]
+        // The current selected question should be the last two items in the messages array
+        const arrayLength = newMessagesBot.length;
+        setValues({ ...values, 
+          showing:{'question':arrayLength - 1, 'answer':arrayLength - 2},
+          messages: newMessagesBot });
+
+      })
+        .catch(function (error) {
+          console.log(error);
+        });
+
     }
 
-   
+
 
   }
 
-  const chatbotClickHandler = () =>{
+  const chatbotClickHandler = () => {
     const newStatus = !values.showChatbot;
     setValues({ ...values, showChatbot: newStatus });
 
@@ -122,26 +205,28 @@ const convertToGet = (message) =>{
   if (values.showChatbot) {
     chatbot = (
       <React.Fragment>
-     <Grow in={values.showChatbot}>
-        <Container className={classes.fab} maxWidth="false" style={{ maxWidth: '450px' }}>
-          <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler}/>
-          <ChatbotBody messages={values.messages} />
-          <MessageInput addMessageHandler={addMessageHandler} />
 
+        <Grow in={values.showChatbot}>
 
-        </Container>
+          <Container className={classes.bottomRightPosition} maxWidth="false" style={{ width: '30vw', minWidth: '400px', maxWidth: '500px' }}>
+            <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler} />
+            <ChatbotBody  showClickHandler={showClickHandler} messages={values.messages} showing={values.showing} />
+            <MessageInput addMessageHandler={addMessageHandler} />
+          </Container>
+
         </Grow>
+
       </React.Fragment>
     )
   }
 
   else {
     chatbot = (
-      
-      <Fab edge="start" className={classes.fab} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
-         <Add />
-        </Fab>
-     
+
+      <Fab edge="start" className={classes.bottomRightPosition} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
+        <Chat />
+      </Fab>
+
     )
   }
 

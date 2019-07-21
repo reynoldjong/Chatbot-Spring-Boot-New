@@ -15,11 +15,11 @@ class App extends Component {
 
   modalClickHandler = () => {
 
-    const loggedIn = !this.state.showModal;
+    const showModal = !this.state.showModal;
  
     this.setState({
       ...this.state,
-      showModal: loggedIn
+      showModal: showModal
     });
 
 

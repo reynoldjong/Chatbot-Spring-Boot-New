@@ -21,9 +21,7 @@ const navbar = (props) =>{
     else{
         navbarLinks = (
             <React.Fragment>
-                <li><button className='btn' onClick={props.modalClickHandler}>Login</button></li>
-                <Link to="/admin"> <li>Register</li></Link>
-                <Link to="/">  <li>Help</li></Link>
+                <li><button className='btn' onClick={props.modalClickHandler}>Admin Login</button></li>
                 </React.Fragment>
         );
 

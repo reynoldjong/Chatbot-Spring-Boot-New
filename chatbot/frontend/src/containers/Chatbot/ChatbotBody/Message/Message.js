@@ -1,114 +1,74 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import robot from './images/robot.png';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
-const useStyles = makeStyles({
-  root:{
-    display:'flex',
- 
-  },
-  avatar: {
-    margin: 10,
- 
-  },
-  bigAvatar: {
-    margin: 10,
-    width: 60,
-    height: 60,
-  },
-  textBot: {
-    flexGrow: 1,
-    padding: 10,
-    borderRadius: 10,
-    borderTopLeftRadius: 0,
-    width: '80%',
-    display:'block',
-    position: 'relative',
-    right: '0px',
-    backgroundColor: 'white',
-    textAlign:'left',
-    margin:'10px'
+import classes from './Message.module.css';
+         //<Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
+        // borderTopRightRadius: 0,
 
-  },
-  textHuman:{
-    flexGrow: 1,
-    padding: 10,
-    borderRadius: 10,
-    borderTopRightRadius: 0,
-    width: '80%',
-    position: 'relative',
-    right: '0px',
-    backgroundColor: 'white',
-    textAlign:'left',
-    margin:'10px'
-
-  },
-   orangeAvatar: {
-    margin: 10,
-    color: '#fff',
-    backgroundColor: '#3f51b5',
-  },
-});
 const Message = (props) => {
-  const classes = useStyles();
-  let message = null;
 
+  let message = null;
+  let rootClasses = null;
+
+  if (props.showing){
+    rootClasses = classes.root;
+   
+  }
+  else{
+    rootClasses = classes.root + ' ' + classes.OpacityLow;
+  }
   if (props.type === 'bot') {
     message = (
 
      
-      <div className={classes.root}>
-
-<Grid container spacing={1}>
-        <Grid item xs={12}>
-        <Avatar alt="Chatbot" src={robot} className={classes.avatar} />
+     
+            
+<Grid container spacing={1} className={rootClasses} onClick={props.showClickHandler}>
+        <Grid item xs={2} style={{marginRight:'0px'}}>
+   
+         
+         <div className={classes.avatar2} ></div>
+     
+ 
         </Grid>
-        <Grid item xs={12}>
-        <Box boxShadow={2} className={classes.textBot}>
+        <Grid item xs={10}>
+          <p style={{textAlign:'left',fontWeight:'500', color:'#424242', fontSize:'0.8em',letterSpacing:'0.0.8em', marginBottom:'5px'}}>DFI Chatbot</p>
+        <Box boxShadow={1} style={{border:'1px solid rgba(0,0,0,0.03)'}}className={classes.text + ' ' + classes.textBot}>
 
-          <Typography variant="body1" >
+          <p style={{fontSize:'1.1em', padding:'0px', marginTop:'0px', marginBottom:'0px'}} >
             {props.text}
-            {
-              
-              props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null
-             
-         }
-          </Typography>
+            { props.link?<a href={props.link} style={{display:'block', wordBreak:'break-word'}}>{props.link}</a>:null} </p>
          
           {
               
-               props.picture? <img src={props.picture}  width="200px" height="200px" alt="DFI visual" />:null
+               props.picture? <img src={props.picture}  width="100px" height="100px" alt="DFI visual" />:null
               
           }
-         
-     
-          
+          {
+            props.file? <p>{props.file}</p>:null
+          }
         </Box>
         </Grid></Grid>
-        </div>
+
+      
       
     );
   }
 
   else{
     message = (
-      <div className={classes.root}>
+      <div className={rootClasses} onClick={props.showClickHandler}>
         <Grid container spacing={1}>
         <Grid item xs={12}>
-         <Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
+
          </Grid>
          <Grid item xs={12}>
-        <Box boxShadow={2} className={classes.textHuman} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
+        <Box boxShadow={1} style={{border:'1px solid rgba(0,0,0,0.03)'}} className={classes.textHuman + ' ' + classes.text} style={{float:'right',backgroundColor:'#26a69a', color:'white'}}>
 
-          <Typography variant="body1" >
+          <p style={{fontSize:'1.1em', padding:'0px', marginTop:'0px', marginBottom:'0px'}}>
             {props.text}
          
-          </Typography>
+          </p>
         
         </Box>
         </Grid>
