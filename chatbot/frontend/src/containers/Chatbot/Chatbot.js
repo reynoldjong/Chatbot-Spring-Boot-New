@@ -92,6 +92,58 @@ const Chatbot = () => {
     });
     return getMessage;
   }
+
+  const getWatsonMessage = (response) =>{
+    let message = "";
+    if(response['data']['watson']['text']){
+
+      message += response['data']['watson']['text'];
+    }
+    if(response['data']['lucene']['text']){
+      message += "\n" + response['data']['lucene']['text']
+    }
+    
+    if(message === ""){
+      message = "I couldn't find that!";
+    }
+    
+      return message;
+    
+  }
+
+  const getWatsonImage = (response) =>{
+    let image = null;
+
+    if(response['data']['watson']['image']){
+     image = response['data']['watson']['image'].replace(/['"]+/g, '');
+    }
+    else if(response['data']['lucene']['image']){
+      image = response['data']['lucene']['image'].replace(/['"]+/g, '');
+    }
+    return image;
+  }
+
+  const getWatsonLink = (response) =>{
+    let link = null;
+    if (response['data']['watson']['url']) {
+      link = response['data']['watson']['url'];
+    }
+    else if(response['data']['lucene']['url']){
+      link = response['data']['lucene']['url'];
+    }
+    return link;
+  }
+
+  const getWatsonPassage = (response) =>{
+    let file = null;
+    if (response['data']['lucene']['file']) {
+      file = response['data']['lucene']['file']['passage'];
+    }
+    return file;
+
+  }
+
+
   const addMessageHandler = (event) => {
 
     event.preventDefault();
@@ -111,18 +163,25 @@ const Chatbot = () => {
       axios.get("/userquery?" + getMessage).then((response) => {
         console.log(response);
         let botMessage = {};
-        botMessage['message'] = response['data']['text'];
-
-        if (response['data']['image']) {
-          botMessage['picture'] = response['data']['image'].replace(/['"]+/g, '');
-        }
-        if (response['data']['url']) {
-          botMessage['link'] = response['data']['url'];
-        }
+        
+      
+        botMessage['picture'] = getWatsonImage(response);
+        botMessage['link'] = getWatsonLink(response);
+        botMessage['file'] = getWatsonPassage(response);
         botMessage['type'] = 'bot';
+        botMessage['message'] = getWatsonMessage(response);
+        
+        if((botMessage['link'] != null || botMessage['file'] != null) && botMessage['message'] === "I couldn't find that!"){
+          botMessage['message'] = 'Here you go!';
+        }
+        
 
         const newMessagesBot = [...newMessages, botMessage]
-        setValues({ ...values, messages: newMessagesBot });
+        // The current selected question should be the last two items in the messages array
+        const arrayLength = newMessagesBot.length;
+        setValues({ ...values, 
+          showing:{'question':arrayLength - 1, 'answer':arrayLength - 2},
+          messages: newMessagesBot });
 
       })
         .catch(function (error) {

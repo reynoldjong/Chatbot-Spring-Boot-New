@@ -37,12 +37,15 @@ const Message = (props) => {
 
           <p style={{fontSize:'1.1em', padding:'0px', marginTop:'0px', marginBottom:'0px'}} >
             {props.text}
-            { props.link?<a href={props.link} style={{display:'block'}}>{props.link}</a>:null} </p>
+            { props.link?<a href={props.link} style={{display:'block', wordBreak:'break-word'}}>{props.link}</a>:null} </p>
          
           {
               
                props.picture? <img src={props.picture}  width="100px" height="100px" alt="DFI visual" />:null
               
+          }
+          {
+            props.file? <p>{props.file}</p>:null
           }
         </Box>
         </Grid></Grid>

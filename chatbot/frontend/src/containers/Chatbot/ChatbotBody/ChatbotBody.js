@@ -36,7 +36,7 @@ const ChatbotBody = (props) => {
       return (<Message showClickHandler={() => props.showClickHandler( item.type,index,)}   key={index} showing={true} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
     }
     else {
-      return (<Message  showClickHandler={() => props.showClickHandler( item.type,index)} key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+      return (<Message  showClickHandler={() => props.showClickHandler( item.type,index)} key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} file={item.file}/>)
     }
   });
 
