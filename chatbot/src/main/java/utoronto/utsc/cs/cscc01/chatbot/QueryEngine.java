@@ -43,7 +43,6 @@ public class QueryEngine implements SearchEngine {
     QueryResponse queryResponse = discovery.federatedQuery(queryBuilder.build()).execute().getResult();
 
     List<QueryResult> resultList = queryResponse.getResults();
-    String jsonString = "{";
     // we have 4 kinds of expected return from the query
     // text, url, image, files
     Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
@@ -71,6 +70,8 @@ public class QueryEngine implements SearchEngine {
       // if this was from an uploaded file
       if (firstResult.getCollectionId().equals(wdisc.getUploadedFilesCollectionId())) {
         Map<String, Object> map = firstResult.getProperties();
+        // I have no choice but to cast them like this because I have no control
+        // over Watson returning me their own data type
         Map<String, String> fileMap = (Map<String, String>) map.get("extracted_metadata");
         String filename = fileMap.get("filename");
         String fileString = "{\"filename\":\"" + filename + "\",\"passage\":\"" + passageText + "\"}";
