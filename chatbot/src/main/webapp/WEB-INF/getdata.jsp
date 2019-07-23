@@ -5,7 +5,7 @@
 </head>
 <body>
 <form action="/getdata" method="post">
-    <input type="submit" name="getdata" value="Get Data" />
+    <input type="submit" name="getdata" value="Export Queries Data to CSV" />
 </form>
 </body>
 </html>
