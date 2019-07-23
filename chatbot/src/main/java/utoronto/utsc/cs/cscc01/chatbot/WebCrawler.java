@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class WebCrawler {
 
-    private static HashMap<String, HashMap<String, String>> links;
+    private HashMap<String, HashMap<String, String>> links;
     private int maxDepth;
 
     public WebCrawler(int maxDepth) {
@@ -89,18 +89,22 @@ public class WebCrawler {
 
     }
 
+    public HashMap<String, HashMap<String, String>> getLinks () {
+        return links;
+    }
+
     public static void main(String[] args) {
         WebCrawler wc = new WebCrawler(3);
         String url = "https://digitalfinanceinstitute.org/";
         wc.crawl(url, 0, "?page_id", "?p");
 
-        for (Map.Entry<String, HashMap<String, String>> entry : links.entrySet()) {
-            System.out.println(entry.getKey());
-            for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
-                System.out.println(entry2.getKey());
-                System.out.println(entry2.getValue());
-            }
-        }
+//        for (Map.Entry<String, HashMap<String, String>> entry : getLinks().entrySet()) {
+//            System.out.println(entry.getKey());
+//            for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
+//                System.out.println(entry2.getKey());
+//                System.out.println(entry2.getValue());
+//            }
+//        }
 
     }
 
