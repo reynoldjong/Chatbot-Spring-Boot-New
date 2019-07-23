@@ -113,12 +113,12 @@ public class HandleFilesServlet extends HttpServlet {
        System.out.println(fileName.toString());
         
         if (db.connect()) {
-            db.remove(fileName);
-
-            String text = "You successfully removed: " + fileName;
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(text);
+            if (! db.remove(fileName)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write("{\"reply\": \"Can't remove file!\"}");
+            }
             db.close();
         }
     }

@@ -2,6 +2,7 @@ package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.*;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,48 +11,18 @@ import java.util.List;
  * Admin page for handling uploading/removing files from the database
  *
  */
-public class FilesDatabaseAdmin {
+public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
-    private Connection connection;
     private String filePath = "../chatbot/files/";
     private HandleFilesEngine fileEngine;
 
     public FilesDatabaseAdmin() {
-        this.connection = null;
        
         WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
         this.fileEngine = new HandleFilesEngine(w);
  
     }
 
-
-    /**
-     * Make a connection to database
-     */
-    public boolean connect() {
-
-        // Connect to FileDatabase.db at project folder and return true if it is successful.
-        try {
-            this.connection = DriverManager.getConnection("jdbc:sqlite:Files.db");
-            return true;
-
-        } catch (SQLException e) {
-
-            System.out.println("Can't connect to database");
-            return false;
-        }
-    }
-
-    public void close() {
-
-        try {
-
-            this.connection.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**
@@ -64,7 +35,7 @@ public class FilesDatabaseAdmin {
 
         PreparedStatement stmt;
         // SQL code for insert
-        String insertSQL = "INSERT INTO FILES VALUES(?, ?, ?)";
+        String insertSQL = "INSERT INTO FILES VALUES(?, ?, ?, ?)";
 
         String existDocumentId = getDocumentId(filename);
 
@@ -81,13 +52,19 @@ public class FilesDatabaseAdmin {
                 stmt.setString(1, documentId);
                 stmt.setString(2, filename);
                 stmt.setBinaryStream(3, contentForDb, (int) size);
+                SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                Date date = new Date(System.currentTimeMillis());
+                String formattedDate = formatter.format(date);
+                stmt.setString(4, formattedDate);
                 stmt.executeUpdate();
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
             finally{
+
                 this.close();
+
             }
 
         } else {
@@ -98,7 +75,7 @@ public class FilesDatabaseAdmin {
 
     public void update(String filename, String existDocumentId, InputStream content, InputStream contentForDb,long size) {
         PreparedStatement stmt;
-        String updateSQL = "UPDATE FILES SET DOCUMENTID = ?, FILE = ? WHERE FILENAME = ?";
+        String updateSQL = "UPDATE FILES SET DOCUMENTID = ?, FILE = ?, DATE = ? WHERE FILENAME = ?";
         String documentId = this.fileEngine.updateFiles(content, filename, existDocumentId);
         try {
             this.connect();
@@ -106,13 +83,17 @@ public class FilesDatabaseAdmin {
             stmt = this.connection.prepareStatement(updateSQL);
             stmt.setString(1, documentId);
             stmt.setBinaryStream(2, contentForDb, (int) size);
-            stmt.setString(3, filename);
+            SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+            String formattedDate = formatter.format(date);
+            stmt.setString(3, formattedDate);
+            stmt.setString(4, filename);
             stmt.executeUpdate();
-         
 
         } catch (SQLException e) {
             System.err.println("Can't update file");
         }
+
         finally{
             this.close();
         }
@@ -123,7 +104,7 @@ public class FilesDatabaseAdmin {
      *
      * @param filename
      */
-    public void remove(String filename) {
+    public boolean remove(String filename) {
         PreparedStatement stmt;
         String documentId = getDocumentId(filename);
         // SQL code for delete
@@ -138,13 +119,15 @@ public class FilesDatabaseAdmin {
                 stmt = this.connection.prepareStatement(deleteSQL);
                 stmt.setString(1, filename);
                 stmt.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
-            finally{
+            finally {
                 this.close();
             }
         }
+        return false;
     }
 
 //    /**
@@ -224,7 +207,8 @@ public class FilesDatabaseAdmin {
             while (result.next()) {
                 int id = result.getInt("documentId");
                 String filename = result.getString("filename");
-                UploadedFile file = new UploadedFile(id, filename);
+                String date = result.getString("date");
+                UploadedFile file = new UploadedFile(id, filename, date);
     
                 listUploadedFile.add(file);
             }
@@ -239,6 +223,16 @@ public class FilesDatabaseAdmin {
         }
         return listUploadedFile;
        
+    }
+
+    public static void main(String[] args) {
+
+        FilesDatabaseAdmin db = new FilesDatabaseAdmin();
+        if (db.connect()) {
+            db.remove("MSIN3004 notes.docx");
+
+        }
+
     }
 
 }
