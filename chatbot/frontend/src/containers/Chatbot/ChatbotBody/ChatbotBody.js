@@ -30,14 +30,59 @@ const ChatbotBody = (props) => {
   const length = props.messages.length;
 
   let messages = props.messages.map((item, index) => {
-    console.log(props);
+    console.log(item);
+    if(item.type === "bot"){
+
+   
     if (index === props.showing['question'] || index === props.showing['answer']) {
-      
-      return (<Message showClickHandler={() => props.showClickHandler( item.type,index,)}   key={index} showing={true} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} />)
+
+      return (<Message showClickHandler={() => props.showClickHandler(item.type, index)} 
+      key={index} 
+      showing={true} type={item.type} 
+      id="bottom"
+      watsonText={item.watson.message} 
+      watsonPicture={item.watson.picture} 
+      watsonLink={item.watson.link} 
+      luceneText={item.lucene.message}
+      lucenePicture={item.lucene.picture}
+      luceneLink={item.lucene.link}
+      />)
     }
     else {
-      return (<Message  showClickHandler={() => props.showClickHandler( item.type,index)} key={index} showing={false} type={item.type} id="bottom" text={item.message} picture={item.picture} link={item.link} file={item.file}/>)
+      return (<Message showClickHandler={() => props.showClickHandler(item.type, index)}
+       key={index} showing={false} 
+       type={item.type} 
+       id="bottom"
+       watsonText={item.watson.message} 
+      watsonPicture={item.watson.picture} 
+      watsonLink={item.watson.link}
+      luceneText={item.lucene.message}
+      lucenePicture={item.lucene.picture}
+      luceneLink={item.lucene.link}
+       />)
     }
+  }
+  else{
+    if (index === props.showing['question'] || index === props.showing['answer']) {
+
+      return (<Message showClickHandler={() => props.showClickHandler(item.type, index)} 
+      key={index} 
+      showing={true} type={item.type} 
+      id="bottom"
+      text={item.message} 
+      picture={item.picture} link={item.link} />)
+    }
+    else {
+      return (<Message showClickHandler={() => props.showClickHandler(item.type, index)}
+       key={index} showing={false} 
+       type={item.type} 
+       id="bottom"
+        text={item.message}
+        picture={item.picture}
+         link={item.link} 
+         file={item.file} />)
+    }
+  }
   });
 
   // Div with id at bottom is used as a dummy div to ensure that we

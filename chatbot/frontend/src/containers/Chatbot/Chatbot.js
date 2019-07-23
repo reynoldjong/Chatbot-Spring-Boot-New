@@ -37,11 +37,12 @@ const Chatbot = () => {
   // Functional State
 
   const [values, setValues] = React.useState({
-    messages: [{ 'type': 'bot', 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it' }, 
+    messages: [
+      { 'type': 'bot', 'watson':{ 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it'}, 'lucene':{} }, 
     { 'type': 'user', 'message': 'Hello Chatbot' },
-     { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }, 
-     { 'type': 'user', 'message': 'Hello and welcome to DFI the future chatbot' }, 
-     { 'type': 'bot', 'message': 'Hello and welcome to DFI the future chatbot' }],
+     { 'type': 'bot', 'watson':{'message': 'Hello and welcome to DFI the future chatbot' }, 'lucene':{} },
+     { 'type': 'bot', 'watson':{}, 'lucene':{} }
+    ],
     showChatbot: true,
     showing: { 'question': 0, 'answer': 1 }
   });
@@ -97,19 +98,37 @@ const Chatbot = () => {
     let message = "";
     if(response['data']['watson']['text']){
 
-      message += response['data']['watson']['text'];
+      message = response['data']['watson']['text'];
     }
-    if(response['data']['lucene']['text']){
-      message += "\n" + response['data']['lucene']['text']
-    }
-    
-    if(message === ""){
-      message = "I couldn't find that!";
-    }
-    
-      return message;
-    
+    return message;
   }
+
+    const getLuceneMessage = (response) =>{
+      let message = "";
+      if(response['data']['lucene']['text']){
+        message =  response['data']['lucene']['text']
+      }
+      return message;
+
+    }
+
+    const getLuceneFilePassage = (response) =>{
+      let file = "";
+      if(response['data']['lucene']['file']){
+        file = response['data']['lucene']['file']['passage']
+      }
+      return file;
+    }
+
+    const getWatsonFilePassage = (response) =>{
+      let file = "";
+      if (response['data']['watson']['file']) {
+        file = response['data']['watson']['file']['passage'];
+      }
+      return file;
+  
+    }
+   
 
   const getWatsonImage = (response) =>{
     let image = null;
@@ -117,10 +136,17 @@ const Chatbot = () => {
     if(response['data']['watson']['image']){
      image = response['data']['watson']['image'].replace(/['"]+/g, '');
     }
-    else if(response['data']['lucene']['image']){
+  
+    return image;
+  }
+
+  const getLuceneImage = (response) =>{
+    let image = null;
+    if(response['data']['lucene']['image']){
       image = response['data']['lucene']['image'].replace(/['"]+/g, '');
     }
     return image;
+
   }
 
   const getWatsonLink = (response) =>{
@@ -134,14 +160,38 @@ const Chatbot = () => {
     return link;
   }
 
-  const getWatsonPassage = (response) =>{
-    let file = null;
-    if (response['data']['lucene']['file']) {
-      file = response['data']['lucene']['file']['passage'];
+  const getLuceneLink = (response) =>{
+    let link = null;
+
+    if(response['data']['lucene']['url']){
+      link = response['data']['lucene']['url'];
     }
-    return file;
+    return link;
+  }
+
+  const getWatsonObject = (response) =>{
+    let watsonObject = {}
+    watsonObject['picture'] = getWatsonImage(response);
+    watsonObject['link'] = getWatsonLink(response);
+    watsonObject['file'] = getWatsonFilePassage(response);
+    watsonObject['type'] = 'bot';
+    watsonObject['message'] = getWatsonMessage(response);
+    return watsonObject
 
   }
+
+  const getLuceneObject = (response) =>{
+    let luceneMessage = {}
+    luceneMessage['picture'] = getLuceneImage(response);
+    luceneMessage['link'] = getLuceneLink(response);
+    luceneMessage['file'] = getWatsonFilePassage(response);
+    luceneMessage['type'] = 'bot';
+    luceneMessage['message'] = getLuceneMessage(response);
+    return luceneMessage
+
+  }
+
+ 
 
 
   const addMessageHandler = (event) => {
@@ -163,17 +213,19 @@ const Chatbot = () => {
       axios.get("/userquery?" + getMessage).then((response) => {
         console.log(response);
         let botMessage = {};
-        
-      
-        botMessage['picture'] = getWatsonImage(response);
-        botMessage['link'] = getWatsonLink(response);
-        botMessage['file'] = getWatsonPassage(response);
+        botMessage['watson'] = getWatsonObject(response);
+        botMessage['lucene'] = getLuceneObject(response);
         botMessage['type'] = 'bot';
-        botMessage['message'] = getWatsonMessage(response);
+      
+        // botMessage['picture'] = getWatsonImage(response);
+        // botMessage['link'] = getWatsonLink(response);
+        // botMessage['file'] = getWatsonFilePassage(response);
+        // botMessage['type'] = 'bot';
+        // botMessage['message'] = getWatsonMessage(response);
         
-        if((botMessage['link'] != null || botMessage['file'] != null) && botMessage['message'] === "I couldn't find that!"){
-          botMessage['message'] = 'Here you go!';
-        }
+        // if((botMessage['link'] != null || botMessage['file'] != null) && botMessage['message'] === "I couldn't find that!"){
+        //   botMessage['message'] = 'Here you go!';
+        // }
         
 
         const newMessagesBot = [...newMessages, botMessage]
