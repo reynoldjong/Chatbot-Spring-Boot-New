@@ -62,6 +62,8 @@ public class QueryServlet extends HttpServlet {
 		
 		// get user request from http request, and decode it so we have it standardized between browsers
 		String userQuery = req.getQueryString();
+		// have to replace all %_ with just % or we crash our decoder
+		userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
 		
 		// first try watson assistant
