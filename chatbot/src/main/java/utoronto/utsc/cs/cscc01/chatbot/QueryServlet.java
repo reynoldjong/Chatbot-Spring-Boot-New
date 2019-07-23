@@ -103,7 +103,7 @@ public class QueryServlet extends HttpServlet {
       //  result += "\"url\":" + value.get(0) + ",";
       else {
         int i = 0;
-        // write the key for json
+        // write the key for json 
         if (value.size() > 0)
           result += "\"" + key + "\":";
         // we need a list if size > 1
