@@ -8,43 +8,8 @@ import java.sql.*;
  * Admin page for handling uploading/removing files from the database
  *
  */
-public class UserDatabaseAdmin implements UserDatabase {
+public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserDatabase {
 
-    private Connection connection;
-
-    public UserDatabaseAdmin() {
-        this.connection = null;
-    }
-
-
-    /**
-     * Make a connection to database
-     */
-    public boolean connect() {
-
-        // Connect to Users.db at project folder and return true if it is successful.
-        try {
-
-            this.connection = DriverManager.getConnection("jdbc:sqlite:Users.db");
-            return true;
-
-        } catch (SQLException e) {
-
-            System.out.println("Can't connect to database");
-            return false;
-        }
-    }
-
-    public void close() {
-
-        try {
-
-            this.connection.close();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     /**
      * Insert the given information to the database, filename and the content of files
