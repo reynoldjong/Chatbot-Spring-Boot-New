@@ -8,43 +8,8 @@ import java.sql.*;
  * Admin page for handling uploading/removing files from the database
  *
  */
-public class UserDatabaseAdmin implements UserDatabase {
+public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserDatabase {
 
-    private Connection connection;
-
-    public UserDatabaseAdmin() {
-        this.connection = null;
-    }
-
-
-    /**
-     * Make a connection to database
-     */
-    public boolean connect() {
-
-        // Connect to Users.db at project folder and return true if it is successful.
-        try {
-
-            this.connection = DriverManager.getConnection("jdbc:sqlite:Users.db");
-            return true;
-
-        } catch (SQLException e) {
-
-            System.out.println("Can't connect to database");
-            return false;
-        }
-    }
-
-    public void close() {
-
-        try {
-
-            this.connection.close();
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     /**
      * Insert the given information to the database, filename and the content of files
@@ -62,6 +27,7 @@ public class UserDatabaseAdmin implements UserDatabase {
         if (pw.equals("")) {
 
             try {
+                connect();
                 // Create SQL statement for inserting
                 stmt = this.connection.prepareStatement(insertSQL);
                 stmt.setString(1, username);
@@ -70,6 +36,8 @@ public class UserDatabaseAdmin implements UserDatabase {
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+            } finally {
+                close();
             }
 
         } else {
@@ -89,12 +57,15 @@ public class UserDatabaseAdmin implements UserDatabase {
         // SQL code for delete
         String deleteSQL = "DELETE FROM USERS WHERE username = ?";
         try {
+            connect();
             // Create SQL statement for deleting
             stmt = this.connection.prepareStatement(deleteSQL);
             stmt.setString(1, username);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            close();
         }
     }
 
@@ -126,6 +97,7 @@ public class UserDatabaseAdmin implements UserDatabase {
         ResultSet rs;
         PreparedStatement stmt;
         try {
+            connect();
             stmt = this.connection.prepareStatement(sql);
             stmt.setString(1, username);
             rs = stmt.executeQuery();
@@ -136,6 +108,8 @@ public class UserDatabaseAdmin implements UserDatabase {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            close();
         }
 
         return password;
@@ -145,11 +119,7 @@ public class UserDatabaseAdmin implements UserDatabase {
 
         UserDatabaseAdmin db = new UserDatabaseAdmin();
         if (db.connect()) {
-            db.insertUser("test", "test");
-            db.insertUser("test", "test");
-            System.out.println(db.verifyUser("test", "test"));
-            System.out.println(db.verifyUser("test", "test2"));
-            db.removeUser("test");
+            db.insertUser("admin", "admin");
         }
 
     }

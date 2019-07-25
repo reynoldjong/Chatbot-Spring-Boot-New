@@ -43,8 +43,8 @@ public class CrawlerServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        doPost(request, response);
+        response.setContentType("text/html");
+        request.getRequestDispatcher("/WEB-INF/crawler.jsp").forward(request, response);
     }
 
 }

@@ -17,10 +17,12 @@ public class QueryServlet extends HttpServlet {
   private SearchEngine queryEngine;
   private SearchEngine luceneQueryEngine;
   private SearchAssistant queryAssistant;
+  private QueryDatabaseAdmin queryDatabase;
 
   public void init(ServletConfig config) {
     this.queryEngine = new QueryEngine(WatsonDiscovery.buildDiscovery());
     this.queryAssistant = new QueryAssistant(WatsonAssistant.buildAssistant());
+    this.queryDatabase = new QueryDatabaseAdmin();
     try {
       // update this when ready
       this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/index");
@@ -62,6 +64,7 @@ public class QueryServlet extends HttpServlet {
 		
 		// get user request from http request, and decode it so we have it standardized between browsers
 		String userQuery = req.getQueryString();
+		queryDatabase.insertQuery(userQuery);
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
 		
 		// first try watson assistant
