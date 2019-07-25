@@ -3,6 +3,12 @@ import classes from './Navbar.module.css';
 import image from './images/DFILogo.png';
 import { Link } from "react-router-dom";
 
+/**
+ *  Component for the navigation bar in the home page
+ * @param {props} props:
+ *  @param {bool} loggedin - bool represented whether the user is logged in or not
+ *  @param {function} logOutHandler - function for logging the user out
+ */
 const navbar = (props) =>{
     let navbarLinks = null;
 

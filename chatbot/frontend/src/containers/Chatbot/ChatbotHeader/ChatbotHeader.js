@@ -2,14 +2,13 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Close from '@material-ui/icons/Close';
-import More from '@material-ui/icons/MoreHoriz'
 import Toolbar from '@material-ui/core/Toolbar';
 import classes from './ChatbotHeader.module.css';
-import robot from '../ChatbotBody/Message/images/robot.png';
-
+/**
+ * Componenet representing header of chatbot
+ */
 const ChatbotHeader = props => {
   return (
     <div className={classes.root}>

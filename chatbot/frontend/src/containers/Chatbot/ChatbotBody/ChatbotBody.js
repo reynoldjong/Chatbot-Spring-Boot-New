@@ -12,6 +12,9 @@ const useStyles = makeStyles(theme => ({
   },
 
 }));
+/**
+ * Componenet representing the body of the chatbot
+ */
 const ChatbotBody = (props) => {
   // Everytime the component is rendered we need to scroll to bottom
   useEffect(() => {
@@ -27,13 +30,12 @@ const ChatbotBody = (props) => {
   }
 
   const classes = useStyles();
-  const length = props.messages.length;
 
   let messages = props.messages.map((item, index) => {
     console.log(item);
     if(item.type === "bot"){
 
-   
+   // If the index is the same as question or answer we doon't change the opacity
     if (index === props.showing['question'] || index === props.showing['answer']) {
 
       return (<Message showClickHandler={() => props.showClickHandler(item.type, index)} 

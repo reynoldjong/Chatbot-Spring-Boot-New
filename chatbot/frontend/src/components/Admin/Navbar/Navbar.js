@@ -1,11 +1,11 @@
 import React from 'react';
 import classes from './Navbar.module.css';
-import { Link } from "react-router-dom";
+/**
+ * Componeent represents admin navbar
+ */
 const navbar = () =>{
     return(
         <React.Fragment>
-
-     
         <nav className={classes.Navbar}>
         <div className={ "nav-wrapper  blue-grey darken-4"}>
           <a  style={{position:'relative',float:'left',clear:'both', marginLeft:'20px'}}href="/" className="brand-logo">DFI Cloud</a>

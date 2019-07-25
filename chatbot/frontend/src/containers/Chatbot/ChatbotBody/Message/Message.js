@@ -2,11 +2,22 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import classes from './Message.module.css';
-//<Avatar alt="Chatbot" color="primary" className={classes.orangeAvatar} style={{float:'right'}}> D</Avatar>
-// borderTopRightRadius: 0,
 
+/**
+ * Componenet representing a repsosne from watson and lucene
+ * @param {*} props 
+ *  @param {string} watsonText = message from Watson
+ *  @param {string} watsonPicture = picture from Watson
+ *  @param {string} watsonLink = Link from Watson
+ *  @param {string} watsonFile = File from Watson
+ *  @param {string} luceneText = message from Lucene
+ *  @param {string} lucenePicture = picture from Lucene
+ *  @param {string} luceneLink = link from Watson
+ *  @param {string} luceneFile = file from Lucene
+ */
 const Message = (props) => {
 
+  // If we recieve information from watson or lucene the messages will be filled in and displayed
   let message = null;
   let errorMessage = null;
   let messageWatson = null;

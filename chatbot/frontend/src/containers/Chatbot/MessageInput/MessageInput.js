@@ -4,8 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
-import Icon from '@material-ui/core/Icon';
-import { grey } from '@material-ui/core/colors';
 import Paper from '@material-ui/core/Paper';
 import removeClasses from './MessageInput.module.css';
 
@@ -34,7 +32,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-
+/**
+ * Componenet representing message input
+ * @param {props:function} addMessageHandler - function for adding messages
+ */
 const MessageInput = (props) => {
 
     const classes = useStyles();
@@ -43,15 +44,11 @@ const MessageInput = (props) => {
         <div className={classes.root}>
              <form onSubmit={props.addMessageHandler} autocomplete="off">
             <Paper>
-
-
                 <Grid container spacing={0}>
                
                     <Grid item xs={10}>
                  
                         <div className={removeClasses.Remove}>
-                           
-
                             <TextField
                                 id="standard-name"
                                 label="message"

@@ -4,7 +4,12 @@ import AdminDocuments from "./AdminDocuments/AdminDocuments";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Navbar from "./Navbar/Navbar";
 import Dashboard from './Dashboard/dashboard';
+/**
+ * Componenet represents main admin page
+ */
 const admin = (props) => {
+  // If the user is not logged in we will display an error message otherwise
+  // the admin dashboard will be displayed
   let admin = null;
 
   if (props.loggedIn) {
@@ -14,9 +19,6 @@ const admin = (props) => {
       <React.Fragment>
           <Navbar />
           <AdminDocuments files={props.files} removeFileHandler={props.removeFileHandler} viewAllFilesHandler={props.viewAllFilesHandler} addFileHandler={props.addFileHandler} />
-        
-     
-      
       </React.Fragment>
 
     );
@@ -30,15 +32,3 @@ const admin = (props) => {
 };
 
 export default admin;
-/*
-<Route 
-exact path="/admin/" 
-render={(props)=> <Dashboard {...props}  />}
-/>
-
-
-<Route 
-path="/admin/documents/" 
-render={(props)=> <AdminDocuments {...props} addFileHandler={props.addFileHandler} />}
-/>
-*/

@@ -2,6 +2,9 @@ import React from 'react';
 import classes from './Hero.module.css';
 import image from './images/office.jpg'
 import Particles from 'react-particles-js';
+/**
+ * Component for the hero image in Home
+ */
 const hero = () =>{
     const particleOptions={
         particles:{
@@ -10,7 +13,6 @@ const hero = () =>{
             }
         }
     };
-
     return(
         <div className={classes.Hero + ' z-depth-3'}>
             <div className={classes.TextPosition}>

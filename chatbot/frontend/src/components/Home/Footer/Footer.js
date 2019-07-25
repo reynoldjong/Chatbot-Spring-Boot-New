@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Component for the footer in Home, mostly filler content
+ */
 const footer = () =>{
     return(
         <React.Fragment>
