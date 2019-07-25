@@ -27,6 +27,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
         if (pw.equals("")) {
 
             try {
+                connect();
                 // Create SQL statement for inserting
                 stmt = this.connection.prepareStatement(insertSQL);
                 stmt.setString(1, username);
@@ -35,6 +36,8 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
+            } finally {
+                close();
             }
 
         } else {
@@ -54,12 +57,15 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
         // SQL code for delete
         String deleteSQL = "DELETE FROM USERS WHERE username = ?";
         try {
+            connect();
             // Create SQL statement for deleting
             stmt = this.connection.prepareStatement(deleteSQL);
             stmt.setString(1, username);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            close();
         }
     }
 
@@ -91,6 +97,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
         ResultSet rs;
         PreparedStatement stmt;
         try {
+            connect();
             stmt = this.connection.prepareStatement(sql);
             stmt.setString(1, username);
             rs = stmt.executeQuery();
@@ -101,6 +108,8 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            close();
         }
 
         return password;
@@ -110,11 +119,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
 
         UserDatabaseAdmin db = new UserDatabaseAdmin();
         if (db.connect()) {
-            db.insertUser("test", "test");
-            db.insertUser("test", "test");
-            System.out.println(db.verifyUser("test", "test"));
-            System.out.println(db.verifyUser("test", "test2"));
-            db.removeUser("test");
+            db.insertUser("admin", "admin");
         }
 
     }

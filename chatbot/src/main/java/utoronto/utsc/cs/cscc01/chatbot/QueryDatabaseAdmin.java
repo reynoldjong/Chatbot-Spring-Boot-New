@@ -20,7 +20,9 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
         // SQL code for insert
         String insertSQL = "INSERT INTO QUERIES(QUERY, FREQUENCY) VALUES(?, ?)";
 
-        int frequency = getFrequency(query);
+        String trimmedQuery = query.trim().replaceFirst("^[^a-zA-Z0-9]+", "").replaceAll("[^a-zA-Z0-9]+$", "");
+
+        int frequency = getFrequency(trimmedQuery);
 
         if (frequency == 0) {
 
@@ -28,7 +30,7 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
                 this.connect();
                 // Create SQL statement for inserting
                 stmt = this.connection.prepareStatement(insertSQL);
-                stmt.setString(1, query);
+                stmt.setString(1, trimmedQuery);
                 stmt.setInt(2, 1);
                 stmt.executeUpdate();
 
@@ -37,7 +39,7 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
             }
 
         } else {
-            update(query, frequency);
+            update(trimmedQuery, frequency);
         }
     }
 
@@ -89,7 +91,7 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
     }
 
     public void extractCSV() {
-        File file = new File("../chatbot/files");
+
         String selectSQL = "SELECT * FROM QUERIES ORDER BY QUERY";
         ResultSet rs;
         PreparedStatement stmt;
@@ -99,7 +101,7 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
             stmt = this.connection.prepareStatement(selectSQL);
             rs = stmt.executeQuery();
             // Open CSV file.
-            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/query_data.csv"));
+            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/queriesData.csv"));
 
             writer.writeAll(rs, true);
 
@@ -107,8 +109,10 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+
         } catch (IOException e) {
             e.printStackTrace();
+
         } finally{
             this.close();
         }
@@ -117,9 +121,6 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
 
     public static void main (String args[]) {
         QueryDatabaseAdmin qb = new QueryDatabaseAdmin();
-        qb.insertQuery("What is DFI?");
-        qb.insertQuery("How are you?");
-        qb.insertQuery("What is DFI?");
         qb.extractCSV();
     }
 

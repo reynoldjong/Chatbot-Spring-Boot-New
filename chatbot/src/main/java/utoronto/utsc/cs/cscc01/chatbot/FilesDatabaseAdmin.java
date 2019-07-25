@@ -24,7 +24,6 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
     }
 
 
-
     /**
      * Insert the given information to the database, filename and the content of files
      *
@@ -46,7 +45,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
             String documentId = this.fileEngine.uploadFiles(content, filename);
 
             try {
-                this.connect();
+                connect();
                 // Create SQL statement for inserting
                 stmt = this.connection.prepareStatement(insertSQL);
                 stmt.setString(1, documentId);
@@ -61,9 +60,10 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
+
             finally{
 
-                this.close();
+                close();
 
             }
 
@@ -78,7 +78,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         String updateSQL = "UPDATE FILES SET DOCUMENTID = ?, FILE = ?, DATE = ? WHERE FILENAME = ?";
         String documentId = this.fileEngine.updateFiles(content, filename, existDocumentId);
         try {
-            this.connect();
+            connect();
             // Create SQL statement for inserting
             stmt = this.connection.prepareStatement(updateSQL);
             stmt.setString(1, documentId);
@@ -95,7 +95,8 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         }
 
         finally{
-            this.close();
+
+            close();
         }
     }
 
@@ -114,7 +115,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
         if (result.equals("deleted")) {
             try {
-                this.connect();
+                connect();
                 // Create SQL statement for deleting
                 stmt = this.connection.prepareStatement(deleteSQL);
                 stmt.setString(1, filename);
@@ -124,7 +125,8 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
                 System.out.println(e.getMessage());
             }
             finally {
-                this.close();
+
+                close();
             }
         }
         return false;
@@ -174,7 +176,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         String documentId = "";
 
         try {
-            this.connect();
+            connect();
             stmt = this.connection.prepareStatement(selectSQL);
             stmt.setString(1, filename);
             rs = stmt.executeQuery();
@@ -187,7 +189,8 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
             System.out.println(e.getMessage());
         }
         finally{
-            this.close();
+
+            close();
         }
 
         return documentId;
@@ -196,30 +199,31 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
     public List<UploadedFile> list() throws SQLException {
         List<UploadedFile> listUploadedFile = new ArrayList<>();
         try{
-          
-           
+
+
             String sql = "SELECT * FROM files ORDER BY filename";
-            this.connect();
+            connect();
 
             Statement statement = this.connection.createStatement();
             ResultSet result = statement.executeQuery(sql);
-    
+
             while (result.next()) {
                 int id = result.getInt("documentId");
                 String filename = result.getString("filename");
                 String date = result.getString("date");
                 UploadedFile file = new UploadedFile(id, filename, date);
-    
+
                 listUploadedFile.add(file);
             }
-    
-            
+
+
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
         }
         finally{
-            this.close();
+
+            close();
         }
         return listUploadedFile;
        
@@ -228,10 +232,8 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
     public static void main(String[] args) {
 
         FilesDatabaseAdmin db = new FilesDatabaseAdmin();
-        if (db.connect()) {
             db.remove("MSIN3004 notes.docx");
 
-        }
 
     }
 
