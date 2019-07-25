@@ -1,14 +1,12 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 @WebServlet(urlPatterns = "/getdata")
 
@@ -17,19 +15,19 @@ public class GetDataServlet extends HttpServlet {
     private QueryDatabaseAdmin qd;
 
     public void init () {
-        QueryDatabaseAdmin qd = new QueryDatabaseAdmin();
+        this.qd = new QueryDatabaseAdmin();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
     {
-
         if (request.getParameter("getdata") != null) {
             response.setContentType("text/csv");
-            response.setHeader("Content-Disposition", "attachment; filename=queries_data.csv");
+            response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
             try {
                 qd.extractCSV();
-                InputStream inStream = new FileInputStream(new File("../chatbot/files/query_data.csv"));
+
+                InputStream inStream = new FileInputStream(new File("../chatbot/files/queriesData.csv"));
                 OutputStream outputStream = response.getOutputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -39,15 +37,17 @@ public class GetDataServlet extends HttpServlet {
                 }
                 outputStream.flush();
                 outputStream.close();
-            } catch (Exception e) {
+
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
+
             }
         }
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-        doPost(request, response);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
     }
 
 

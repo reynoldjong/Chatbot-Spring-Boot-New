@@ -34,17 +34,21 @@ abstract class AbstractDatabaseAdmin {
     /**
      * Close a database connection if it is connected
      */
-    public void close() {
+    public boolean close() {
 
         if (this.connection != null) {
             try {
 
                 this.connection.close();
 
+                return true;
+
             } catch (SQLException e) {
+
                 System.out.println(e.getMessage());
             }
         }
+        return false;
     }
 
 
