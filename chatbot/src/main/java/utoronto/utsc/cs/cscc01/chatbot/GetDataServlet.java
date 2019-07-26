@@ -12,22 +12,46 @@ import java.io.*;
 
 public class GetDataServlet extends HttpServlet {
 
-    private QueryDatabaseAdmin qd;
+    private QueryDatabaseAdmin queryDb;
+    private FeedbackDatabaseAdmin feedbackDb;
 
     public void init () {
-        this.qd = new QueryDatabaseAdmin();
+        this.queryDb = new QueryDatabaseAdmin();
+        this.feedbackDb = new FeedbackDatabaseAdmin();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response)
     {
-        if (request.getParameter("getdata") != null) {
+        if (request.getParameter("getQueries") != null) {
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
             try {
-                qd.extractCSV();
+                this.queryDb.extractCSV();
 
                 InputStream inStream = new FileInputStream(new File("../chatbot/files/queriesData.csv"));
+                OutputStream outputStream = response.getOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                outputStream.flush();
+                outputStream.close();
+
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+
+            }
+
+        } else if (request.getParameter("getFeedback") != null) {
+            response.setContentType("text/csv");
+            response.setHeader("Content-Disposition", "attachment; filename=feedbackData.csv");
+            try {
+                this.feedbackDb.extractCSV();
+
+                InputStream inStream = new FileInputStream(new File("../chatbot/files/feedbackData.csv"));
                 OutputStream outputStream = response.getOutputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -47,6 +71,8 @@ public class GetDataServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.setAttribute("average", feedbackDb.getAverage());
         request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
     }
 
