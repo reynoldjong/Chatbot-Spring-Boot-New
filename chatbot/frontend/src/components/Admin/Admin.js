@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Admin.module.css";
 import AdminDocuments from "./AdminDocuments/AdminDocuments";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import Navbar from "./Navbar/Navbar";
+import Navbar from "./Navbar/Navbar2";
 import Dashboard from './Dashboard/dashboard';
 /**
  * Componenet represents main admin page
