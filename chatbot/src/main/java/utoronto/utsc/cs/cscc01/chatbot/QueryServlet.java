@@ -64,6 +64,8 @@ public class QueryServlet extends HttpServlet {
 		
 		// get user request from http request, and decode it so we have it standardized between browsers
 		String userQuery = req.getQueryString();
+		// have to replace all %_ with just % or we crash our decoder
+		userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
 		queryDatabase.insertQuery(userQuery);
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
 		
@@ -104,7 +106,7 @@ public class QueryServlet extends HttpServlet {
       //  result += "\"url\":" + value.get(0) + ",";
       else {
         int i = 0;
-        // write the key for json
+        // write the key for json 
         if (value.size() > 0)
           result += "\"" + key + "\":";
         // we need a list if size > 1
