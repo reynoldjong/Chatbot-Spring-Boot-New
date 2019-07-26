@@ -3,7 +3,7 @@ import Hero from './Hero/Hero';
 import AboutUs from './AboutUs/AboutUs';
 import Features from './Features/Features';
 import Chatbot from '../../containers/Chatbot/Chatbot';
-import Navbar from './Navbar/Navbar';
+import Navbar from './Navbar/Navbar2';
 import Login from './Login/Login';
 import Footer from './Footer/Footer';
 /**

@@ -30,8 +30,8 @@ const navbar = (props) =>{
                 <li><button className='btn' onClick={props.modalClickHandler}>Admin Login</button></li>
                 </React.Fragment>
         );
-
     }
+    
     return(
         <React.Fragment>
             <div className={classes.NavbarFixed}>

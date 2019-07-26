@@ -8,18 +8,26 @@ import Chat from '@material-ui/icons/Chat';
 import Fab from '@material-ui/core/Fab';
 import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
+import Box from '@material-ui/core/Box';
+import shadow from './Chatbot.module.css';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
-    width: 450,
-    position: 'relative',
+    display:'flex',
+    flexDirection:'column',
+    width: '25vw',
+    minWidth:'300px',
+    maxWidth:'400px',
+    maxHeight:'550px',
+   overflow:'hidden',
+    padding:'0px',
+    
   },
 
   bottomRightPosition: {
     position: 'fixed',
-    bottom: 15,
-    right: 15,
+    bottom: '3vh',
+    right: '1vw',
 
   },
 
@@ -323,15 +331,22 @@ const Chatbot = () => {
       <React.Fragment>
 
         <Grow in={values.showChatbot}>
+        
 
-          <Container className={classes.bottomRightPosition} maxWidth="false" style={{ width: '30vw', minWidth: '400px', maxWidth: '500px' }}>
+          <Container className={classes.bottomRightPosition + ' ' + classes.root + ' ' + shadow.Shadow} maxWidth="false" >
+            
+
             <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler} />
+          
             <ChatbotBody showClickHandler={showClickHandler} messages={values.messages} showing={values.showing} />
+          
             <MessageInput addMessageHandler={addMessageHandler} />
+           
+        
           </Container>
-
+      
         </Grow>
-
+ 
       </React.Fragment>
     )
   }

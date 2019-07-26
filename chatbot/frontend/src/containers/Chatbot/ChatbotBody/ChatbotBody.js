@@ -5,10 +5,16 @@ import Message from './Message/Message';
 //'#F4F4F4'
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3, 2),
+    
     backgroundColor: 'white',
-    maxHeight: '500px',
-    overflowY: 'scroll'
+    overflowX:'hidden',
+    overflowY: 'scroll',
+    flex:1,
+    maxHeight:'50vh',
+    borderBottomRightRadius:'0px',
+        borderBottomLeftRadius:'0px',
+        borderTopRightRadius:'0px',
+        borderTopLeftRadius:'0px',
   },
 
 }));
@@ -91,7 +97,7 @@ const ChatbotBody = (props) => {
   // can keep the chat at the bottom
   return (
     <div>
-      <Paper className={classes.root} id="out" style={{ maxHeight: '60vh', minHeight: '50vh' }}>
+      <Paper className={classes.root} id="out">
         {
           messages
         }

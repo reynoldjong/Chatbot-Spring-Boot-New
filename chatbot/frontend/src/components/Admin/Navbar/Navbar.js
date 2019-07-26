@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './Navbar.module.css';
+import { Link } from "react-router-dom";
 /**
  * Componeent represents admin navbar
  */

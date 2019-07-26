@@ -37,7 +37,7 @@ const Message = (props) => {
   }
   if (props.type === 'bot') {
     messageWatson = (
-      <Grid container spacing={1} className={rootClasses} onClick={props.showClickHandler}>
+      <Grid container spacing={1} style={{margin:'10px'}}className={rootClasses} onClick={props.showClickHandler}>
         <Grid item xs={2} style={{ marginRight: '0px' }}>
           <div className={classes.avatar2} ></div>
         </Grid>

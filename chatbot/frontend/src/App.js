@@ -20,7 +20,7 @@ class App extends Component {
    * 
    */
   state = {
-    loggedIn: false,
+    loggedIn: true,
     showModal: false,
     files: [],
   }
@@ -56,7 +56,7 @@ class App extends Component {
    * alter change the loggedIn part of state to True
    * @event
    */
-  loginHandler = async = (event) => {
+  loginHandler = async (event) => {
     event.preventDefault();
     // Get variables from event
     const target = event.target;
@@ -70,8 +70,7 @@ class App extends Component {
     }
 
     // Make Post request but data must be altered with qs.stringify
-   let rest = await axios.post('/login', qs.stringify(data))
-      .then((response) => {
+   let res = await axios.post('/login', qs.stringify(data)).then((response) => {
         // If request is successful then set loggedIn to what response['data']['authenticated']
         // returns
         const status = response['data']['authenticated'];
@@ -92,7 +91,7 @@ class App extends Component {
   * adds a file to Files.db
   * @event 
  */
-  addFileHandler = async = (event) => {
+  addFileHandler = async (event) => {
     // Get the data from event and add it to a form
     event.preventDefault();
     const target = event.target;

@@ -56,8 +56,7 @@
 }
 
 .Shadow{
-    z-index:999;
-    -webkit-box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
-    -moz-box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
-    box-shadow: -12px 10px 5px 0px rgba(0,0,0,0.11);
+    -webkit-box-shadow: -5px 10px 5px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: -5px 10px 5px 0px rgba(0,0,0,0.15);
+    box-shadow: -5px 10px 5px 0px rgba(0,0,0,0.15);
 }
