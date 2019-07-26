@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
 @WebServlet(urlPatterns = "/webcrawler")
@@ -17,7 +18,7 @@ public class CrawlerServlet extends HttpServlet {
 
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("text/html");
 
@@ -27,17 +28,10 @@ public class CrawlerServlet extends HttpServlet {
         this.crawler = new WebCrawler(Integer.parseInt(depth));
         crawler.crawl(url, 0, "?page_id", "?p");
 
-        String text = "Website is crawled";
-        response.setContentType("text/plain");
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        try {
-            response.getWriter().write(text);
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
-
+        PrintWriter writer = response.getWriter();
+        writer.write("{\"reply\": \"Website is crawled\"}");
 
     }
 

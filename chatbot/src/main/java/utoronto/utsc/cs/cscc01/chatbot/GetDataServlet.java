@@ -21,12 +21,10 @@ public class GetDataServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-    {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getParameter("getQueries") != null) {
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
-            try {
                 this.queryDb.extractCSV();
 
                 InputStream inStream = new FileInputStream(new File("../chatbot/files/queriesData.csv"));
@@ -40,15 +38,10 @@ public class GetDataServlet extends HttpServlet {
                 outputStream.flush();
                 outputStream.close();
 
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-
-            }
 
         } else if (request.getParameter("getFeedback") != null) {
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=feedbackData.csv");
-            try {
                 this.feedbackDb.extractCSV();
 
                 InputStream inStream = new FileInputStream(new File("../chatbot/files/feedbackData.csv"));
@@ -62,10 +55,6 @@ public class GetDataServlet extends HttpServlet {
                 outputStream.flush();
                 outputStream.close();
 
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-
-            }
         }
     }
 
