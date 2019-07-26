@@ -19,7 +19,7 @@ public class TextToSpeechServlet extends HttpServlet {
   }
   
   @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
     // front end needs to pass in this parameter
     // String text = req.getQueryString(); -- for testing
