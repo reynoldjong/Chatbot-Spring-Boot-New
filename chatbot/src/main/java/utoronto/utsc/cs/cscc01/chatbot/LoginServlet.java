@@ -20,7 +20,6 @@ public class LoginServlet extends HttpServlet {
   
   public void init(ServletConfig config) {
     this.db = new UserDatabaseAdmin();
-    db.connect();
   }
   
   @Override

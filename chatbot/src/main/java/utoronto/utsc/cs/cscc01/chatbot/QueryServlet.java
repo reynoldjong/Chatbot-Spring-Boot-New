@@ -17,10 +17,12 @@ public class QueryServlet extends HttpServlet {
   private SearchEngine queryEngine;
   private SearchEngine luceneQueryEngine;
   private SearchAssistant queryAssistant;
+  private QueryDatabaseAdmin queryDatabase;
 
   public void init(ServletConfig config) {
     this.queryEngine = new QueryEngine(WatsonDiscovery.buildDiscovery());
     this.queryAssistant = new QueryAssistant(WatsonAssistant.buildAssistant());
+    this.queryDatabase = new QueryDatabaseAdmin();
     try {
       // update this when ready
       this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/index");
@@ -64,6 +66,7 @@ public class QueryServlet extends HttpServlet {
 		String userQuery = req.getQueryString();
 		// have to replace all %_ with just % or we crash our decoder
 		userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+		queryDatabase.insertQuery(userQuery);
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
 		
 		// first try watson assistant
