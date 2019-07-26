@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DragAndDrop from "./DragAndDrop/DragAndDrop";
 import axios from "axios";
-
+import qs from 'qs';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -84,12 +84,43 @@ const AdminDocuments = props => {
       .post("/handlefiles", data)
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
-        props.viewAllFilesHandler();
+       
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+      props.viewAllFilesHandler();
+  };
+
+  const getCsvOfData = async ()=>{
+    let data = new FormData();
+    data.append("getQueries", "please");
+
+        // Create JSON object
+        const data2 = {
+          "getQueries": "please",
+          
+        }
+
+    let res = await axios
+      .post("/getdata", qs.stringify(data2))
+      .then(response => {
+        // viewAllFilesHandler needs to be called to update the file list being displayed
+        console.log(response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'data.csv'); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+
       })
       .catch(function(error) {
         console.log(error);
       });
   };
+
+  
 
   return (
     <React.Fragment>
@@ -150,6 +181,21 @@ const AdminDocuments = props => {
             >
               Take a look at what DFI's chatbot is thinking about
             </Typography>
+            <Button
+              onClick={getCsvOfData}
+              type="submit"
+              color="secondary"
+              variant="contained"
+              style={{
+                display: "block",
+                marginTop: "20px",
+                position: "relative",
+                marginLeft: "auto",
+                marginBottom:'20px',
+              }}
+            >
+              export to csv
+            </Button>
 
             <DocumentTable
               removeFileHandler={props.removeFileHandler}

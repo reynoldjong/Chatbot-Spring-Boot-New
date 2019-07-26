@@ -22,7 +22,10 @@ public class GetDataServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println(request.getParameter("getQueries"));
+
         if (request.getParameter("getQueries") != null) {
+            System.out.println("hello");
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
                 this.queryDb.extractCSV();
