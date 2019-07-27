@@ -25,13 +25,15 @@ public class FeedbackServlet extends HttpServlet {
         Enumeration e = request.getParameterNames();
         int rating = 0;
         String comments = "";
+       
         while (e.hasMoreElements()) {
             String fieldName = (String) e.nextElement();
             if (fieldName.equals("rating")) {
                 rating = Integer.parseInt(request.getParameter(fieldName));
-
+               
             } else if (fieldName.equals("comments")) {
                 comments = request.getParameter(fieldName);
+        
             }
         }
 
@@ -49,6 +51,7 @@ public class FeedbackServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request, response);
     }
+
 
 
 }

@@ -50,10 +50,10 @@ const Navbar2 = props => {
               {" "}
               Home{" "}
             </Link>
-            <Link className={classes.title} to="/admin/documents">
+            <Link className={classes.title} to="/admin">
               Document Management{" "}
             </Link>
-            <Link className={classes.title} to="/admin/documents">
+            <Link className={classes.title} to="/admin/feedback">
               {" "}
               Chatbot Ratings
             </Link>

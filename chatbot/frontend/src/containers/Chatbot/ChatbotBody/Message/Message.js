@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import classes from './Message.module.css';
-
+import Rating from './Rating/Rating';
 /**
  * Componenet representing a repsosne from watson and lucene
  * @param {*} props 
@@ -37,6 +37,9 @@ const Message = (props) => {
   }
   if (props.type === 'bot') {
     messageWatson = (
+     <React.Fragment>
+        
+    
       <Grid container spacing={1} style={{margin:'10px'}}className={rootClasses} onClick={props.showClickHandler}>
         <Grid item xs={2} style={{ marginRight: '0px' }}>
           <div className={classes.avatar2} ></div>
@@ -60,6 +63,7 @@ const Message = (props) => {
           </Box>
         </Grid>
         </Grid>
+        </React.Fragment>
     );
     if(props.luceneText || props.lucenePicture || props.luceneLink || props.luceneFile)
    { messageLucene = (

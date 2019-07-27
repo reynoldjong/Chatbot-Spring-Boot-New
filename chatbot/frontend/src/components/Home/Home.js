@@ -17,6 +17,7 @@ import Footer from './Footer/Footer';
  */
 const home = (props) =>{
     document.body.style = 'background: white';
+ 
     return(
         <React.Fragment>
             <Login showModal={props.showModal} loginHandler={props.loginHandler}  modalClickHandler={props.modalClickHandler}/>

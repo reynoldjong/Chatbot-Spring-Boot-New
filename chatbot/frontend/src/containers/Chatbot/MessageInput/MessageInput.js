@@ -9,7 +9,7 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flex: 1,
+        flex: '1 100%',
         borderTop: '1px solid #ccc',
         margin: '0px',
         padding: '0px',

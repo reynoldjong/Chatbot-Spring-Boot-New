@@ -10,12 +10,14 @@ import Grow from '@material-ui/core/Grow';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import shadow from './Chatbot.module.css';
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display:'flex',
     flexDirection:'column',
-    width: '25vw',
+    flexWrap:'no-wrap',
+    width: '20vw',
     minWidth:'300px',
     maxWidth:'400px',
     maxHeight:'550px',
@@ -29,6 +31,15 @@ const useStyles = makeStyles(theme => ({
     bottom: '3vh',
     right: '1vw',
 
+  },
+    paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 4),
+    outline: 'none',
   },
 
 }));

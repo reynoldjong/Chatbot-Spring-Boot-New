@@ -3,6 +3,8 @@ import './App.css';
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './components/Home/Home';
 import Admin from './components/Admin/Admin';
+import AdminDocuments from './components/Admin/AdminDocuments/AdminDocuments';
+import AdminFeedback from './components/Admin/AdminFeedback/AdminFeedback';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -20,7 +22,7 @@ class App extends Component {
    * 
    */
   state = {
-    loggedIn: true,
+    loggedIn: false,
     showModal: false,
     files: [],
   }
@@ -147,6 +149,10 @@ class App extends Component {
       });
   }
 
+  viewAllFeedbackHandler = () =>{
+
+  }
+
   render() {
     return (
       <div className="App">
@@ -163,10 +169,31 @@ class App extends Component {
             />}
           />
 
-          <Route
-            path="/admin"
-            render={(props) => <Admin {...props} removeFileHandler={this.removeFileHandler} files={this.state.files} viewAllFilesHandler={this.viewAllFilesHandler} addFileHandler={this.addFileHandler} loggedIn={this.state.loggedIn} />}
+          
+        <Route
+            exact path="/admin"
+            render={(props) => <AdminDocuments {...props}  
+            files={this.state.files} 
+            removeFileHandler={this.removeFileHandler}
+             viewAllFilesHandler={this.viewAllFilesHandler}
+              addFileHandler={this.addFileHandler} 
+              loggedIn={this.state.loggedIn}
+              />}
           />
+
+
+<Route
+            exact path="/admin/feedback"
+            render={(props) => <AdminFeedback {...props}  
+           
+            removeFileHandler={this.removeFileHandler}
+             viewAllFilesHandler={this.viewAllFilesHandler}
+              addFileHandler={this.addFileHandler} 
+              loggedIn={this.state.loggedIn}
+              />}
+          />
+        
+         
 
           <Router />
 

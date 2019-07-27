@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import DragAndDrop from "./DragAndDrop/DragAndDrop";
 import axios from "axios";
 import qs from 'qs';
+import Navbar from '../Navbar/Navbar2';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -92,6 +93,9 @@ const AdminDocuments = props => {
       props.viewAllFilesHandler();
   };
 
+  /**
+   * function downloads an export of all data uploaded to Watson
+   */
   const getCsvOfData = async ()=>{
     let data = new FormData();
     data.append("getQueries", "please");
@@ -110,7 +114,7 @@ const AdminDocuments = props => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'data.csv'); //or any other extension
+        link.setAttribute('download', 'documents.csv'); //or any other extension
         document.body.appendChild(link);
         link.click();
 
@@ -120,10 +124,13 @@ const AdminDocuments = props => {
       });
   };
 
-  
-
-  return (
-    <React.Fragment>
+  // makes background a bit darker so it's easier on the eyes
+  document.body.style = "background: rgba(0,0,0,0.05);";
+console.log(props);
+  let admin = null;
+  if(props.loggedIn === true){
+    admin = (<React.Fragment>
+      <Navbar/>
       <Box marginTop={3}>
         <Container maxWidth="md">
           <Paper className={classes.root}>
@@ -204,6 +211,15 @@ const AdminDocuments = props => {
           </Paper>
         </Container>
       </Box>
+    </React.Fragment>)
+  }
+  else{
+    admin = <h2>Not Logged In</h2>
+  }
+  return (
+    
+    <React.Fragment>
+    {admin}
     </React.Fragment>
   );
 };

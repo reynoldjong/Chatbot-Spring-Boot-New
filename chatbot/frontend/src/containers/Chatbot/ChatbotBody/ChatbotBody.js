@@ -9,8 +9,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: 'white',
     overflowX:'hidden',
     overflowY: 'scroll',
-    flex:1,
-    maxHeight:'50vh',
+    flex:'1',
+    maxHeight:'420px',
+    height:'50vh',
+    
+   
     borderBottomRightRadius:'0px',
         borderBottomLeftRadius:'0px',
         borderTopRightRadius:'0px',
