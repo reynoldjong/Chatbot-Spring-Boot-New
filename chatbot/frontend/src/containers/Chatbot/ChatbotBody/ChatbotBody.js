@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Message from './Message/Message';
+import media from './ChatbotBody.module.css';
+
 //'#F4F4F4'
 const useStyles = makeStyles(theme => ({
   root: {
@@ -100,7 +102,7 @@ const ChatbotBody = (props) => {
   // can keep the chat at the bottom
   return (
     <div>
-      <Paper className={classes.root} id="out">
+      <Paper className={media.root} id="out">
         {
           messages
         }

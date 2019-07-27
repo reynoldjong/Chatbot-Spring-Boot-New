@@ -12,16 +12,9 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import FeedbackModal from '../Feedback/Feedback';
+import media from './ChatbotHeader.module.css';
 const useStyles = makeStyles(theme => ({
-  root: {
-    flex: '1 ',
-    borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
-  },
-  shadow: {
-    borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
-  },
+
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -51,7 +44,7 @@ const ChatbotHeader = props => {
   }
   return (<React.Fragment>
   
-    <AppBar position="static" className={classes.root}>
+    <AppBar position="static" className={media.root}>
      
       <Box boxShadow={3} >
 

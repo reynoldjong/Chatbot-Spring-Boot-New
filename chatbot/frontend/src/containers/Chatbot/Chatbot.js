@@ -11,17 +11,13 @@ import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import shadow from './Chatbot.module.css';
 import Modal from '@material-ui/core/Modal';
+import media from './Chatbot.module.css';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display:'flex',
     flexDirection:'column',
     flexWrap:'no-wrap',
-    width: '20vw',
-    minWidth:'300px',
-    maxWidth:'400px',
-    maxHeight:'550px',
-   overflow:'hidden',
     padding:'0px',
     
   },
@@ -344,7 +340,7 @@ const Chatbot = () => {
         <Grow in={values.showChatbot}>
         
 
-          <Container className={classes.bottomRightPosition + ' ' + classes.root + ' ' + shadow.Shadow} maxWidth="false" >
+          <Container className={media.bottomRightPosition + ' ' + classes.root + ' ' + shadow.Shadow + ' ' +media.Chatbot} maxWidth="false" >
             
 
             <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler} />
@@ -365,7 +361,7 @@ const Chatbot = () => {
   else {
     chatbot = (
 
-      <Fab edge="start" className={classes.bottomRightPosition} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
+      <Fab edge="start" className={media.bottomRightPosition} color="secondary" aria-label="Menu" onClick={chatbotClickHandler}>
         <Chat />
       </Fab>
 

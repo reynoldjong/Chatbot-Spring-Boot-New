@@ -27,8 +27,9 @@ const home = (props) =>{
             <AboutUs/>
             <Features/>
             </div>
-            <Chatbot/>
+           
            <Footer/>
+           <Chatbot/>
         </React.Fragment>
     );
 

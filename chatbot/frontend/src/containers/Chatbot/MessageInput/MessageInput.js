@@ -5,18 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import SendIcon from '@material-ui/icons/Send';
 import Paper from '@material-ui/core/Paper';
-
+import media from './MessageInput.module.css';
 
 const useStyles = makeStyles(theme => ({
-    root: {
-        flex: '1 100%',
-        borderTop: '1px solid #ccc',
-        margin: '0px',
-        padding: '0px',
-        borderTopRightRadius:'0px',
-        borderTopLeftRadius:'0px'
-        
-    },
+
     paper: {
       
         textAlign: 'center',
@@ -47,7 +39,7 @@ const MessageInput = (props) => {
     const classes = useStyles();
     return (
 
-        <div className={classes.root}>
+        <div className={media.root}>
              <form onSubmit={props.addMessageHandler} autocomplete="off">
             <Paper style={{borderTopRightRadius:'0px', borderTopLeftRadius:'0px'}}>
                 <Grid container spacing={0}>
