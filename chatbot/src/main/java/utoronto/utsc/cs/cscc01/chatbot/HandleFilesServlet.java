@@ -99,31 +99,22 @@ public class HandleFilesServlet extends HttpServlet {
             throw new ServletException(e);
 
         }
-        finally{
-            db.close();
-        }
     }
 
     protected void remove(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
-//        File file;
-
         String fileName =request.getParameter("file");
-       System.out.println(fileName.toString());
-        
-        if (db.connect()) {
-            db.remove(fileName);
 
-            String text = "You successfully removed: " + fileName;
-            response.setContentType("text/plain");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(text);
-            db.close();
+       if (! db.remove(fileName)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write("{\"reply\": \"Can't remove file!\"}");
         }
     }
 
-    public void upload(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
+    public void upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Check that we have a file upload request
         java.io.PrintWriter out = response.getWriter();
 
@@ -147,93 +138,9 @@ public class HandleFilesServlet extends HttpServlet {
 
     }
 
-//        isMultipart = ServletFileUpload.isMultipartContent(request);
-//        response.setContentType("text/html");
-//        java.io.PrintWriter out = response.getWriter();
-//
-//        if( !isMultipart ) {
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet upload</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<p>No file uploaded</p>");
-//            out.println("</body>");
-//            out.println("</html>");
-//            return;
-//        }
-//
-//        DiskFileItemFactory factory = new DiskFileItemFactory();
-//
-//        //TODO: see if these fields are needed
-//
-//        // maximum size that will be stored in memory
-//        // factory.setSizeThreshold(maxMemSize);
-//
-//        // Location to save data that is larger than maxMemSize.
-//        // factory.setRepository(new File("../chatbot/files/mem/"));
-//
-//        // Create a new file upload handler
-//        ServletFileUpload upload = new ServletFileUpload(factory);
-//
-//        // maximum file size to be uploaded.
-//        // upload.setSizeMax( maxFileSize );
-//
-//        try {
-//            // Parse the request to get file items.
-//            List fileItems = upload.parseRequest(request);
-//
-//            db.connect();
-//
-//            // Process the uploaded file items
-//            Iterator i = fileItems.iterator();
-//
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet upload</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//
-//            while ( i.hasNext () ) {
-//                FileItem fi = (FileItem)i.next();
-//                if ( !fi.isFormField () ) {
-//                    // Get the uploaded file parameters
-//                    String fileName = fi.getName();
-//                    // Write the file
-//                    if( fileName.lastIndexOf("\\") >= 0 ) {
-//                        file = new File( filePath + fileName.substring( fileName.lastIndexOf("\\")));
-//                    } else {
-//                        file = new File( filePath + fileName.substring(fileName.lastIndexOf("\\")+1));
-//                    }
-//                    fi.write( file ) ;
-//
-//                    byte[] b = db.readFile(file);
-//
-//                    out.println("Uploaded Filename: " + fileName + "<br>");
-//
-//                    db.insert(fileName, b);
-//
-//                }
-//            }
-//            out.println("</body>");
-//            out.println("</html>");
-//
-//        } catch (Exception e) {
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet upload</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("</body>");
-//            out.println("No file(s) uploaded! Please try again.");
-//            out.println("</html>");
-//
-//        }
-//    }
-
     private String getFileName(Part part) {
         String contentDisp = part.getHeader("content-disposition");
-        System.out.println("content-disposition header= "+contentDisp);
+        // System.out.println("content-disposition header= "+contentDisp);
         String[] tokens = contentDisp.split(";");
         for (String token : tokens) {
             if (token.trim().startsWith("filename")) {

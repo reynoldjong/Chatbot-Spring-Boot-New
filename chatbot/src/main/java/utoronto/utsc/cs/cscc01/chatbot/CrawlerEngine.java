@@ -3,7 +3,6 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import com.ibm.watson.discovery.v1.Discovery;
 import com.ibm.watson.discovery.v1.model.*;
 
-import java.util.ArrayList;
 
 
 public class CrawlerEngine {
