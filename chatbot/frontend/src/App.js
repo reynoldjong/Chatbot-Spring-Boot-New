@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route,Redirect} from "react-router-dom";
 import Home from './components/Home/Home';
 import Admin from './components/Admin/Admin';
 import AdminDocuments from './components/Admin/AdminDocuments/AdminDocuments';
@@ -22,7 +22,7 @@ class App extends Component {
    * 
    */
   state = {
-    loggedIn: false,
+    loggedIn: true,
     showModal: false,
     files: [],
   }
@@ -177,6 +177,7 @@ class App extends Component {
             removeFileHandler={this.removeFileHandler}
              viewAllFilesHandler={this.viewAllFilesHandler}
               addFileHandler={this.addFileHandler} 
+              logOutHandler={this.logOutHandler}
               loggedIn={this.state.loggedIn}
               />}
           />
@@ -190,6 +191,7 @@ class App extends Component {
              viewAllFilesHandler={this.viewAllFilesHandler}
               addFileHandler={this.addFileHandler} 
               loggedIn={this.state.loggedIn}
+              logOutHandler={this.logOutHandler}
               />}
           />
         

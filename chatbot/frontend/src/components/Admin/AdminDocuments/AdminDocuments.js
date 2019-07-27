@@ -130,7 +130,7 @@ console.log(props);
   let admin = null;
   if(props.loggedIn === true){
     admin = (<React.Fragment>
-      <Navbar/>
+      <Navbar logOutHandler={props.logOutHandler}/>
       <Box marginTop={3}>
         <Container maxWidth="md">
           <Paper className={classes.root}>

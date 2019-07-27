@@ -75,7 +75,7 @@ const AdminFeedback = props => {
   if(props.loggedIn){
     admin = (
       <React.Fragment>
-      <Navbar/>
+      <Navbar logOutHandler={props.logOutHandler}/>
 
       <Box marginTop={3} marginBottom={3}>
         <Container maxWidth="md">

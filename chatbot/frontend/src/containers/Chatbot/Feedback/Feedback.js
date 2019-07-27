@@ -8,22 +8,16 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import media from './Feedback.module.css';
 import qs from 'qs';
 const useStyles = makeStyles(theme => ({
   paper: {
-    position: 'absolute',
-    width: '30vw',
+    
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 4),
-    outline: 'none',
-    top:'30%',
-    marginLeft:'35%',
-    marginRight:'auto',
-    maxWidth:'550px',
-    overflowY:'auto',
-    maxHeight:'400px',
+  
   },
   formControl:{
       width:'200px',
@@ -119,7 +113,7 @@ const Feedback = () => {
         open={open}
         onClose={handleClose}
       >
-        <div className={classes.paper}>
+        <div className={classes.paper + ' ' + media.paper}>
           <h4 id="modal-title">Let us know how we did!</h4>
           <p>All responses are anoynmous.</p>
        

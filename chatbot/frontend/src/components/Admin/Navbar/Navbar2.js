@@ -59,7 +59,7 @@ const Navbar2 = props => {
             </Link>
           </Typography>
           <Button
-            onClick={props.modalClickHandler}
+            onClick={props.logOutHandler}
             variant="contained"
             color="secondary"
             className={classes.menuButton}

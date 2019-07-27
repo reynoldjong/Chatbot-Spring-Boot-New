@@ -17,7 +17,7 @@ const admin = (props) => {
     admin = (
 
       <React.Fragment>
-          <Navbar />
+          <Navbar logOutHandler={props.logOutHandler} />
 
           <Route
             path="/admin"
