@@ -1,55 +1,92 @@
-import React from 'react';
-import classes from './Navbar.module.css';
-import image from './images/DFILogo.png';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import logo from "./images/DFILogo.png";
 import { Link } from "react-router-dom";
-
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    position: "absolute",
+    width: "100%",
+    overflowX:'hidden',
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1,
+    marginRight: theme.spacing(5),
+    color:'white',
+    '&:hover': { color:'rgb(38, 166, 154)',transition:'0.5s ease-in'},
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  input: {
+    display: "none"
+  },
+  navbar: {
+    backgroundColor: "rgba(0,0,0,0.0)"
+  }
+}));
 /**
  *  Component for the navigation bar in the home page
  * @param {props} props:
  *  @param {bool} loggedin - bool represented whether the user is logged in or not
  *  @param {function} logOutHandler - function for logging the user out
  */
-const navbar = (props) =>{
-    let navbarLinks = null;
+const Navbar2 = props => {
+  const classes = useStyles();
+  let navbarLinks = null;
 
-    if(props.loggedIn){
-        navbarLinks = (
-            <React.Fragment>
-              
-              <Link to="/admin"> <li>Admin Dashboard</li> </Link>
-              <Link to="/admin">   <li>Account</li></Link>
-              <li><button className="btn" onClick={props.logOutHandler}>Logout</button></li>
-           
-            </React.Fragment>
-
-        )
-    }
-    else{
-        navbarLinks = (
-            <React.Fragment>
-                <li><button className='btn' onClick={props.modalClickHandler}>Admin Login</button></li>
-                </React.Fragment>
-        );
-    }
+  if (props.loggedIn) {
+    navbarLinks = (
+      <React.Fragment>
+        <Link to="/admin">
+         
+        <Typography variant="h6"component='a' className={classes.title}>Admin Dashboard</Typography>
+        </Link>
+       
+      
+          <Button
+            onClick={props.logOutHandler}
+            variant="contained"
+            color="secondary"
+            className={classes.button}
+          >
+            Logout
+          </Button>
     
-    return(
-        <React.Fragment>
-            <div className={classes.NavbarFixed}>
-            <nav className='transparent z-depth-0'>
-
-            <div className="nav-wrapper" >
-                <a href="https://www.digitalfinanceinstitute.org/" className={classes.NavbarLogo} > <img src={image} alt="DFI Logo"/> </a>
-
-            <ul id="nav-mobile" className={ classes.Display + " right hide-on-med-and-down"} style={{display:'inline-block'}} >
-               {navbarLinks}
-            </ul>
-
-            </div>
-        </nav>
-        </div>
       </React.Fragment>
-            
     );
-}
+  } else {
+    navbarLinks = (
+      <Button
+        onClick={props.modalClickHandler}
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+      >
+        Admin Login
+      </Button>
+    );
+  }
 
-export default navbar;
+  return (
+    <div className={classes.root}>
+      <AppBar position="static" className={classes.navbar} elevation={0}>
+        <Toolbar>
+          <Typography href="https://www.digitalfinanceinstitute.org/" variant="h6" className={classes.title}>
+          <img src={logo} alt="DFI Logo" />
+          </Typography>
+
+          {navbarLinks}
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
+};
+export default Navbar2;

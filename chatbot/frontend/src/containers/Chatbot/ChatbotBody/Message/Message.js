@@ -1,11 +1,11 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import classes from './Message.module.css';
-import SoundClass from './Sound/Sound';
+import React from "react";
+import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import classes from "./Message.module.css";
+import SoundClass from "./Sound/Sound";
 /**
  * Componenet representing a repsosne from watson and lucene
- * @param {*} props 
+ * @param {*} props
  *  @param {string} watsonText = message from Watson
  *  @param {string} watsonPicture = picture from Watson
  *  @param {string} watsonLink = Link from Watson
@@ -15,7 +15,7 @@ import SoundClass from './Sound/Sound';
  *  @param {string} luceneLink = link from Watson
  *  @param {string} luceneFile = file from Lucene
  */
-const Message = (props) => {
+const Message = props => {
   // If we recieve information from watson or lucene the messages will be filled in and displayed
   let message = null;
   let errorMessage = null;
@@ -24,161 +24,264 @@ const Message = (props) => {
   let rootClasses = null;
   let textToSpeechMessageWatson = null;
   let textToSpeechMessageLucene = null;
-  
-  const generateTextToSpeechMessage =(props, errorMessage)=>{
+
+  const generateTextToSpeechMessage = (props, errorMessage) => {
     let message = "";
-    if(errorMessage !=null){
+    if (errorMessage != null) {
       message = errorMessage;
-    }
-    else{
-      if(props.watsonText){
+    } else {
+      if (props.watsonText) {
         message += props.watsonText + " ";
       }
-      if(props.watsonFilename && props.watsonFile){
-        message += "Also, look at what we found from " + props.watsonFilename + " " + props.watsonFile;
+      if (props.watsonFilename && props.watsonFile) {
+        message +=
+          "Also, look at what we found from " +
+          props.watsonFilename +
+          " " +
+          props.watsonFile;
       }
-
     }
-    return message
-  }
+    return message;
+  };
 
-  const generateTextToSpeechMessageLucene =(props, errorMessage)=>{
+  const generateTextToSpeechMessageLucene = (props, errorMessage) => {
     let message = "";
-    if(errorMessage != null){
+    if (errorMessage != null) {
       message = errorMessage;
-    }
-    else{
-      if(props.luceneText){
+    } else {
+      if (props.luceneText) {
         message += props.luceneText + " ";
       }
-      if(props.luceneFilename && props.luceneFile){
-        message += "Also, look at what we found from " + props.luceneFilename + " " + props.luceneFile;
+      if (props.luceneFilename && props.luceneFile) {
+        message +=
+          "Also, look at what we found from " +
+          props.luceneFilename +
+          " " +
+          props.luceneFile;
       }
-
     }
-    return message
+    return message;
+  };
+
+  if (
+    !props.luceneText &&
+    !props.lucenePicture &&
+    !props.luceneLink &&
+    !props.luceneFile &&
+    !props.watsonText &&
+    !props.watsonPicture &&
+    !props.watsonLink &&
+    !props.watsonFile
+  ) {
+    errorMessage =
+      "Oops, I couldn't find that.  I've dispatched the whole DFI team to resolve this";
   }
-  
 
-  if(!props.luceneText && !props.lucenePicture && !props.luceneLink && !props.luceneFile && !props.watsonText && !props.watsonPicture && !props.watsonLink && !props.watsonFile){
-    errorMessage ="Oops, I couldn't find that.  I've dispatched the whole DFI team to resolve this"
-  }
-
-
-  textToSpeechMessageWatson = generateTextToSpeechMessage(props,errorMessage);
-  textToSpeechMessageLucene = generateTextToSpeechMessageLucene(props,errorMessage);
-
- 
-    
-
+  textToSpeechMessageWatson = generateTextToSpeechMessage(props, errorMessage);
+  textToSpeechMessageLucene = generateTextToSpeechMessageLucene(
+    props,
+    errorMessage
+  );
 
   if (props.showing) {
     rootClasses = classes.root;
-
+  } else {
+    rootClasses = classes.root + " " + classes.OpacityLow;
   }
-  else {
-    rootClasses = classes.root + ' ' + classes.OpacityLow;
-  }
-  if (props.type === 'bot') {
+  if (props.type === "bot") {
     messageWatson = (
-     <React.Fragment>
-     <SoundClass text={textToSpeechMessageWatson}/> 
-     
-  
-      <Grid container spacing={1} style={{margin:'10px'}}className={rootClasses} onClick={props.showClickHandler}>
-        <Grid item xs={2} style={{ marginRight: '0px' }}>
-          <div className={classes.avatar2} ></div>
-        </Grid>
-        <Grid item xs={10}>
-          <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot </p>
-          <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.text + ' ' + classes.textBot}>
-
-            <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
-              {props.watsonText?props.watsonText:null}
-             
-
-              {errorMessage}
-              {props.watsonLink ? <a href={props.watsonLink} style={{ display: 'block', wordBreak: 'break-word' }}>{props.watsonLink}</a> : null} 
-            </p>
-            {
-              props.watsonPicture ? <img src={props.watsonPicture} width="100px" height="100px" alt="DFI visual" /> : null
-             
-            }
-             {props.watsonFile?<p>Look at what we found from{props.watsonFilename}: <br/>{props.watsonFile}</p>:null}
-           
-          
-          </Box>
-        </Grid>
-        </Grid>
-        
-
-        </React.Fragment>
-    );
-    if(props.luceneText || props.lucenePicture || props.luceneLink || props.luceneFile)
-   { messageLucene = (
-     <React.Fragment>
-    <SoundClass text={textToSpeechMessageLucene}/> 
-      <Grid container spacing={1} className={rootClasses} onClick={props.showClickHandler}>
-      <Grid item xs={2} style={{ marginRight: '0px' }}>
-        <div className={classes.avatar2} ></div>
-      </Grid>
-      <Grid item xs={10}>
-        <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot</p>
-        <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.text + ' ' + classes.textBot}>
-
-          <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
-      
-            {props.luceneText? props.luceneText:null}
-        
-         
-            {props.luceneLink ? <a href={props.luceneLink} style={{ display: 'block', wordBreak: 'break-word' }}>{props.luceneLink}</a> : null} </p>
+      <React.Fragment>
        
-          {
-             props.lucenenPicture ? <img src={props.lucenePicture} width="100px" height="100px" alt="DFI visual" /> : null
 
-          }
+        <Grid
+          container
+          spacing={1}
+          style={{ margin: "10px" }}
+          className={rootClasses}
+          onClick={props.showClickHandler}
+        >
           
-            {props.luceneFile?<React.Fragment><p>Look at what we found from:{props.luceneFilename}</p> <p>{props.luceneFile}</p></React.Fragment>:null}
-          
-        </Box>
-      </Grid>
-      </Grid>
-      </React.Fragment>
-    )}
-  }
-
-  else {
-    message = (
-      <div className={rootClasses} onClick={props.showClickHandler}>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-
+          <Grid item xs={2} style={{ marginRight: "0px" }}>
+            <div className={classes.avatar2} />
           </Grid>
-          <Grid item xs={12}>
-            <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.textHuman + ' ' + classes.text} style={{ float: 'right', backgroundColor: '#26a69a', color: 'white' }}>
+          
+          <Grid item xs={10}>
+          <SoundClass text={textToSpeechMessageWatson} />
+            <p
+              style={{
+                textAlign: "left",
+                fontWeight: "500",
+                color: "#424242",
+                fontSize: "0.8em",
+                letterSpacing: "0.0.8em",
+                marginBottom: "5px"
+              }}
+            >
+              DFI Chatbot{" "}
+            </p>
+            <Box
+              boxShadow={1}
+              style={{ border: "1px solid rgba(0,0,0,0.03)" }}
+              className={classes.text + " " + classes.textBot}
+            >
+              <p
+                style={{
+                  fontSize: "1.0em",
+                  padding: "0px",
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                  wordWrap: "break-word"
+                }}
+              >
+                {props.watsonText ? props.watsonText : null}
 
-              <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px' }}>
-                {props.text}
-
+                {errorMessage}
+                {props.watsonLink ? (
+                  <a
+                    href={props.watsonLink}
+                    style={{ display: "block", wordBreak: "break-word" }}
+                  >
+                    {props.watsonLink}
+                  </a>
+                ) : null}
               </p>
-
+              {props.watsonPicture ? (
+                <img
+                  src={props.watsonPicture}
+                  width="100px"
+                  height="100px"
+                  alt="DFI visual"
+                />
+              ) : null}
+              {props.watsonFile ? (
+                <p>
+                  Look at what we found from{props.watsonFilename}: <br />
+                  {props.watsonFile}
+                </p>
+              ) : null}
             </Box>
           </Grid>
         </Grid>
+       
+      </React.Fragment>
+    );
+    if (
+      props.luceneText ||
+      props.lucenePicture ||
+      props.luceneLink ||
+      props.luceneFile
+    ) {
+      messageLucene = (
+        <React.Fragment>
+        
+          <Grid
+            container
+            spacing={1}
+            className={rootClasses}
+            onClick={props.showClickHandler}
+          >
+            <Grid item xs={2} style={{ marginRight: "0px" }}>
+              <div className={classes.avatar2} />
+            </Grid>
+            <Grid item xs={10}>
+            <SoundClass text={textToSpeechMessageLucene} />
+              <p
+                style={{
+                  textAlign: "left",
+                  fontWeight: "500",
+                  color: "#424242",
+                  fontSize: "0.8em",
+                  letterSpacing: "0.0.8em",
+                  marginBottom: "5px"
+                }}
+              >
+                DFI Chatbot
+               
+              </p>
+              <Box
+                boxShadow={1}
+                style={{ border: "1px solid rgba(0,0,0,0.03)" }}
+                className={classes.text + " " + classes.textBot}
+              >
+                <p
+                  style={{
+                    fontSize: "1.0em",
+                    padding: "0px",
+                    marginTop: "0px",
+                    marginBottom: "0px",
+                    wordWrap: "break-word"
+                  }}
+                >
+                  {props.luceneText ? props.luceneText : null}
+                  {props.luceneLink ? (
+                    <a
+                      href={props.luceneLink}
+                      style={{ display: "block", wordBreak: "break-word" }}
+                    >
+                      {props.luceneLink}
+                    </a>
+                  ) : null}{" "}
+                </p>
 
+                {props.lucenenPicture ? (
+                  <img
+                    src={props.lucenePicture}
+                    width="100px"
+                    height="100px"
+                    alt="DFI visual"
+                  />
+                ) : null}
+
+                {props.luceneFile ? (
+                  <React.Fragment>
+                    <p>Look at what we found from:{props.luceneFilename}</p>{" "}
+                    <p>{props.luceneFile}</p>
+                  </React.Fragment>
+                ) : null}
+              </Box>
+            </Grid>
+          </Grid>
+        </React.Fragment>
+      );
+    }
+  } else {
+    message = (
+      <div className={rootClasses} onClick={props.showClickHandler}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} />
+          <Grid item xs={12}>
+            <Box
+              boxShadow={1}
+              style={{ border: "1px solid rgba(0,0,0,0.03)",  float: "right",
+              backgroundColor: "#26a69a",
+              color: "white" }}
+              className={classes.textHuman + " " + classes.text}
+             
+            >
+              <p
+                style={{
+                  fontSize: "1.0em",
+                  padding: "0px",
+                  marginTop: "0px",
+                  marginBottom: "0px"
+                }}
+              >
+                {props.text}
+              </p>
+            </Box>
+          </Grid>
+        </Grid>
       </div>
     );
   }
-
 
   return (
     <React.Fragment>
       {message}
       {messageWatson}
       {messageLucene}
-
     </React.Fragment>
   );
-}
+};
 
 export default Message;

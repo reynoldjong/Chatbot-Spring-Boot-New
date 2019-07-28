@@ -1,27 +1,25 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import media from './Feedback.module.css';
-import qs from 'qs';
+import TextField from "@material-ui/core/TextField";
+import axios from "axios";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import media from "./Feedback.module.css";
+import qs from "qs";
 const useStyles = makeStyles(theme => ({
   paper: {
-    
     backgroundColor: theme.palette.background.paper,
 
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 4),
-  
+    padding: theme.spacing(2, 4, 4)
   },
-  formControl:{
-      width:'200px',
-      display:'block',
+  formControl: {
+    width: "200px",
+    display: "block"
   }
 }));
 
@@ -30,7 +28,7 @@ const useStyles = makeStyles(theme => ({
  */
 const Feedback = () => {
   const classes = useStyles();
-  
+
   /**
    * variables hold info on whetehr modal is open or not
    */
@@ -41,8 +39,7 @@ const Feedback = () => {
    */
   const [values, setValues] = React.useState({
     rating: 1,
-    comment:"",
-    
+    comment: ""
   });
 
   /**
@@ -64,22 +61,19 @@ const Feedback = () => {
    * @param {int} rating - rating of the chatbot
    * @param {string} comment - a comment the user has about the chatbot
    */
-  const submitFeedback = async (rating, comment) =>{
-
-    let data={
-        'comments':comment,
-        'rating': rating
-    }
-    let res = await axios.post('/feedback', qs.stringify(data)).then((response) => {
-     
-   
-    })
-      .catch(function (error) {
+  const submitFeedback = async (rating, comment) => {
+    let data = {
+      comments: comment,
+      rating: rating
+    };
+    await axios
+      .post("/feedback", qs.stringify(data))
+      .then(response => {})
+      .catch(function(error) {
         console.log(error);
       });
-      handleClose();
-  }
-
+    handleClose();
+  };
 
   /**
    * function is used to record what the user rated the chatbot
@@ -88,11 +82,11 @@ const Feedback = () => {
   function handleChangeSelect(event) {
     setValues(oldValues => ({
       ...oldValues,
-      rating: event.target.value,
+      rating: event.target.value
     }));
   }
 
-/**
+  /**
    * function is used to record users message on the chatbot
    * @event
    */
@@ -102,60 +96,61 @@ const Feedback = () => {
 
   return (
     <div>
-   
       <Button type="button" onClick={handleOpen}>
         Feedback
       </Button>
-      
+
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={open}
         onClose={handleClose}
       >
-        <div className={classes.paper + ' ' + media.paper}>
+        <div className={classes.paper + " " + media.paper}>
           <h4 id="modal-title">Let us know how we did!</h4>
           <p>All responses are anoynmous.</p>
-       
+
           <TextField
-        id="comment"
-        label="Response"
-        multiline
-        rowsMax="20"
-       style={{width:'100%'}}
-        onChange={handleChangeText}
-       
-        margin="normal"
-    
-        variant="outlined"
-      />
-       <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="rating">How did we do?</InputLabel>
-        <Select
-          value={values.rating}
-          onChange={handleChangeSelect}
-          inputProps={{
-            name: 'Rating',
-            id: 'rating',
-          }}
-        >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-        </Select>
-      </FormControl>
-        
-          <Button type="button" onClick={()=>submitFeedback(values.rating, values.comment)} variant="contained" style={{float:'right', display:'block'}} color="secondary" >
-        Submit your Response
-      </Button>
-     
+            id="comment"
+            label="Response"
+            multiline
+            rowsMax="20"
+            style={{ width: "100%" }}
+            onChange={handleChangeText}
+            margin="normal"
+            variant="outlined"
+          />
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="rating">How did we do?</InputLabel>
+            <Select
+              value={values.rating}
+              onChange={handleChangeSelect}
+              inputProps={{
+                name: "Rating",
+                id: "rating"
+              }}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button
+            type="button"
+            onClick={() => submitFeedback(values.rating, values.comment)}
+            variant="contained"
+            style={{ float: "right", display: "block" }}
+            color="secondary"
+          >
+            Submit your Response
+          </Button>
         </div>
-        
       </Modal>
     </div>
   );
-}
+};
 
 export default Feedback;

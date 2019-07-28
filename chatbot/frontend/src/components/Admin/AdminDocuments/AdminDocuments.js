@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import DragAndDrop from "./DragAndDrop/DragAndDrop";
 import axios from "axios";
 import qs from 'qs';
-import Navbar from '../Navbar/Navbar2';
+import Navbar from '../Navbar/Navbar';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -44,7 +44,6 @@ const AdminDocuments = props => {
   });
   const handleDrop = files => {
     let fileList = values.files;
-    console.log(fileList);
     for (var i = 0; i < files.length; i++) {
       if (!files[i].name) {
         return;
@@ -62,7 +61,7 @@ const AdminDocuments = props => {
    */
   const addAllFilesHandler = async listFiles => {
     for (let i = 0; i < listFiles.length; i++) {
-      let res = addFileHandler(listFiles[i]);
+      addFileHandler(listFiles[i]);
     }
     // empty fiels lsit
     setFiles({ files: [] });
@@ -81,7 +80,7 @@ const AdminDocuments = props => {
     data.append("action", "upload");
     data.append("file", file);
 
-    let res = await axios
+    await axios
       .post("/handlefiles", data)
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
@@ -106,7 +105,7 @@ const AdminDocuments = props => {
           
         }
 
-    let res = await axios
+    await axios
       .post("/getdata", qs.stringify(data2))
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
