@@ -93,7 +93,7 @@ const Message = (props) => {
           <div className={classes.avatar2} ></div>
         </Grid>
         <Grid item xs={10}>
-          <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot <PlayArrow style={{cursor:'pointer',float:'right',marginRight:'20%'}}onClick={()=>textToSpeech(props.watsonText +' '+ props.watsonFilename + ' ' + props.watsonFile)}/></p>
+          <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot <PlayArrow className={classes.playButton} onClick={()=>textToSpeech(props.watsonText +' '+ props.watsonFilename + ' ' + props.watsonFile)}/></p>
           <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.text + ' ' + classes.textBot}>
 
             <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
