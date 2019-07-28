@@ -62,9 +62,14 @@ const Chatbot = () => {
   const [values, setValues] = React.useState({
     messages: [
       { 'type': 'bot', 'watson': { 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it' }, 'lucene': {} },
+
     ],
     showChatbot: true,
     showing: { 'question': 0, 'answer': 0 }
+  });
+
+  React.useEffect(() => {
+    console.log('refreshed');
   });
 
 
@@ -354,7 +359,7 @@ const Chatbot = () => {
         <Grow in={values.showChatbot}>
         
 
-          <Container className={media.bottomRightPosition + ' ' + classes.root + ' ' + shadow.Shadow + ' ' +media.Chatbot} maxWidth="false" >
+          <Container className={media.bottomRightPosition + ' ' + classes.root + ' ' + shadow.Shadow + ' ' +media.Chatbot} maxWidth={false}>
             
 
             <ChatbotHeader title="DFI Chatbot" clickHandler={chatbotClickHandler} />
@@ -386,6 +391,8 @@ const Chatbot = () => {
     <React.Fragment>
 
       {chatbot}
+      <audio src=""  style={{display:'none'}} preload="none" controls="controls" type="audio/mp3" id="player">
+    </audio>
     </React.Fragment>
   );
 };

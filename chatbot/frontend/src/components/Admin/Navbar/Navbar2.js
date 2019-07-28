@@ -38,11 +38,10 @@ const Navbar2 = props => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <a href="https://www.digitalfinanceinstitute.org/">
-              {" "}
+          <Typography href="https://www.digitalfinanceinstitute.org/"variant="h6" className={classes.title}>
+           
               <img src={logo} alt="DFI Logo" />{" "}
-            </a>
+      
           </Typography>
 
           <Typography variant="h6" align="left" style={{marginRight:'20px'}}>

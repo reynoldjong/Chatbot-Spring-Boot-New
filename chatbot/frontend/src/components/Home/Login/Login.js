@@ -27,7 +27,7 @@ const login = (props) => {
     <div style={displayStyle} className={classes.background}>
       <div className={classes.Modal}>
         <Container>
-          <form onSubmit={props.loginHandler} autocomplete="off" method="post">
+          <form onSubmit={props.loginHandler} autoComplete="off" method="post">
 
             <h4>Sign in</h4>
             <Grid container spacing={3}>

@@ -41,9 +41,10 @@ const ChatbotBody = (props) => {
   }
 
   const classes = useStyles();
-
+console.log(props.messages);
   let messages = props.messages.map((item, index) => {
     console.log(item);
+   
     if(item.type === "bot"){
 
    // If the index is the same as question or answer we doon't change the opacity
@@ -82,6 +83,7 @@ const ChatbotBody = (props) => {
        luceneLink={item.lucene.link}
        />)
     }
+  
   }
   else{
     if (index === props.showing['question'] || index === props.showing['answer']) {
@@ -104,7 +106,9 @@ const ChatbotBody = (props) => {
          file={item.file} />)
     }
   }
-  });
+  }
+    );
+   ;
 
   // Div with id at bottom is used as a dummy div to ensure that we
   // can keep the chat at the bottom
@@ -116,7 +120,9 @@ const ChatbotBody = (props) => {
         }
         <div id="bottom" style={{ float: 'left', clear: 'both' }}>
         </div>
+        
       </Paper>
+    
     </div>
 
   );
