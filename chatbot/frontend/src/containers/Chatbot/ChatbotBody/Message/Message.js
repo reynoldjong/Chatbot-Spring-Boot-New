@@ -24,7 +24,7 @@ const Message = (props) => {
   let messageLucene = null;
   let rootClasses = null;
 
-  if(!props.luceneText || !props.lucenePicture || !props.luceneLink || !props.luceneFile ||!props.watsonText || !props.watsonPicture || !props.watsonLink || !props.watsonFile){
+  if(!props.luceneText && !props.lucenePicture && !props.luceneLink && !props.luceneFile && !props.watsonText && !props.watsonPicture && !props.watsonLink && !props.watsonFile){
     errorMessage ="Oops, I couldn't find that.  I've dispatched the whole DFI team to resolve this"
   }
 
@@ -48,8 +48,9 @@ const Message = (props) => {
           <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot</p>
           <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.text + ' ' + classes.textBot}>
 
-            <p style={{ fontSize: '1.1em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
+            <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
               {props.watsonText?props.watsonText:null}
+             
 
               {errorMessage}
               {props.watsonLink ? <a href={props.watsonLink} style={{ display: 'block', wordBreak: 'break-word' }}>{props.watsonLink}</a> : null} 
@@ -58,6 +59,7 @@ const Message = (props) => {
               props.watsonPicture ? <img src={props.watsonPicture} width="100px" height="100px" alt="DFI visual" /> : null
              
             }
+             {props.watsonFile?<p>Look at what we found from:{props.watsonFilename} {"\\n"}{props.watsonFile}</p>:null}
            
           
           </Box>
@@ -75,7 +77,7 @@ const Message = (props) => {
         <p style={{ textAlign: 'left', fontWeight: '500', color: '#424242', fontSize: '0.8em', letterSpacing: '0.0.8em', marginBottom: '5px' }}>DFI Chatbot</p>
         <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.text + ' ' + classes.textBot}>
 
-          <p style={{ fontSize: '1.1em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
+          <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px', wordWrap:'break-word' }} >
       
             {props.luceneText? props.luceneText:null}
         
@@ -86,9 +88,9 @@ const Message = (props) => {
              props.lucenenPicture ? <img src={props.lucenePicture} width="100px" height="100px" alt="DFI visual" /> : null
 
           }
-          {
-            props.luceneFile ? <p>{props.luceneFile}</p> : null
-          }
+          
+            {props.luceneFile?<p>Look at what we found from:{props.luceneFilename} {"\\n"}{props.luceneFile}</p>:null}
+          
         </Box>
       </Grid>
       </Grid>
@@ -105,7 +107,7 @@ const Message = (props) => {
           <Grid item xs={12}>
             <Box boxShadow={1} style={{ border: '1px solid rgba(0,0,0,0.03)' }} className={classes.textHuman + ' ' + classes.text} style={{ float: 'right', backgroundColor: '#26a69a', color: 'white' }}>
 
-              <p style={{ fontSize: '1.1em', padding: '0px', marginTop: '0px', marginBottom: '0px' }}>
+              <p style={{ fontSize: '1.0em', padding: '0px', marginTop: '0px', marginBottom: '0px' }}>
                 {props.text}
 
               </p>

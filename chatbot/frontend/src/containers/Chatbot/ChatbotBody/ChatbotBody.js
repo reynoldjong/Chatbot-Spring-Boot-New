@@ -17,9 +17,9 @@ const useStyles = makeStyles(theme => ({
     
    
     borderBottomRightRadius:'0px',
-        borderBottomLeftRadius:'0px',
-        borderTopRightRadius:'0px',
-        borderTopLeftRadius:'0px',
+    borderBottomLeftRadius:'0px',
+    borderTopRightRadius:'0px',
+    borderTopLeftRadius:'0px',
   },
 
 }));
@@ -55,8 +55,12 @@ const ChatbotBody = (props) => {
       id="bottom"
       watsonText={item.watson.message} 
       watsonPicture={item.watson.picture} 
-      watsonLink={item.watson.link} 
+      watsonLink={item.watson.link}
+      watsonFilename={item.watson.filename}
+      watsonFile={item.watson.file}
       luceneText={item.lucene.message}
+      luceneFile={item.lucene.file}
+      luceneFilename={item.lucene.filename}
       lucenePicture={item.lucene.picture}
       luceneLink={item.lucene.link}
       />)
@@ -67,11 +71,15 @@ const ChatbotBody = (props) => {
        type={item.type} 
        id="bottom"
        watsonText={item.watson.message} 
-      watsonPicture={item.watson.picture} 
-      watsonLink={item.watson.link}
-      luceneText={item.lucene.message}
-      lucenePicture={item.lucene.picture}
-      luceneLink={item.lucene.link}
+       watsonPicture={item.watson.picture} 
+       watsonLink={item.watson.link}
+       watsonFilename={item.watson.filename}
+       watsonFile={item.watson.file}
+       luceneText={item.lucene.message}
+       luceneFile={item.lucene.file}
+       luceneFilename={item.lucene.filename}
+       lucenePicture={item.lucene.picture}
+       luceneLink={item.lucene.link}
        />)
     }
   }

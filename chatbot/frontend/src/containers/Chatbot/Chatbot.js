@@ -62,12 +62,9 @@ const Chatbot = () => {
   const [values, setValues] = React.useState({
     messages: [
       { 'type': 'bot', 'watson': { 'message': 'Hello and welcome to DFI!  The future Chatbot, click a message to highlight it' }, 'lucene': {} },
-      { 'type': 'user', 'message': 'Hello Chatbot' },
-      { 'type': 'bot', 'watson': { 'message': 'Hello and welcome to DFI the future chatbot' }, 'lucene': {} },
-      { 'type': 'bot', 'watson': {}, 'lucene': {} }
     ],
     showChatbot: true,
-    showing: { 'question': 0, 'answer': 1 }
+    showing: { 'question': 0, 'answer': 0 }
   });
 
 
@@ -85,7 +82,7 @@ const Chatbot = () => {
     console.log(index, type);
     if (type === "bot") {
       // Make sure that this doesn't apply to greeting message which has index 0
-      if (index != 0) {
+      if (index !== 0) {
         console.log("here")
         setValues({
           ...values,
@@ -166,6 +163,31 @@ const Chatbot = () => {
     return file;
   }
 
+      /**
+   * Retreives what Lucene returns in the file passage portion of its JSON
+   * @response
+   */
+  const getLuceneFilename = (response) => {
+    let filename= "";
+    if (response['data']['lucene']['file']) {
+      filename = response['data']['lucene']['file']['filename']
+    }
+    return filename;
+  }
+
+
+  /**
+   * Retreives what Watson returns in the file passage portion of its JSON
+   * @response
+   */
+  const getWatsonFileName = (response) => {
+    let filename = "";
+    if (response['data']['watson']['file']) {
+      filename = response['data']['watson']['file']['filename'];
+    }
+    return filename;
+
+  }
   /**
    * Retreives what Watson returns in the file passage portion of its JSON
    * @response
@@ -242,6 +264,7 @@ const Chatbot = () => {
     let watsonObject = {}
     watsonObject['picture'] = getWatsonImage(response);
     watsonObject['link'] = getWatsonLink(response);
+    watsonObject['filename'] = getWatsonFileName(response);
     watsonObject['file'] = getWatsonFilePassage(response);
     watsonObject['type'] = 'bot';
     watsonObject['message'] = getWatsonMessage(response);
@@ -256,7 +279,8 @@ const Chatbot = () => {
     let luceneMessage = {}
     luceneMessage['picture'] = getLuceneImage(response);
     luceneMessage['link'] = getLuceneLink(response);
-    luceneMessage['file'] = getWatsonFilePassage(response);
+    luceneMessage['filename'] = getLuceneFilename(response);
+    luceneMessage['file'] = getLuceneFilePassage(response);
     luceneMessage['type'] = 'bot';
     luceneMessage['message'] = getLuceneMessage(response);
     return luceneMessage
@@ -287,21 +311,11 @@ const Chatbot = () => {
 
       axios.get("/userquery?" + getMessage).then((response) => {
         // build the botMessage response object
+        console.log(response);
         let botMessage = {};
         botMessage['watson'] = getWatsonObject(response);
         botMessage['lucene'] = getLuceneObject(response);
         botMessage['type'] = 'bot';
-
-        // botMessage['picture'] = getWatsonImage(response);
-        // botMessage['link'] = getWatsonLink(response);
-        // botMessage['file'] = getWatsonFilePassage(response);
-        // botMessage['type'] = 'bot';
-        // botMessage['message'] = getWatsonMessage(response);
-
-        // if((botMessage['link'] != null || botMessage['file'] != null) && botMessage['message'] === "I couldn't find that!"){
-        //   botMessage['message'] = 'Here you go!';
-        // }
-
 
         const newMessagesBot = [...newMessages, botMessage]
         // The current selected question should be the last two items in the messages array
