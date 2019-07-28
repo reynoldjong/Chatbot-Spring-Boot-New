@@ -15,12 +15,14 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
     private String filePath = "../chatbot/files/";
     private HandleFilesEngine fileEngine;
+    private FileParser fileParser;
 
     public FilesDatabaseAdmin() {
        
         WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
         this.fileEngine = new HandleFilesEngine(w);
- 
+        this.fileParser = new FileParser();
+
     }
 
 
@@ -58,7 +60,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
                 stmt.executeUpdate();
 
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                System.out.println("error");
             }
 
             finally{
@@ -132,41 +134,39 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         return false;
     }
 
-//    /**
-//     * Read file using the given filename
-//     *
-//     * @param filename
-//     */
-//
-//    public void extractFile(String filename) {
-//        // update sql
-//
-//        FileOutputStream fos;
-//        // Connection conn = null;
-//        ResultSet rs = getDocumentId(filename);
-//
-//
-//        if (rs != null) {
-//            // write binary stream into file
-//            try {
-//
-//                File file = new File(filePath + filename);
-//                fos = new FileOutputStream(file);
-//
-//                while (rs.next()) {
-//                    InputStream input = rs.getBinaryStream("file");
-//                    byte[] buffer = new byte[1024];
-//                    while (input.read(buffer) > 0) {
-//                        fos.write(buffer);
-//                    }
-//                }
-//            } catch (SQLException | IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            System.out.println("File uploaded");
-//        }
-//    }
+    /**
+     * Read file using the given filename
+     *
+     * @param filename
+     */
+
+    public String extractFile(String filename) throws SQLException {
+        // update sql
+
+        FileOutputStream fos;
+        // Connection conn = null;
+        String content = "";
+
+        if (!getDocumentId(filename).equals("")) {
+
+            connect();
+            // write binary stream into file
+            PreparedStatement stmt = this.connection.prepareStatement("SELECT file FROM FILES WHERE filename=?");
+            stmt.setString(1, filename);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+
+                InputStream input = rs.getBinaryStream(1);
+                content = fileParser.parse(filename, input);
+            }
+
+        } else {
+            System.out.println("File uploaded");
+        }
+
+        return content;
+    }
 
 
     public String getDocumentId(String filename) {

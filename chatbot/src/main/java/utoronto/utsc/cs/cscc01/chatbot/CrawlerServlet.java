@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @WebServlet(urlPatterns = "/webcrawler")
@@ -15,23 +17,36 @@ public class CrawlerServlet extends HttpServlet {
 
 
     private WebCrawler crawler;
+    private LinksDatabaseAdmin linksDb;
 
+    @Override
+    public void init() {
+        this.linksDb = new LinksDatabaseAdmin();
+    }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        response.setContentType("text/html");
-
         String url = request.getParameter("url");
         String depth = request.getParameter("depth");
 
-        this.crawler = new WebCrawler(Integer.parseInt(depth));
-        crawler.crawl(url, 0, "?page_id", "?p");
+        try {
+            this.crawler = new WebCrawler(Integer.parseInt(depth));
+            crawler.crawl(url, 0, "?page_id", "?p");
+            linksDb.insert(url, crawler.getLinks());
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.write("{\"reply\": \"Website is crawled\"}");
 
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter writer = response.getWriter();
-        writer.write("{\"reply\": \"Website is crawled\"}");
+        } catch (IOException e) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.write("{\"reply\": \"Error spotted\"}");
+        }
+
+
 
     }
 

@@ -101,7 +101,7 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
             stmt = this.connection.prepareStatement(selectSQL);
             rs = stmt.executeQuery();
             // Open CSV file.
-            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/queriesData.csv"));
+            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/data/queriesData.csv"));
 
             writer.writeAll(rs, true);
 

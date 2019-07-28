@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,18 +95,22 @@ public class WebCrawler {
     }
 
     public static void main(String[] args) {
-        WebCrawler wc = new WebCrawler(3);
+//        WebCrawler wc = new WebCrawler(2);
         String url = "https://digitalfinanceinstitute.org/";
-        wc.crawl(url, 0, "?page_id", "?p");
-
-//        for (Map.Entry<String, HashMap<String, String>> entry : getLinks().entrySet()) {
-//            System.out.println(entry.getKey());
-//            for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
-//                System.out.println(entry2.getKey());
-//                System.out.println(entry2.getValue());
-//            }
-//        }
-
+//        wc.crawl(url, 0, "?page_id", "?p");
+        LinksDatabaseAdmin linksDb = new LinksDatabaseAdmin();
+        try {
+            HashMap<String, HashMap<String, String>> links = linksDb.extractLinkCollection(url);
+            for (Map.Entry<String, HashMap<String, String>> entry : links.entrySet()) {
+                System.out.println(entry.getKey());
+                for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
+                    System.out.println(entry2.getKey());
+                    System.out.println(entry2.getValue());
+                }
+            }
+        } catch (SQLException | ClassNotFoundException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

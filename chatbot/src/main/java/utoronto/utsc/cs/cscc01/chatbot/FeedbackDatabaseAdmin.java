@@ -69,7 +69,7 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
             stmt = this.connection.prepareStatement(selectSQL);
             rs = stmt.executeQuery();
             // Open CSV file.
-            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/feedbackData.csv"));
+            CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/data/feedbackData.csv"));
 
             writer.writeAll(rs, true);
 
