@@ -4,8 +4,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+
 import com.ibm.watson.text_to_speech.v1.model.SynthesizeOptions;
 import com.ibm.watson.text_to_speech.v1.util.WaveUtils;
+
+import org.apache.commons.codec.binary.Base64;
 
 public class TextToSpeechEngine {
   private WatsonTextToSpeech watsonTTS;
@@ -37,6 +41,11 @@ public class TextToSpeechEngine {
       in.close();
       inputStream.close();
     return buffer;
+  }
+
+  public String toBase64(byte[] audioArray){
+    String base64String = Base64.encodeBase64String(audioArray);
+    return base64String;
   }
   
   public static void main(String[] args) throws IOException {

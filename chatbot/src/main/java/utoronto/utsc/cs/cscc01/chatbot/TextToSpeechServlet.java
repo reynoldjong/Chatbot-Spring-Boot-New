@@ -27,8 +27,10 @@ public class TextToSpeechServlet extends HttpServlet {
     byte[] buffer = new byte[4194304];
     buffer = ttsEngine.createAudioFromText(text);
     //System.out.println(buffer);
-    ServletOutputStream writer = resp.getOutputStream();
-    writer.write(buffer);
+    //ServletOutputStream writer = resp.getOutputStream();
+    //writer.write(buffer);
+    
+    resp.getWriter().write(ttsEngine.toBase64(buffer));
   }
   
   
