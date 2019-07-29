@@ -30,7 +30,7 @@
  - Doesn't crash and logical
 
 
-## Week 3: June 24 - 28
+## Week 3: July 8 - 12
 
 | Question | Expected | Actual |
 | --- | --- | --- |
@@ -45,3 +45,15 @@
  - Connecting front with back and have IBM Watson with res
  - Has a nice all in one system
  - Fairly functional
+
+
+## Week 5: July 29 - August 2
+
+| Question | Expected | Actual |
+| --- | --- | --- |
+| Show me your progress for week 7 | 5 | 5 |
+| Demo Application | 5 | 5 |
+
+**Comments**
+ - Added bug tickets (Huge jump in burndown which made it very odd shaped)
+ - Good range of features and is ahead with a dashboard
