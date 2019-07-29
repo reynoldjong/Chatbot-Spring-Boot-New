@@ -45,9 +45,8 @@ public class IndexerServlet extends HttpServlet {
             List<CrawledLink> linkList;
 
             try {
-                File dirFile = new File(indexPath);
-                FileUtils.cleanDirectory(dirFile);
                 this.indexer = new Indexer(indexPath);
+                this.indexer.removeIndex();
                 fileList = filesDb.list();
                 for (UploadedFile file: fileList) {
                     String fileName = file.getFilename();
@@ -60,8 +59,6 @@ public class IndexerServlet extends HttpServlet {
                     HashMap<String, HashMap<String, String>> linkCollection = linksDb.extractLinkCollection(seed);
                     this.indexer.indexUrl(linkCollection);
                 }
-
-
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter writer = response.getWriter();
@@ -73,6 +70,13 @@ public class IndexerServlet extends HttpServlet {
                     PrintWriter writer = response.getWriter();
                     writer.write("{\"reply\": \"Error getting information from database\"}");
             }
+        } else if (request.getParameter("reset") != null) {
+            this.indexer = new Indexer(indexPath);
+            this.indexer.removeIndex();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter writer = response.getWriter();
+            writer.write("{\"reply\": \"Removed Index\"}");
         }
 
     }
@@ -82,12 +86,9 @@ public class IndexerServlet extends HttpServlet {
 
         try {
 
-
             List<CrawledLink> listCrawledLink = linksDb.list();
 
             request.setAttribute("listCrawledLink", listCrawledLink);
-
-
 
             ArrayList<String> list = new ArrayList<>();
             for(CrawledLink c:listCrawledLink){

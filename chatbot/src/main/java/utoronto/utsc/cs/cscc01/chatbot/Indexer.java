@@ -1,8 +1,11 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -15,12 +18,14 @@ import org.apache.lucene.store.FSDirectory;
 
 public class Indexer {
 
-  private Directory indexDirectory;
+    private String indexDirPath;
+    private Directory indexDirectory;
   
   // need to specify where we are writing to
   // filePath = "../chatbot/index/" for testing
   public Indexer(String indexDirPath) throws IOException {
-    this.indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
+      this.indexDirPath = indexDirPath;
+      this.indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
   }
 
 
@@ -89,6 +94,11 @@ public class Indexer {
     Document doc = buildTextDoc(title, body);
     writer.addDocument(doc);
     writer.close();
+  }
+
+  public void removeIndex() throws IOException {
+      File dirFile = new File(this.indexDirPath);
+      FileUtils.cleanDirectory(dirFile);
   }
   
   // this was run once before indexer ran so we get an empty index

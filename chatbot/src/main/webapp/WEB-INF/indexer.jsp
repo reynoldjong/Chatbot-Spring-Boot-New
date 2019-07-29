@@ -22,6 +22,8 @@
         </select>
         <br/><br/>
         <input type="submit" name = "index" value="Index" />
+        <br/><br/>
+        <input type="submit" name = "reset" value="Remove Index" />
     </form>
 </div>
 </body>
