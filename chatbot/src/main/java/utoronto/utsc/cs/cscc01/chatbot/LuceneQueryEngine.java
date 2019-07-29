@@ -1,6 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -70,34 +71,36 @@ public class LuceneQueryEngine implements SearchEngine {
       
       // if we have a file, add to the file list
       else if (filetype.equals("file")) {
-        String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + doc.get("body") + "\"}";
-        Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(fileString);
+        String docBody = doc.get("body");
+        Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(docBody);
         for (int i = 0; i < 50 && m.find(); i++);
-        if (m.hitEnd())
-          file.add(fileString);
-        else
-          file.add(fileString.substring(0, m.end()));
+        if (! m.hitEnd())
+          docBody = docBody.substring(0, m.end());
+        String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + docBody + "\"}";
+        file.add(fileString);
       }
     }
     return dict;
   }
   
   public static void main(String[] args) throws IOException, java.text.ParseException {
-//    String uploadPath = "../chatbot/files/Chatbot Corpus.docx";
-//    String fileName = "Chatbot Corpus.docx";
-//    FileParser fp = new FileParser();
-//    String content = fp.parse(uploadPath);
+    String uploadPath = "../chatbot/files/Chatbot Corpus.docx";
+    String fileName = "Chatbot Corpus.docx";
+    FileParser fp = new FileParser();
+    String content = fp.parse(fileName, new FileInputStream(new File(uploadPath)));
 //    String url = "https://www.digitalfinanceinstitute.org/";
+//    System.out.println(content);
     String filePath = "../chatbot/index/documents";
 //    WebCrawler wc = new WebCrawler(2);
 //    wc.crawl(url, 0, "?page_id", "?p");
-//    Indexer indexer = new Indexer(filePath);
+    Indexer indexer = new Indexer(filePath);
+    indexer.indexDoc(fileName, content);
 //    indexer.indexUrl(wc.getLinks());
-//    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
-//    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("What funding opportunities?");
-//    System.out.println(searchResult);
-    File dirFile = new File(filePath);
-    FileUtils.cleanDirectory(dirFile);
+    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
+    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("What funding opportunities?");
+    System.out.println(searchResult);
+//    File dirFile = new File(filePath);
+//    FileUtils.cleanDirectory(dirFile);
   }
 
 }
