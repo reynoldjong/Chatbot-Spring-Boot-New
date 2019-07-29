@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -69,9 +71,13 @@ public class LuceneQueryEngine implements SearchEngine {
       // if we have a file, add to the file list
       else if (filetype.equals("file")) {
         String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + doc.get("body") + "\"}";
-        file.add(fileString);
+        Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(fileString);
+        for (int i = 0; i < 50 && m.find(); i++);
+        if (m.hitEnd())
+          file.add(fileString);
+        else
+          file.add(fileString.substring(0, m.end()));
       }
-      
     }
     return dict;
   }
