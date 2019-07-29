@@ -1,7 +1,10 @@
 import React from 'react';
 import classes from './AboutUs.module.css';
 
-
+/**
+ * Component for displaying dummy text on the home page
+ * about our chatbot, mostly filler content
+ */
 const aboutUs = () => {
     return (
         <div className={classes.AboutUs}>

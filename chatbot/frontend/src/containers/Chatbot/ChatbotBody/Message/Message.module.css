@@ -1,12 +1,12 @@
 .root {
-  display: flex;
+ 
   margin:20px;
-  margin-left:0px;
-  margin-right:0px;
+  margin-left:10px;
+  margin-right:10px;
 }
 
 .avatar2{
-  flex-grow: 1;
+  flex: 1;
   background-image:url('./images/robot.png');
   background-size:cover;
   background-position:center center;
@@ -22,7 +22,7 @@
 }
 
 .text {
-  flex-grow: 1;
+  flex: 1;
   padding: 10px;
   border-radius: 15px;
   display: block;
@@ -58,4 +58,11 @@
   opacity:0.8 !important;
   transition:.1s ease-in;
 
+}
+
+.playButton{
+  color:green;
+  float:right;
+  margin-right:20%;
+  cursor:pointer;
 }

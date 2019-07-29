@@ -1,37 +1,81 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
-import Box from '@material-ui/core/Box';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Close from '@material-ui/icons/Close';
-import More from '@material-ui/icons/MoreHoriz'
-import Toolbar from '@material-ui/core/Toolbar';
-import classes from './ChatbotHeader.module.css';
-import robot from '../ChatbotBody/Message/images/robot.png';
-
+import Box from "@material-ui/core/Box";
+import IconButton from "@material-ui/core/IconButton";
+import Minimize from "@material-ui/icons/Minimize";
+import Toolbar from "@material-ui/core/Toolbar";
+import MenuIcon from "@material-ui/icons/Menu";
+import { makeStyles } from "@material-ui/core/styles";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import FeedbackModal from "../Feedback/Feedback";
+import media from "./ChatbotHeader.module.css";
+const useStyles = makeStyles(theme => ({
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: { flexGrow: 1 }
+}));
+/**
+ * Componenet representing header of chatbot
+ */
 const ChatbotHeader = props => {
+  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
   return (
-    <div className={classes.root}>
-      <AppBar position="static" style={{borderTopLeftRadius: '10px',borderTopRightRadius: '10px'}}>
-        <Box boxShadow={3} className={classes.Shadow} style={{borderTopLeftRadius: '10px',borderTopRightRadius: '10px'}}>
-        
+    <React.Fragment>
+      <AppBar position="static" className={media.root}>
+        <Box boxShadow={3}>
           <Toolbar>
-          
-            <Typography variant="h4" component="h1" className={classes.title}>
+            <IconButton
+              edge="start"
+              onClick={handleClick}
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Typography variant="h5" className={classes.title}>
               {props.title}
             </Typography>
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu" onClick={props.clickHandler}>
-             
-              <Close style={{ fontSize:'1.3em'}}/>
+
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              style={{ position: "relative", bottom: "5px" }}
+              onClick={props.clickHandler}
+              color="inherit"
+            >
+              <Minimize style={{ position: "relative", bottom: "5px" }} />
             </IconButton>
           </Toolbar>
         </Box>
       </AppBar>
 
-    </div>
-
-
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>
+          {" "}
+          <FeedbackModal />
+        </MenuItem>
+      </Menu>
+    </React.Fragment>
   );
 };
 

@@ -1,0 +1,26 @@
+@media only screen and (max-width: 600px) {
+    .root {
+    
+      height:100%!important;
+      max-height:80vh!important;
+      height:80vh!important;
+
+    }
+
+  }
+
+.root{
+    
+    background-color: white;
+    overflow-x:hidden;
+    overflow-y: scroll;
+    flex:1;
+    max-height:420px;
+    height:50vh;
+    
+   
+    border-bottom-right-radius:0px;
+        border-bottom-left-radius:0px;
+        border-top-right-radius:0px;
+        border-top-left-radius:0px;
+}
