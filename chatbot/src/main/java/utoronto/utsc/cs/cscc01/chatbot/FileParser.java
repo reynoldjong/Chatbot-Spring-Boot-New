@@ -23,55 +23,58 @@ public class FileParser {
 
     public String parsePdf(InputStream file) {
         PDDocument pdDoc;
-        String parsedText = "";
+        String trimmedText = "";
         PDFTextStripper pdfStripper;
 
         try {
             pdDoc = PDDocument.load(file);
             pdfStripper = new PDFTextStripper();
-            parsedText = pdfStripper.getText(pdDoc);
+            String parsedText = pdfStripper.getText(pdDoc);
+            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
             pdDoc.close();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return parsedText;
+        return trimmedText;
 
     }
 
 
     public String parseDocx(InputStream file) {
 
-        String parsedText = "";
+        String trimmedText = "";
 
         try {
             XWPFDocument doc = new XWPFDocument(file);
             XWPFWordExtractor extract = new XWPFWordExtractor(doc);
-            parsedText = extract.getText();
+            String parsedText = extract.getText();
+            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
             file.close();
         } catch (IOException e) {
 
             e.printStackTrace();
         }
 
-        return parsedText;
+        return trimmedText;
     }
 
     public String parseDoc(InputStream file) {
 
-        String parsedText = "";
+        String trimmedText = "";
 
         try {
             HWPFDocument doc = new HWPFDocument(file);
             WordExtractor extractor = new WordExtractor(doc);
-            parsedText = extractor.getText();
+            String parsedText = extractor.getText();
+            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return parsedText;
+        return trimmedText;
     }
 
 
