@@ -25,7 +25,7 @@ public class QueryServlet extends HttpServlet {
     this.queryDatabase = new QueryDatabaseAdmin();
     try {
       // update this when ready
-      this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/index");
+      this.luceneQueryEngine = new LuceneQueryEngine("../chatbot/index/documents");
     } catch (IOException e) {
       System.out.println(e.getMessage());
       e.printStackTrace();

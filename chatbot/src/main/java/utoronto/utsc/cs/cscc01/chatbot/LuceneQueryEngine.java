@@ -1,10 +1,18 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.synonym.SynonymMap;
+import org.apache.lucene.analysis.synonym.WordnetSynonymParser;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
@@ -22,7 +30,7 @@ public class LuceneQueryEngine implements SearchEngine {
   private QueryParser parser;
   private Query q;
   
-  // path for index is "../chatbot/index"
+  // path for index is "../chatbot/index/documents"
   public LuceneQueryEngine(String indexDirPath) throws IOException {
      Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
      IndexReader reader = DirectoryReader.open(indexDirectory);
@@ -63,22 +71,33 @@ public class LuceneQueryEngine implements SearchEngine {
       // if we have a file, add to the file list
       else if (filetype.equals("file")) {
         String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + doc.get("body") + "\"}";
-        file.add(fileString);
+        Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(fileString);
+        for (int i = 0; i < 50 && m.find(); i++);
+        if (m.hitEnd())
+          file.add(fileString);
+        else
+          file.add(fileString.substring(0, m.end()));
       }
-      
     }
     return dict;
   }
   
-  public static void main(String[] args) throws IOException {
-    String filePath = "../chatbot/index";
-    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
-    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("is it raining today?");
-    System.out.println(searchResult);
-    searchResult = qe.simpleQuery("how do I make Apache Lucene indexer?");
-    System.out.println(searchResult);
-    searchResult = qe.simpleQuery("tell me about Haskell");
-    System.out.println(searchResult);
+  public static void main(String[] args) throws IOException, java.text.ParseException {
+//    String uploadPath = "../chatbot/files/Chatbot Corpus.docx";
+//    String fileName = "Chatbot Corpus.docx";
+//    FileParser fp = new FileParser();
+//    String content = fp.parse(uploadPath);
+//    String url = "https://www.digitalfinanceinstitute.org/";
+    String filePath = "../chatbot/index/documents";
+//    WebCrawler wc = new WebCrawler(2);
+//    wc.crawl(url, 0, "?page_id", "?p");
+//    Indexer indexer = new Indexer(filePath);
+//    indexer.indexUrl(wc.getLinks());
+//    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
+//    Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("What funding opportunities?");
+//    System.out.println(searchResult);
+    File dirFile = new File(filePath);
+    FileUtils.cleanDirectory(dirFile);
   }
 
 }

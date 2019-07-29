@@ -30,7 +30,7 @@ public class GetDataServlet extends HttpServlet {
             response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
                 this.queryDb.extractCSV();
 
-                InputStream inStream = new FileInputStream(new File("../chatbot/files/queriesData.csv"));
+                InputStream inStream = new FileInputStream(new File("../chatbot/files/data/queriesData.csv"));
                 OutputStream outputStream = response.getOutputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -47,7 +47,7 @@ public class GetDataServlet extends HttpServlet {
             response.setHeader("Content-Disposition", "attachment; filename=feedbackData.csv");
                 this.feedbackDb.extractCSV();
 
-                InputStream inStream = new FileInputStream(new File("../chatbot/files/feedbackData.csv"));
+                InputStream inStream = new FileInputStream(new File("../chatbot/files/data/feedbackData.csv"));
                 OutputStream outputStream = response.getOutputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;

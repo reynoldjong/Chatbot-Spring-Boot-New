@@ -18,7 +18,7 @@ abstract class AbstractDatabaseAdmin {
      */
     public boolean connect() {
 
-        // Connect to FileDatabase.db at project folder and return true if it is successful.
+        // Connect to Chatbot.db at project folder and return true if it is successful.
         try {
             this.connection = DriverManager.getConnection("jdbc:sqlite:Chatbot.db");
             return true;

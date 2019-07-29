@@ -14,23 +14,23 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class FileParser {
 
 
-    public String parsePdf(String docName) {
+    public String parsePdf(InputStream file) {
         PDDocument pdDoc;
         String parsedText = "";
         PDFTextStripper pdfStripper;
 
         try {
-            pdDoc = PDDocument.load(new File(docName));
+            pdDoc = PDDocument.load(file);
             pdfStripper = new PDFTextStripper();
             parsedText = pdfStripper.getText(pdDoc);
-//            PrintWriter pw = new PrintWriter("src/output/pdf.txt");
-//            pw.print(parsedText);
-//            pw.close();
+            pdDoc.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -41,16 +41,15 @@ public class FileParser {
     }
 
 
-    public String parseDocx(String docName) {
+    public String parseDocx(InputStream file) {
 
-        FileInputStream fis;
         String parsedText = "";
 
         try {
-            fis = new FileInputStream(new File(docName));
-            XWPFDocument doc = new XWPFDocument(fis);
+            XWPFDocument doc = new XWPFDocument(file);
             XWPFWordExtractor extract = new XWPFWordExtractor(doc);
             parsedText = extract.getText();
+            file.close();
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -59,16 +58,15 @@ public class FileParser {
         return parsedText;
     }
 
-    public String parseDoc(String docName) {
+    public String parseDoc(InputStream file) {
 
-        FileInputStream fis;
         String parsedText = "";
 
         try {
-            fis = new FileInputStream(new File(docName));
-            HWPFDocument doc = new HWPFDocument(fis);
+            HWPFDocument doc = new HWPFDocument(file);
             WordExtractor extractor = new WordExtractor(doc);
             parsedText = extractor.getText();
+            file.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,22 +75,18 @@ public class FileParser {
     }
 
 
-    public String parse(String docName) {
-        String docType = FilenameUtils.getExtension(docName);
-        System.out.println(docType);
+    public String parse(String fileName, InputStream file) {
+        String docType = FilenameUtils.getExtension(fileName);
         String text = "";
         switch (docType) {
             case "doc":
-                text = parseDoc(docName);
+                text = parseDoc(file);
                 break;
             case "docx":
-                text = parseDocx(docName);
+                text = parseDocx(file);
                 break;
             case "pdf":
-                text = parsePdf(docName);
-                break;
-            case "html":
-                text = "";
+                text = parsePdf(file);
                 break;
         }
         return text;
@@ -101,9 +95,7 @@ public class FileParser {
 
     public static void main (String args[]) {
         FileParser fp = new FileParser();
-        System.out.println(fp.parse("../chatbot/files/Design.pdf"));
-
-
+        // String content = fp.parse(new File("../chatbot/files/Chatbot Corpus.docx"));
     }
 }
 
