@@ -46,6 +46,49 @@
  - Has a nice all in one system
  - Fairly functional
 
+## Week 4: July 22 - 26
+
+|Question|Expected|Actual|
+|--------|-----|----|
+|Show me your progress for previous week|5|5|
+|Show me your progress for week before|5|5|
+|Run me through your testing (or tell me your plans if not present)|5|5|
+|Run the application (technical demo)|5|5|
+
+**Comments**
+
+- last week:
+    - chatbot frontend
+        - able to highlight a question (see corresponding answer)
+        - responsive design
+    - lucene stuff:
+        - crawling DFI website
+        - other lucene stuff
+        - indexing
+- 2 weeks ago:
+    - connecting frontend to watson query stuff
+    - started on new requirements
+        - integrated watson into the application / research and development
+    - consolidated database
+        - consolidated the tables
+    - unit testing
+- unit testing
+    - some unit testing was done
+        - a couple unit tests don't run but that's ok
+    - mostly just unit tests at this point
+    - suggestion: do some integration tests
+        - e.g. you can do some integration tests for the database
+- demo
+    - looks ok
+- burndown chart
+    - notice some more bugs and added new tasks so it's messed up in the beginning
+    - is going down fine
+- JIRA board
+    - board looks fine although e d i t e d
+- next steps
+    - text-to-speech
+    - chatbot rating system
+    - testing
 
 ## Week 5: July 29 - August 2
 
