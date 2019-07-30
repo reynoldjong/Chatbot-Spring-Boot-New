@@ -85,37 +85,8 @@ public class IndexerServlet extends HttpServlet {
 
     }
 
-    private void listCrawledLink(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        try {
-
-            List<CrawledLink> listCrawledLink = linksDb.list();
-
-            request.setAttribute("listCrawledLink", listCrawledLink);
-
-            ArrayList<String> list = new ArrayList<>();
-            for(CrawledLink c:listCrawledLink){
-                list.add(c.getSeed());
-            }
-            Gson gsonBuilder = new GsonBuilder().create();
-            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(String.format("{\"links\": %s }",jsonFromJavaArrayList));
-
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-            throw new ServletException(e);
-
-        }
-    }
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        listCrawledLink(request, response);
         response.setContentType("text/html");
         request.getRequestDispatcher("/WEB-INF/indexer.jsp").forward(request, response);
     }
