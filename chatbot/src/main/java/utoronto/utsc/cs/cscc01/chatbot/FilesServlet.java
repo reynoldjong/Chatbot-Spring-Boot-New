@@ -66,9 +66,6 @@ public class FilesServlet extends HttpServlet {
             throws ServletException, java.io.IOException {
 
         listUploadedFile(request, response);
-        response.setContentType("text/html");
-        request.getRequestDispatcher("/WEB-INF/handlefiles.jsp").forward(request, response);
-
     }
 
     private void listUploadedFile(HttpServletRequest request, HttpServletResponse response)
