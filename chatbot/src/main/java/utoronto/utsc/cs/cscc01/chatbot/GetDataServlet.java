@@ -51,9 +51,13 @@ public class GetDataServlet extends HttpServlet {
         } else if (request.getParameter("getFeedback") != null) {
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=feedbackData.csv");
+            try {
                 this.feedbackDb.extractCSV();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-                InputStream inStream = new FileInputStream(new File("../chatbot/files/data/feedbackData.csv"));
+            InputStream inStream = new FileInputStream(new File("../chatbot/files/data/feedbackData.csv"));
                 OutputStream outputStream = response.getOutputStream();
                 byte[] buffer = new byte[4096];
                 int bytesRead;
@@ -100,7 +104,11 @@ public class GetDataServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         listQueries(request, response);
-        request.setAttribute("average", feedbackDb.getAverage());
+        try {
+            request.setAttribute("average", feedbackDb.getAverage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
     }
 

@@ -28,29 +28,36 @@ public class FeedbackServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        Enumeration e = request.getParameterNames();
-        int rating = 0;
-        String comments = "";
-       
-        while (e.hasMoreElements()) {
-            String fieldName = (String) e.nextElement();
-            if (fieldName.equals("rating")) {
-                rating = Integer.parseInt(request.getParameter(fieldName));
-               
-            } else if (fieldName.equals("comments")) {
-                comments = request.getParameter(fieldName);
-        
-            }
-        }
-
-        if (rating != 0) {
-            feedbackDb.insertFeedback(rating, comments);
-        }
-
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
-        writer.write("{\"reply\": \"Feedback received. Thank you!\"}");
+
+        try {
+            Enumeration e = request.getParameterNames();
+            int rating = 0;
+            String comments = "";
+
+            while (e.hasMoreElements()) {
+                String fieldName = (String) e.nextElement();
+                if (fieldName.equals("rating")) {
+                    rating = Integer.parseInt(request.getParameter(fieldName));
+
+                } else if (fieldName.equals("comments")) {
+                    comments = request.getParameter(fieldName);
+
+                }
+            }
+
+            if (rating != 0) {
+                feedbackDb.insertFeedback(rating, comments);
+            }
+
+            writer.write("{\"reply\": \"Feedback received. Thank you!\"}");
+
+        } catch (SQLException e) {
+
+            writer.write("{\"reply\": \"Error getting feedback. Please try again.\"}");
+        }
     }
 
     private void listFeedback(HttpServletRequest request, HttpServletResponse response)

@@ -1,16 +1,15 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.HiddenFileFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.synonym.SynonymMap;
 import org.apache.lucene.analysis.synonym.WordnetSynonymParser;
@@ -50,8 +49,9 @@ public class LuceneQueryEngine implements SearchEngine {
     dict.put("url", url);
     dict.put("file", file);
 
-    Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
-    if (indexDirectory.listAll().length != 0) {
+    File fileDirectory = new File(indexDirPath);
+    if (Objects.requireNonNull(fileDirectory.list(HiddenFileFilter.VISIBLE)).length > 0) {
+      Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
       IndexReader reader = DirectoryReader.open(indexDirectory);
       IndexSearcher searcher = new IndexSearcher(reader);
 

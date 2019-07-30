@@ -38,6 +38,10 @@ public class IndexerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
+
         if (request.getParameter("index") != null) {
 
 
@@ -59,24 +63,24 @@ public class IndexerServlet extends HttpServlet {
                     HashMap<String, HashMap<String, String>> linkCollection = linksDb.extractLinkCollection(seed);
                     this.indexer.indexUrl(linkCollection);
                 }
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter writer = response.getWriter();
+
                 writer.write("{\"reply\": \"Indexed Files\"}");
 
             } catch (SQLException | ClassNotFoundException | IOException e) {
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    PrintWriter writer = response.getWriter();
-                    writer.write("{\"reply\": \"Error getting information from database\"}");
+
+                writer.write("{\"reply\": \"Error getting information from database\"}");
             }
+
         } else if (request.getParameter("reset") != null) {
-            this.indexer = new Indexer(indexPath);
-            this.indexer.removeIndex();
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter writer = response.getWriter();
-            writer.write("{\"reply\": \"Removed Index\"}");
+
+            try {
+                this.indexer = new Indexer(indexPath);
+                this.indexer.removeIndex();
+                writer.write("{\"reply\": \"Removed Index\"}");
+
+            } catch (IOException e) {
+                writer.write("{\"reply\": \"Error removing index\"}");
+            }
         }
 
     }

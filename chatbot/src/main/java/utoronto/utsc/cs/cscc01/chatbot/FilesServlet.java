@@ -18,7 +18,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.Gson;
 
 
-@WebServlet (urlPatterns = "/files")
+@WebServlet (urlPatterns = "/handlefiles")
 @MultipartConfig
 public class FilesServlet extends HttpServlet {
 
@@ -67,7 +67,7 @@ public class FilesServlet extends HttpServlet {
 
         listUploadedFile(request, response);
         response.setContentType("text/html");
-        request.getRequestDispatcher("/WEB-INF/files.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/handlefiles.jsp").forward(request, response);
 
     }
 
