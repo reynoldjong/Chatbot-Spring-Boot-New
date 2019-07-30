@@ -27,20 +27,25 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class LuceneQueryEngine implements SearchEngine {
-  private IndexSearcher searcher;
+
   private QueryParser parser;
   private Query q;
+  private String indexDirPath;
   
   // path for index is "../chatbot/index/documents"
   public LuceneQueryEngine(String indexDirPath) throws IOException {
-     Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
-     IndexReader reader = DirectoryReader.open(indexDirectory);
-     searcher = new IndexSearcher(reader);
+
+    this.indexDirPath = indexDirPath;
      parser = new QueryParser("body", new StandardAnalyzer());
   }
   
   @Override
   public Hashtable<String, ArrayList<String>> simpleQuery(String s) throws IOException{
+
+    Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
+    IndexReader reader = DirectoryReader.open(indexDirectory);
+    IndexSearcher searcher = new IndexSearcher(reader);
+
     Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
     
     ArrayList<String> url = new ArrayList<>();
@@ -80,21 +85,23 @@ public class LuceneQueryEngine implements SearchEngine {
         file.add(fileString);
       }
     }
+
+    reader.close();
     return dict;
   }
   
   public static void main(String[] args) throws IOException, java.text.ParseException {
     String uploadPath = "../chatbot/files/Chatbot Corpus.docx";
     String fileName = "Chatbot Corpus.docx";
-    FileParser fp = new FileParser();
-    String content = fp.parse(fileName, new FileInputStream(new File(uploadPath)));
+//    FileParser fp = new FileParser();
+//    String content = fp.parse(fileName, new FileInputStream(new File(uploadPath)));
 //    String url = "https://www.digitalfinanceinstitute.org/";
 //    System.out.println(content);
     String filePath = "../chatbot/index/documents";
 //    WebCrawler wc = new WebCrawler(2);
 //    wc.crawl(url, 0, "?page_id", "?p");
-    Indexer indexer = new Indexer(filePath);
-    indexer.indexDoc(fileName, content);
+//    Indexer indexer = new Indexer(filePath);
+//    indexer.indexDoc(fileName, content);
 //    indexer.indexUrl(wc.getLinks());
     LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
     Hashtable<String, ArrayList<String>> searchResult = qe.simpleQuery("What funding opportunities?");

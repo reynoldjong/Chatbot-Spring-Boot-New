@@ -12,10 +12,7 @@ import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class FileParser {
@@ -30,7 +27,7 @@ public class FileParser {
             pdDoc = PDDocument.load(file);
             pdfStripper = new PDFTextStripper();
             String parsedText = pdfStripper.getText(pdDoc);
-            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
+            trimmedText = parsedText.replaceAll("[\\n\\t\\v\\f\\r ]", " ");
             pdDoc.close();
 
         } catch (IOException e) {
@@ -50,7 +47,7 @@ public class FileParser {
             XWPFDocument doc = new XWPFDocument(file);
             XWPFWordExtractor extract = new XWPFWordExtractor(doc);
             String parsedText = extract.getText();
-            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
+            trimmedText = parsedText.replaceAll("[\\n\\t\\v\\f\\r ]", " ");
             file.close();
         } catch (IOException e) {
 
@@ -68,7 +65,7 @@ public class FileParser {
             HWPFDocument doc = new HWPFDocument(file);
             WordExtractor extractor = new WordExtractor(doc);
             String parsedText = extractor.getText();
-            trimmedText = parsedText.replaceAll("[\\n\\t ]", " ");
+            trimmedText = parsedText.replaceAll("[\\n\\t\\v\\f\\r ]", " ");
             file.close();
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,13 +7,13 @@ import com.ibm.watson.discovery.v1.model.*;
 import java.io.*;
 
 
-public class HandleFilesEngine {
+public class FilesEngine {
 
     private WatsonDiscovery wdisc;
     private String environmentId; 
     private String uploadedFilesCollectionId;
   
-    public HandleFilesEngine(WatsonDiscovery wdisc) {
+    public FilesEngine(WatsonDiscovery wdisc) {
         this.wdisc = wdisc;
         this.environmentId = this.wdisc.getEnvironmentId();
         this.uploadedFilesCollectionId = this.wdisc.getUploadedFilesCollectionId();

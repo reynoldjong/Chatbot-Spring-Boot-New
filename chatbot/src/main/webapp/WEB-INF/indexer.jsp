@@ -14,9 +14,9 @@
         <select name="link">
             <c:forEach items="${listCrawledLink}" var="crawledlink">
                 <option value="${crawledlink.seed}"
-                    <c:if test="${crawledlink.seed eq selectedLinkSeed}">selected="selected"</c:if>
+                    <c:if test="${crawledlink.id eq selectedLinkId}">selected="selected"</c:if>
                     >
-                    ${crawledlink.seed}
+                    ${crawledlink.seed} &nbsp;&nbsp; ${crawledlink.date}
                 </option>
             </c:forEach>
         </select>

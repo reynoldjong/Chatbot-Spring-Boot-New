@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 @WebServlet (urlPatterns = "/handlefiles")
 @MultipartConfig
-public class HandleFilesServlet extends HttpServlet {
+public class FilesServlet extends HttpServlet {
 
 
     private FilesDatabaseAdmin db;

@@ -155,9 +155,10 @@ public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
             ResultSet result = statement.executeQuery(sql);
 
             while (result.next()) {
+                int id = result.getInt("linkid");
                 String seed = result.getString("seed");
                 String date = result.getString("date");
-                CrawledLink link = new CrawledLink(seed, date);
+                CrawledLink link = new CrawledLink(id, seed, date);
 
                 listCrawledLink.add(link);
             }

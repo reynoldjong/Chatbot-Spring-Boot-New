@@ -4,6 +4,8 @@ import com.opencsv.CSVWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
 
@@ -84,6 +86,40 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
         } finally{
             this.close();
         }
+
+    }
+
+    public List<Feedback> list() throws SQLException {
+
+        List<Feedback> listFeedback = new ArrayList<>();
+
+        try{
+
+            String sql = "SELECT * FROM feedback ORDER BY rating";
+            connect();
+
+            Statement statement = this.connection.createStatement();
+            ResultSet result = statement.executeQuery(sql);
+
+            while (result.next()) {
+                int id = result.getInt("feedbackId");
+                int rating = result.getInt("rating");
+                String comments = result.getString("comments");
+                Feedback feedback = new Feedback(id, rating, comments);
+
+                listFeedback.add(feedback);
+            }
+
+
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        finally{
+
+            close();
+        }
+        return listFeedback;
 
     }
 

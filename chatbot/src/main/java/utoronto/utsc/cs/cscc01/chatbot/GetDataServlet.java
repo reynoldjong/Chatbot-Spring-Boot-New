@@ -1,12 +1,18 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/getdata")
 
@@ -61,9 +67,39 @@ public class GetDataServlet extends HttpServlet {
         }
     }
 
+    private void listQueries(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+
+
+            List<Query> listQuery = queryDb.list();
+
+            request.setAttribute("listQuery", listQuery);
+
+            ArrayList<String> list = new ArrayList<>();
+            for(Query q: listQuery){
+                list.add(q.getContent());
+            }
+            Gson gsonBuilder = new GsonBuilder().create();
+            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(String.format("{\"query\": %s }",jsonFromJavaArrayList));
+
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            throw new ServletException(e);
+
+        }
+    }
+
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        listQueries(request, response);
         request.setAttribute("average", feedbackDb.getAverage());
         request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
     }

@@ -14,13 +14,13 @@ import java.util.List;
 public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
     private String filePath = "../chatbot/files/";
-    private HandleFilesEngine fileEngine;
+    private FilesEngine fileEngine;
     private FileParser fileParser;
 
     public FilesDatabaseAdmin() {
        
         WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
-        this.fileEngine = new HandleFilesEngine(w);
+        this.fileEngine = new FilesEngine(w);
         this.fileParser = new FileParser();
 
     }
