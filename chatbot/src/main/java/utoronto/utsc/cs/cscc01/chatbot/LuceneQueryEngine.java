@@ -42,10 +42,6 @@ public class LuceneQueryEngine implements SearchEngine {
   @Override
   public Hashtable<String, ArrayList<String>> simpleQuery(String s) throws IOException{
 
-    Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
-    IndexReader reader = DirectoryReader.open(indexDirectory);
-    IndexSearcher searcher = new IndexSearcher(reader);
-
     Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
     
     ArrayList<String> url = new ArrayList<>();
@@ -53,40 +49,47 @@ public class LuceneQueryEngine implements SearchEngine {
     
     dict.put("url", url);
     dict.put("file", file);
-    
-    try {
-      q = parser.parse(s);
-    } catch (ParseException e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-    }
-    // we only care about the top hit or else we are printing too much on chatbot
-    TopDocs hits = searcher.search(q, 1);
-    if (hits.scoreDocs.length > 0) {
-      ScoreDoc scoreDoc = hits.scoreDocs[0];
-      Document doc = searcher.doc(scoreDoc.doc);
-      // get type back from doc, can be url or file
-      String filetype = doc.get("type");
-      
-      // if we have a url, add to the url list
-      if (filetype.equals("url")) {
-        String link = doc.get("title");
-        url.add(link);
-      }
-      
-      // if we have a file, add to the file list
-      else if (filetype.equals("file")) {
-        String docBody = doc.get("body");
-        Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(docBody);
-        for (int i = 0; i < 50 && m.find(); i++);
-        if (! m.hitEnd())
-          docBody = docBody.substring(0, m.end());
-        String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + docBody + "\"}";
-        file.add(fileString);
-      }
-    }
 
-    reader.close();
+    Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
+    if (indexDirectory.listAll().length != 0) {
+      IndexReader reader = DirectoryReader.open(indexDirectory);
+      IndexSearcher searcher = new IndexSearcher(reader);
+
+      try {
+        q = parser.parse(s);
+      } catch (ParseException e) {
+        System.out.println(e.getMessage());
+        e.printStackTrace();
+      }
+      // we only care about the top hit or else we are printing too much on chatbot
+      TopDocs hits = searcher.search(q, 1);
+      if (hits.scoreDocs.length > 0) {
+        ScoreDoc scoreDoc = hits.scoreDocs[0];
+        Document doc = searcher.doc(scoreDoc.doc);
+        // get type back from doc, can be url or file
+        String filetype = doc.get("type");
+
+        // if we have a url, add to the url list
+        if (filetype.equals("url")) {
+          String link = doc.get("title");
+          url.add(link);
+        }
+
+        // if we have a file, add to the file list
+        else if (filetype.equals("file")) {
+          String docBody = doc.get("body");
+          Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(docBody);
+          for (int i = 0; i < 50 && m.find(); i++) ;
+          if (!m.hitEnd())
+            docBody = docBody.substring(0, m.end());
+          String fileString = "{\"filename\":\"" + doc.get("title") + "\",\"passage\":\"" + docBody + "\"}";
+          file.add(fileString);
+        }
+
+      }
+
+      reader.close();
+    }
     return dict;
   }
   

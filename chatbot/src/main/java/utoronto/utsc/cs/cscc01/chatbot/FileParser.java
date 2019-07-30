@@ -1,6 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 
+import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -13,6 +14,7 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 
 public class FileParser {
@@ -75,7 +77,7 @@ public class FileParser {
     }
 
 
-    public String parse(String fileName, InputStream file) {
+    public String parse(String fileName, InputStream file) throws IOException {
         String docType = FilenameUtils.getExtension(fileName);
         String text = "";
         switch (docType) {
@@ -87,6 +89,11 @@ public class FileParser {
                 break;
             case "pdf":
                 text = parsePdf(file);
+                break;
+            case "txt":
+                text = IOUtils.toString(file, StandardCharsets.UTF_8);
+                break;
+            case "html":
                 break;
         }
         return text;

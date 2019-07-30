@@ -140,7 +140,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
      * @param filename
      */
 
-    public String extractFile(String filename) throws SQLException {
+    public String extractFile(String filename) throws SQLException, IOException {
         // update sql
 
         FileOutputStream fos;
