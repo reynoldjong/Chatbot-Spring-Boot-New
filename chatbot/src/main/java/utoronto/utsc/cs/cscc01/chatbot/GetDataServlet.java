@@ -20,18 +20,18 @@ public class GetDataServlet extends HttpServlet {
 
     private QueryDatabaseAdmin queryDb;
     private FeedbackDatabaseAdmin feedbackDb;
+    private AnswerRatingDatabaseAdmin answerRatingDb;
 
     public void init () {
         this.queryDb = new QueryDatabaseAdmin();
         this.feedbackDb = new FeedbackDatabaseAdmin();
+        this.answerRatingDb = new AnswerRatingDatabaseAdmin();
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(request.getParameter("getQueries"));
 
         if (request.getParameter("getQueries") != null) {
-            System.out.println("hello");
             response.setContentType("text/csv");
             response.setHeader("Content-Disposition", "attachment; filename=queriesData.csv");
                 this.queryDb.extractCSV();
@@ -68,8 +68,29 @@ public class GetDataServlet extends HttpServlet {
                 outputStream.flush();
                 outputStream.close();
 
+        } else if (request.getParameter("getAnswerRatings") != null) {
+            response.setContentType("text/csv");
+            response.setHeader("Content-Disposition", "attachment; filename=answerRatingsData.csv");
+            try {
+                this.answerRatingDb.extractCSV();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            InputStream inStream = new FileInputStream(new File("../chatbot/files/data/answerRatingsData.csv"));
+            OutputStream outputStream = response.getOutputStream();
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = inStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            outputStream.close();
+
         }
     }
+
 
     private void listQueries(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

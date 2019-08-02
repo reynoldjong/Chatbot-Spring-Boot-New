@@ -22,6 +22,8 @@
     <br /><br />
     <input type="submit" name="getFeedback" value="Export Feedback to CSV" />
     <br /><br />
+    <input type="submit" name="getAnswerRatings" value="Export Answer Ratings to CSV" />
+    <br /><br />
 </form>
     The Average rating for the Chatbot is: ${average}
 </body>
