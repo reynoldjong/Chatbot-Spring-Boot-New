@@ -1,30 +1,18 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import org.junit.Test;
 import org.junit.Before;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.security.Principal;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.atLeastOnce;
-import java.io.*;
 
 
-public class HandleFilesServletTest {
+public class FilesServletTest {
 
-    private HandleFilesServlet servlet;
+    private FilesServlet servlet;
 
     @Before
     public void setUp() {
-        servlet = new HandleFilesServlet();
+        servlet = new FilesServlet();
     }
 
 

@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 
 @WebServlet (urlPatterns = "/handlefiles")
 @MultipartConfig
-public class HandleFilesServlet extends HttpServlet {
+public class FilesServlet extends HttpServlet {
 
 
     private FilesDatabaseAdmin db;
@@ -66,7 +66,6 @@ public class HandleFilesServlet extends HttpServlet {
             throws ServletException, java.io.IOException {
 
         listUploadedFile(request, response);
-
     }
 
     private void listUploadedFile(HttpServletRequest request, HttpServletResponse response)

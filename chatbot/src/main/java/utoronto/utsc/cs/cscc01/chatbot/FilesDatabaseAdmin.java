@@ -1,5 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -13,14 +15,13 @@ import java.util.List;
  */
 public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
-    private String filePath = "../chatbot/files/";
-    private HandleFilesEngine fileEngine;
+    private FilesEngine fileEngine;
     private FileParser fileParser;
 
     public FilesDatabaseAdmin() {
        
         WatsonDiscovery w =  WatsonDiscovery.buildDiscovery();
-        this.fileEngine = new HandleFilesEngine(w);
+        this.fileEngine = new FilesEngine(w);
         this.fileParser = new FileParser();
 
     }
@@ -40,11 +41,11 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
 
         String existDocumentId = getDocumentId(filename);
 
-        System.out.println(existDocumentId);
-
-        if (existDocumentId.equals("")) {
-
-            String documentId = this.fileEngine.uploadFiles(content, filename);
+        if (existDocumentId.equals("noFile")) {
+            String documentId = "";
+            if (! FilenameUtils.getExtension(filename).equals("txt")) {
+                documentId = this.fileEngine.uploadFiles(content, filename);
+            }
 
             try {
                 connect();
@@ -78,7 +79,11 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
     public void update(String filename, String existDocumentId, InputStream content, InputStream contentForDb,long size) {
         PreparedStatement stmt;
         String updateSQL = "UPDATE FILES SET DOCUMENTID = ?, FILE = ?, DATE = ? WHERE FILENAME = ?";
-        String documentId = this.fileEngine.updateFiles(content, filename, existDocumentId);
+        String documentId = "";
+        if (! FilenameUtils.getExtension(filename).equals("txt")) {
+            documentId = this.fileEngine.updateFiles(content, filename, existDocumentId);
+        }
+
         try {
             connect();
             // Create SQL statement for inserting
@@ -113,7 +118,12 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         // SQL code for delete
         String deleteSQL = "DELETE FROM FILES WHERE filename = ?";
 
-        String result = this.fileEngine.removeFiles(documentId);
+        String result;
+        if (! FilenameUtils.getExtension(filename).equals("txt")) {
+            result = this.fileEngine.removeFiles(documentId);
+        } else {
+            result = "deleted";
+        }
 
         if (result.equals("deleted")) {
             try {
@@ -140,14 +150,14 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
      * @param filename
      */
 
-    public String extractFile(String filename) throws SQLException {
+    public String extractFile(String filename) throws SQLException, IOException {
         // update sql
 
         FileOutputStream fos;
         // Connection conn = null;
         String content = "";
 
-        if (!getDocumentId(filename).equals("")) {
+        if (!getDocumentId(filename).equals("noFile")) {
 
             connect();
             // write binary stream into file
@@ -173,7 +183,7 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         String selectSQL = "SELECT * FROM FILES WHERE filename=?";
         ResultSet rs;
         PreparedStatement stmt;
-        String documentId = "";
+        String documentId = "noFile";
 
         try {
             connect();
