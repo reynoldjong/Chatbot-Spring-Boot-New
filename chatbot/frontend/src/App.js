@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home/Home";
 import AdminDocuments from "./components/Admin/AdminDocuments/AdminDocuments";
 import AdminFeedback from "./components/Admin/AdminFeedback/AdminFeedback";
+import AdminCrawler from './components/Admin/AdminCrawler/AdminCrawler';
 import axios from "axios";
 import qs from "qs";
 
@@ -138,9 +139,14 @@ class App extends Component {
       .get("/handlefiles")
       .then(response => {
         // If the get request is successful state (files) is updated
-        const data = response["data"]["files"];
+      
+        const data = response["data"];
+        let files = [];
+        for (var key in data){
+          files.push(data[key])
+        }
         this.setState({
-          files: data
+          files: files
         });
       })
       .catch(function(error) {
@@ -193,6 +199,18 @@ class App extends Component {
                 {...props}
                 removeFileHandler={this.removeFileHandler}
                 viewAllFilesHandler={this.viewAllFilesHandler}
+                addFileHandler={this.addFileHandler}
+                loggedIn={this.state.loggedIn}
+                logOutHandler={this.logOutHandler}
+              />
+            )}
+          />
+           <Route
+            exact
+            path="/admin/crawler"
+            render={props => (
+              <AdminCrawler
+                {...props}
                 addFileHandler={this.addFileHandler}
                 loggedIn={this.state.loggedIn}
                 logOutHandler={this.logOutHandler}

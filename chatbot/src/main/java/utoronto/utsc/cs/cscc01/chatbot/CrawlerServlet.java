@@ -89,7 +89,8 @@ public class CrawlerServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         listCrawledLink(request, response);
         response.setContentType("text/html");
-        request.getRequestDispatcher("/WEB-INF/crawler.jsp").forward(request, response);
+       
+       // request.getRequestDispatcher("/WEB-INF/crawler.jsp").forward(request, response);
     }
 
 }
