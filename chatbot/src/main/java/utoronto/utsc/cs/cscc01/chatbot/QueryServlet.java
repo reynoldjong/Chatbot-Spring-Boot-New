@@ -66,7 +66,7 @@ public class QueryServlet extends HttpServlet {
 		String userQuery = req.getQueryString();
 		// have to replace all %_ with just % or we crash our decoder
 		userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-		queryDatabase.insertQuery(userQuery);
+		queryDatabase.insertQuery(userQuery.replaceAll("\\+", " "));
 		userQuery = URLDecoder.decode(userQuery, "UTF-8");
 		
 		// first try watson assistant

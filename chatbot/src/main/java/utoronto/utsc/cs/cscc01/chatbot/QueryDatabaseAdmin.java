@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
@@ -153,9 +154,38 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
 
     }
 
-    public static void main (String args[]) {
+    public ArrayList<ArrayList<String>> test() {
+        String selectSQL = "SELECT * FROM QUERIES ORDER BY QUERY";
+        ResultSet rs;
+        PreparedStatement stmt;
+        ArrayList<ArrayList<String>> outerList = new ArrayList<>();
+        ArrayList<String> header = new ArrayList<>(Arrays.asList("\"Query\"", "\"Frequency\""));
+        outerList.add(header);
+
+        try {
+            this.connect();
+            stmt = this.connection.prepareStatement(selectSQL);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ArrayList<String> innerList = new ArrayList<>();
+                String content = rs.getString("query");
+                innerList.add("\"" + content + "\"");
+                int frequency = rs.getInt("frequency");
+                innerList.add(String.valueOf(frequency));
+                outerList.add(innerList);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return outerList;
+    }
+
+        public static void main (String args[]) {
         QueryDatabaseAdmin qb = new QueryDatabaseAdmin();
-        qb.extractCSV();
+        System.out.println(qb.test().toString());
     }
 
 }

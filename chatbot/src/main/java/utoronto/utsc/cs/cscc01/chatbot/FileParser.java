@@ -19,6 +19,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 
 public class FileParser {
@@ -95,6 +96,20 @@ public class FileParser {
 
     }
 
+    public ArrayList<ArrayList<String>> parseCorpus(String fileName, InputStream file) {
+        String content = parseDocx(file);
+        String[] strippedContent = content.split("\\n[0-9]+$");
+        ArrayList<ArrayList<String>> outerList = new ArrayList<>();
+        int index = 0;
+        for (String s: strippedContent) {
+            ArrayList<String> innerList = new ArrayList<>();
+            innerList.add(fileName + "(" + index + ")");
+            innerList.add(s);
+            outerList.add(innerList);
+        }
+        return outerList;
+    }
+
 
     public String parse(String fileName, InputStream file) throws IOException {
         String docType = FilenameUtils.getExtension(fileName);
@@ -123,9 +138,8 @@ public class FileParser {
     public static void main (String args[]) {
         FileParser fp = new FileParser();
         try {
-            File f = new File("../chatbot/files/test/test.html");
-            String content = fp.parse(f.getName(), new FileInputStream(f));
-            System.out.println(content);
+            File f = new File("../chatbot/files/Chatbot Corpus.docx");
+            System.out.println(fp.parseCorpus(f.getName(), new FileInputStream(f)));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -2,25 +2,32 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton'
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import CloseIcon from '@material-ui/icons/Close'
 import media from "./Feedback.module.css";
 import qs from "qs";
 const useStyles = makeStyles(theme => ({
   paper: {
     backgroundColor: theme.palette.background.paper,
-
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 4)
   },
   formControl: {
     width: "200px",
     display: "block"
-  }
+  },
+    closeButton: {
+      position: 'absolute',
+      right: theme.spacing.unit / 2,
+      top: theme.spacing.unit / 2,
+      color: theme.palette.grey[500],
+    }
 }));
 
 /**
@@ -99,7 +106,6 @@ const Feedback = () => {
       <Button type="button" onClick={handleOpen}>
         Feedback
       </Button>
-
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
@@ -107,9 +113,13 @@ const Feedback = () => {
         onClose={handleClose}
       >
         <div className={classes.paper + " " + media.paper}>
-          <h4 id="modal-title">Let us know how we did!</h4>
+        <div>
+        <h4 id="modal-title">Let us know how we did!</h4>
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>
           <p>All responses are anoynmous.</p>
-
+        </div>
           <TextField
             id="comment"
             label="Response"
