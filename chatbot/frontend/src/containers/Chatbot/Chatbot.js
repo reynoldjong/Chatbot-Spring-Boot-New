@@ -363,7 +363,7 @@ const Chatbot = () => {
             maxWidth={false}
           >
             <ChatbotHeader
-              title="DFI Chatbot"
+              title="DFI Agent Alex"
               clickHandler={chatbotClickHandler}
             />
 
