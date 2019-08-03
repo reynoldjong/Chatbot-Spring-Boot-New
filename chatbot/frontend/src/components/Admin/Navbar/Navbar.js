@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
  *  @param {bool} loggedin - bool represented whether the user is logged in or not
  *  @param {function} logOutHandler - function for logging the user out
  */
-const Navbar2 = props => {
+const Navbar = props => {
   const classes = useStyles();
 
   return (
@@ -48,6 +48,10 @@ const Navbar2 = props => {
             <Link className={classes.title} to="/">
               {" "}
               Home{" "}
+            </Link>
+            <Link className={classes.title} to="/admin/crawler">
+              {" "}
+              Crawler{" "}
             </Link>
             <Link className={classes.title} to="/admin">
               Document Management{" "}
@@ -70,4 +74,4 @@ const Navbar2 = props => {
     </div>
   );
 };
-export default Navbar2;
+export default Navbar;
