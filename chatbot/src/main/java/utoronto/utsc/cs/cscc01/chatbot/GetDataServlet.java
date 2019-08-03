@@ -91,46 +91,51 @@ public class GetDataServlet extends HttpServlet {
         }
     }
 
-
-    private void listQueries(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        try {
-
-
-            List<Query> listQuery = queryDb.list();
-
-            request.setAttribute("listQuery", listQuery);
-
-            ArrayList<String> list = new ArrayList<>();
-            for(Query q: listQuery){
-                list.add(q.getContent());
-            }
-            Gson gsonBuilder = new GsonBuilder().create();
-            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(String.format("{\"query\": %s }",jsonFromJavaArrayList));
-
-
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-            throw new ServletException(e);
-
-        }
-    }
+//
+//    private void listQueries(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
+//
+//        try {
+//
+//
+//            List<Query> listQuery = queryDb.list();
+//
+//            request.setAttribute("listQuery", listQuery);
+//
+//            ArrayList<String> list = new ArrayList<>();
+//            for(Query q: listQuery){
+//                list.add(q.getContent());
+//            }
+//            Gson gsonBuilder = new GsonBuilder().create();
+//            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+//            response.setContentType("application/json");
+//            response.setCharacterEncoding("UTF-8");
+//            response.getWriter().write(String.format("{\"query\": %s }",jsonFromJavaArrayList));
+//
+//
+//        } catch (SQLException e) {
+//
+//            e.printStackTrace();
+//            throw new ServletException(e);
+//
+//        }
+//    }
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        listQueries(request, response);
         try {
             request.setAttribute("average", feedbackDb.getAverage());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        String result = this.queryDb.list().toString();
+        System.out.println(result);
+        response.getWriter().write(String.format("{\"queries\": %s }", result));
+//        listQueries(request, response);
+//        request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request, response);
     }
 
 

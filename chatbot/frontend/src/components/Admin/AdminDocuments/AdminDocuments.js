@@ -10,6 +10,8 @@ import DragAndDrop from "./DragAndDrop/DragAndDrop";
 import axios from "axios";
 import qs from 'qs';
 import Navbar from '../Navbar/Navbar';
+import PieChart from './PieChart/PieChart'
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -36,6 +38,7 @@ const AdminDocuments = props => {
   // when component is first loaded we should load all the files in the database
   useEffect(() => {
     props.viewAllFilesHandler();
+    props.viewGraphHandler();
   }, []);
   const classes = useStyles();
 
@@ -187,22 +190,6 @@ console.log(props);
             >
               Take a look at what DFI's chatbot is thinking about
             </Typography>
-            <Button
-              onClick={getCsvOfData}
-              type="submit"
-              color="secondary"
-              variant="contained"
-              style={{
-                display: "block",
-                marginTop: "20px",
-                position: "relative",
-                marginLeft: "auto",
-                marginBottom:'20px',
-              }}
-            >
-              export to csv
-            </Button>
-
             <DocumentTable
               removeFileHandler={props.removeFileHandler}
               files={props.files}
@@ -210,6 +197,35 @@ console.log(props);
           </Paper>
         </Container>
       </Box>
+            <Box marginTop={3} marginBottom={3}>
+              <Container maxWidth="md">
+                <Paper className={classes.root}>
+                  <Typography variant="h4" component="h4" align="left">
+                    What Did Users Bomb The Chatbot With?
+                  </Typography>
+                    <Button
+                      onClick={getCsvOfData}
+                      type="submit"
+                      color="secondary"
+                      variant="contained"
+                      style={{
+                        display: "block",
+                        marginTop: "20px",
+                        position: "relative",
+                        marginLeft: "auto",
+                        marginBottom:'20px',
+                      }}
+                    >
+                      export to csv
+                    </Button>
+                   <PieChart
+                     vTitle="vTitle"
+                     hTitle="hTitle"
+                     initialPoints={props.queries}
+                   />
+                </Paper>
+              </Container>
+            </Box>
     </React.Fragment>)
   }
   else{

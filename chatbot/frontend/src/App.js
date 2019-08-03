@@ -22,7 +22,8 @@ class App extends Component {
   state = {
     loggedIn: true,
     showModal: false,
-    files: []
+    files: [],
+    queries: []
   };
 
   /**
@@ -148,6 +149,21 @@ class App extends Component {
       });
   };
 
+  viewGraphHandler = () => {
+    axios
+      .get("/getdata")
+      .then(response => {
+        // If the get request is successful state (files) is updated
+        const data = response["data"]["queries"];
+        this.setState({
+          queries: data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   viewAllFeedbackHandler = () => {};
 
   render() {
@@ -176,11 +192,13 @@ class App extends Component {
               <AdminDocuments
                 {...props}
                 files={this.state.files}
+                queries={this.state.queries}
                 removeFileHandler={this.removeFileHandler}
                 viewAllFilesHandler={this.viewAllFilesHandler}
                 addFileHandler={this.addFileHandler}
                 logOutHandler={this.logOutHandler}
                 loggedIn={this.state.loggedIn}
+                viewGraphHandler={this.viewGraphHandler}
               />
             )}
           />

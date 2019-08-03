@@ -55,7 +55,15 @@ public class IndexerServlet extends HttpServlet {
                 for (UploadedFile file: fileList) {
                     String fileName = file.getFilename();
                     String content = filesDb.extractFile(fileName);
-                    this.indexer.indexDoc(fileName, content);
+                    if (fileName.equals("Chatbot Corpus.docx")) {
+                        Gson gson = new Gson();
+                        ArrayList<ArrayList<String>> obj = gson.fromJson(content, ArrayList.class);
+                        for (ArrayList<String> list: obj) {
+                            this.indexer.indexDoc(list.get(0), list.get(1));
+                        }
+                    } else {
+                        this.indexer.indexDoc(fileName, content);
+                    }
                 }
                 linkList = linksDb.list();
                 for (CrawledLink link: linkList) {

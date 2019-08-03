@@ -1,12 +1,14 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 
+import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.*;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -19,6 +21,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 
 public class FileParser {
@@ -95,6 +98,29 @@ public class FileParser {
 
     }
 
+    public ArrayList<ArrayList<String>> parseCorpus(String fileName, InputStream file) {
+        XWPFDocument doc;
+        ArrayList<ArrayList<String>> outerList = new ArrayList<>();
+        try {
+            doc = new XWPFDocument(file);
+            XWPFWordExtractor extract = new XWPFWordExtractor(doc);
+            String parsedText = extract.getText().trim();
+            String[] strippedContent = parsedText.split("\\n[0-9]+[.]");
+            int index = 0;
+            for (String s: strippedContent) {
+                String trimmedText = s.replaceAll("[\\n\\t\\v\\f\\r ]", " ");
+                ArrayList<String> innerList = new ArrayList<>();
+                innerList.add(fileName + "(" + index + ")");
+                innerList.add(trimmedText);
+                outerList.add(innerList);
+                index++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return outerList;
+    }
+
 
     public String parse(String fileName, InputStream file) throws IOException {
         String docType = FilenameUtils.getExtension(fileName);
@@ -104,7 +130,12 @@ public class FileParser {
                 text = parseDoc(file);
                 break;
             case "docx":
-                text = parseDocx(file);
+                if (fileName.equals("Chatbot Corpus.docx")) {
+                    Gson gson = new Gson();
+                    text = gson.toJson(parseCorpus(fileName, file));
+                } else {
+                    text = parseDocx(file);
+                }
                 break;
             case "pdf":
                 text = parsePdf(file);
@@ -123,9 +154,14 @@ public class FileParser {
     public static void main (String args[]) {
         FileParser fp = new FileParser();
         try {
-            File f = new File("../chatbot/files/test/test.html");
+            File f = new File("../chatbot/files/Chatbot Corpus.docx");
             String content = fp.parse(f.getName(), new FileInputStream(f));
-            System.out.println(content);
+            Gson gson = new Gson();
+            ArrayList<ArrayList<String>> obj = gson.fromJson(content, ArrayList.class);
+            for (ArrayList<String> list: obj) {
+                System.out.println(list.get(0));
+                System.out.println(list.get(1));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -27,6 +27,7 @@ const admin = props => {
               removeFileHandler={props.removeFileHandler}
               viewAllFilesHandler={props.viewAllFilesHandler}
               addFileHandler={props.addFileHandler}
+              viewGraphHandler={props.viewGraphHandler}
             />
           )}
         />

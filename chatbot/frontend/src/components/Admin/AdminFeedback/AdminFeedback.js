@@ -76,7 +76,7 @@ const AdminFeedback = props => {
           <Container maxWidth="md">
             <Paper className={classes.root}>
               <Typography variant="h4" component="h4" align="left">
-                How is the chatbot preforming?
+                How Is The Chatbot Performing?
               </Typography>
               <Typography
                 variant="body1"
