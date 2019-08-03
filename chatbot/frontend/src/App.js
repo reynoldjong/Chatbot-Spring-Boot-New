@@ -5,6 +5,7 @@ import Home from "./components/Home/Home";
 import AdminDocuments from "./components/Admin/AdminDocuments/AdminDocuments";
 import AdminFeedback from "./components/Admin/AdminFeedback/AdminFeedback";
 import AdminCrawler from './components/Admin/AdminCrawler/AdminCrawler';
+import AdminReset from './components/Admin/AdminReset/AdminReset';
 import axios from "axios";
 import qs from "qs";
 
@@ -235,8 +236,19 @@ class App extends Component {
               />
             )}
           />
+           <Route
+            exact
+            path="/admin/reset"
+            render={props => (
+              <AdminReset
+                {...props}
+                loggedIn={this.state.loggedIn}
+                logOutHandler={this.logOutHandler}
+              />
+            )}
+          />
 
-          <Router />
+         
         </Router>
       </div>
     );
