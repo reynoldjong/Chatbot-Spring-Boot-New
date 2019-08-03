@@ -151,7 +151,7 @@ class App extends Component {
 
   viewGraphHandler = () => {
     axios
-      .get("/createGraph")
+      .get("/getdata")
       .then(response => {
         // If the get request is successful state (files) is updated
         const data = response["data"]["queries"];
