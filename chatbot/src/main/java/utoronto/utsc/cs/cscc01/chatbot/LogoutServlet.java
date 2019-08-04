@@ -7,11 +7,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-@WebServlet(urlPatterns = "/logout")
 /*
- * This class handles all logout request by any logged in users
- */
+@WebServlet(urlPatterns = "/logout")
 public class LogoutServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -21,3 +18,4 @@ public class LogoutServlet extends HttpServlet {
       resp.sendRedirect("/adminpage");
   }
 }
+*/

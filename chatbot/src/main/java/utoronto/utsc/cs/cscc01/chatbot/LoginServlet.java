@@ -18,7 +18,7 @@ public class LoginServlet extends HttpServlet {
   // dependency injection of database into login servlet so we can test it
   private UserDatabase db;
   
-  public void init(ServletConfig config) {
+  public void init() {
     this.db = new UserDatabaseAdmin();
   }
   
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
     }
   }
 
-
+/*
   public static void forwardToLoginPage(HttpServletRequest req,
       HttpServletResponse resp, String errorMessage)
       throws ServletException, IOException {
@@ -64,4 +64,5 @@ public class LoginServlet extends HttpServlet {
     // TODO: this will have to change based on front end implementation
     req.getRequestDispatcher("/login.jsp").forward(req, resp);
   }
+  */
 }
