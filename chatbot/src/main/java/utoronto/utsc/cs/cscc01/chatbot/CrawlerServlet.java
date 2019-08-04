@@ -24,6 +24,8 @@ public class CrawlerServlet extends HttpServlet {
 
     private WebCrawler crawler;
     private LinksDatabaseAdmin linksDb;
+    private Indexer indexer;
+    private String indexPath = "../chatbot/index/documents";
 
     @Override
     public void init() {
@@ -37,8 +39,10 @@ public class CrawlerServlet extends HttpServlet {
         String depth = request.getParameter("depth");
 
         try {
+            this.indexer = new Indexer(indexPath);
             this.crawler = new WebCrawler(Integer.parseInt(depth));
             crawler.crawl(url, 0, "?page_id", "?p");
+            indexer.indexUrl(crawler.getLinks());
             linksDb.insert(url, crawler.getLinks());
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
