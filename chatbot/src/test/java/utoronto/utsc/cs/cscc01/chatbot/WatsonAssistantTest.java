@@ -15,7 +15,7 @@ public class WatsonAssistantTest {
   }
 
   @Test
-  public void testDiscoverySingleton() {
+  public void testAssistantSingleton() {
     WatsonAssistant assistant2 = WatsonAssistant.buildAssistant();
     assertSame(assistant, assistant2);
   }

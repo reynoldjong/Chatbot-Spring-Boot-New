@@ -4,7 +4,7 @@ import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.assistant.v2.Assistant;
 
 public class WatsonAssistant {
-  private static WatsonAssistant WatsonAssistant = null;
+  private static WatsonAssistant watsonAssistant = null;
   private Assistant assistant;
   private static final String assistantId =
       "84452a24-45c5-45db-af2d-3957c16a6f1e";
@@ -22,10 +22,9 @@ public class WatsonAssistant {
   }
 
   public static WatsonAssistant buildAssistant() {
-    if (WatsonAssistant == null)
-      return new WatsonAssistant();
-    else
-      return WatsonAssistant;
+    if (watsonAssistant == null)
+      watsonAssistant = new WatsonAssistant();
+    return watsonAssistant;
   }
 
   public String getAssistantId() {

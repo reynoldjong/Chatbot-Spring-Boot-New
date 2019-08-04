@@ -38,12 +38,8 @@ public class WatsonDiscovery {
   }
 
   public static WatsonDiscovery buildDiscovery() {
-    if (WatsonDiscovery.watsonDiscovery == null) {
-      WatsonDiscovery.watsonDiscovery = new WatsonDiscovery();
-      return WatsonDiscovery.watsonDiscovery;
-    } else {
-      return WatsonDiscovery.watsonDiscovery;
-    }
-
+    if (watsonDiscovery == null)
+      watsonDiscovery = new WatsonDiscovery();
+    return watsonDiscovery;
   }
 }

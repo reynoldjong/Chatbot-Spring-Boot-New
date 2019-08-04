@@ -21,6 +21,7 @@ public class LoginServletTest {
     servlet = new LoginServlet();
     servlet.init();
   }
+
   // test to see if correct password is validated
   @Test
   public void testUserLoginValid() throws ServletException, IOException {
@@ -41,7 +42,7 @@ public class LoginServletTest {
 
     assertEquals("{\"authenticated\":true}", stringWriter.toString());
   }
-  
+
   // test to see if incorrect password fails validation
   @Test
   public void testUserLoginInvalid() throws ServletException, IOException {
