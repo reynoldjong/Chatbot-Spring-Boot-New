@@ -77,10 +77,10 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
 
 
         String sql = "SELECT * FROM feedback ORDER BY rating";
-        connect();
+        this.connect();
 
-        Statement statement = this.connection.createStatement();
-        ResultSet result = statement.executeQuery(sql);
+        PreparedStatement stmt = this.connection.prepareStatement(sql);
+        ResultSet result = stmt.executeQuery();
 
         while (result.next()) {
             int id = result.getInt("feedbackId");
@@ -89,8 +89,8 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
             Feedback feedback = new Feedback(id, rating, comments);
 
             listFeedback.add(feedback);
-            close();
         }
+        this.close();
 
         return listFeedback;
     }

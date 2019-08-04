@@ -9,7 +9,7 @@ const documentRow = (props) =>{
     return( 
     <React.Fragment>
           <tr>
-            <td>{props.name}</td>
+            <td>{props.comments}</td>
             <td>{props.rating}</td>
           </tr>
     </React.Fragment>

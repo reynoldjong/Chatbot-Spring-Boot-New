@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import qs from "qs";
 import Navbar from "../Navbar/Navbar";
+import DocumentsTable from './DocumentsTable/DocumentsTable';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme => ({
 const AdminFeedback = props => {
   // when component is first loaded we should load all the files in the database
   useEffect(() => {
-    //viewAllFeedback();
+    viewAllFeedback();
   }, []);
   const classes = useStyles();
   /*
@@ -41,6 +42,27 @@ const AdminFeedback = props => {
     feedback: []
   });
   */
+  const [feedback, setFeedback] = React.useState([]);
+  const [average, setAverage] = React.useState([]);
+
+
+  const viewAllFeedback = async () =>{
+      console.log('hello');
+    await axios
+      .get("/feedback")
+      .then(response => {
+          console.log(response)
+        //let listSites = []
+        //for(var key in response['date']){
+         //   listSites.push(response['data'][key])
+        //}
+        setFeedback(response['data']);
+        setAverage('${average}');
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   const getCsvOfFeedback = async () => {
     // Create JSON object
@@ -51,7 +73,7 @@ const AdminFeedback = props => {
     await axios
       .post("/getdata", qs.stringify(data))
       .then(response => {
-        // viewAllFilesHandler needs to be called to update the file list being displayed
+
         console.log(response);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
@@ -101,6 +123,9 @@ const AdminFeedback = props => {
               >
                 export feedback to csv
               </Button>
+                <DocumentsTable
+                  feedback={feedback}
+                />
             </Paper>
           </Container>
         </Box>
