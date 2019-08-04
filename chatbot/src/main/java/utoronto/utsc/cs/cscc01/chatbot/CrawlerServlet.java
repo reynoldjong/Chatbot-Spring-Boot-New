@@ -88,7 +88,6 @@ public class CrawlerServlet extends HttpServlet {
             String jsonFromJavaArrayList = gsonBuilder.toJson(listCrawledLink);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            System.out.println(jsonFromJavaArrayList);
             response.getWriter().write(jsonFromJavaArrayList);
             // response.getWriter().write(String.format("{\"links\": %s }",jsonFromJavaArrayList));
 

@@ -74,9 +74,7 @@ public class FeedbackServlet extends HttpServlet {
             String jsonFromJavaArrayList = gsonBuilder.toJson(listFeedback);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            // response.getWriter().write(jsonFromJavaArrayList);
             float average = feedbackDb.getAverage();
-            System.out.println(String.format("{\"feedback\": %s, \"average\": [%.2f] }", jsonFromJavaArrayList, average));
             response.getWriter().write(String.format("{\"feedback\": %s, \"average\": [%.2f] }", jsonFromJavaArrayList, average));
 
 
