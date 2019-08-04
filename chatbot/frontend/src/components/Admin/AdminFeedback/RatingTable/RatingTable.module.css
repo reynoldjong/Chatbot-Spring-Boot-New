@@ -1,0 +1,20 @@
+.TableHeader{
+
+}
+
+.fixedHeader tbody, thead{
+
+
+  }
+
+  .fixed_header tbody{
+
+  }
+
+  .ScrollableTable{
+      overflow-x:scroll;
+      overflow-y:scroll;
+      max-height:500px;
+      border:1px solid #ccc;
+  }
+  

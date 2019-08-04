@@ -17,7 +17,7 @@ const documentsTable = (props) => {
           <tr>
             <th>File Name</th>
             <th>File Type</th>
-            <th>Date</th>
+            <th>Last Updated</th>
             <th>Remove</th>
           </tr>
         </thead>

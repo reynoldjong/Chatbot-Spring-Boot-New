@@ -118,7 +118,7 @@ const Feedback = () => {
         <IconButton aria-label="Close" className={classes.closeButton} onClick={handleClose}>
           <CloseIcon />
         </IconButton>
-          <p>All responses are anoynmous.</p>
+          <p>Any questions you didn’t get a response?  Let us know here!</p>
         </div>
           <TextField
             id="comment"

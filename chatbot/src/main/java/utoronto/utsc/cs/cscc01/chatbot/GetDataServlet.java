@@ -68,16 +68,16 @@ public class GetDataServlet extends HttpServlet {
                 outputStream.flush();
                 outputStream.close();
 
-        } else if (request.getParameter("getAnswerRatings") != null) {
+        } else if (request.getParameter("getAnswerRating") != null) {
             response.setContentType("text/csv");
-            response.setHeader("Content-Disposition", "attachment; filename=answerRatingsData.csv");
+            response.setHeader("Content-Disposition", "attachment; filename=answerRatingData.csv");
             try {
                 this.answerRatingDb.extractCSV();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
 
-            InputStream inStream = new FileInputStream(new File("../chatbot/files/data/answerRatingsData.csv"));
+            InputStream inStream = new FileInputStream(new File("../chatbot/files/data/answerRatingData.csv"));
             OutputStream outputStream = response.getOutputStream();
             byte[] buffer = new byte[4096];
             int bytesRead;

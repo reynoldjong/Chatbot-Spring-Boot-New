@@ -1,3 +1,21 @@
+@media only screen and (max-width: 1000px) {
+  .avatar2 {
+    width:43px!important;
+    height:37px !important;
+
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .avatar2 {
+    width:60px!important;
+    height:55px !important;
+    margin-right:0px!important;
+    margin-left:10px!important;
+
+  }
+}
+
 .root {
  
   margin:20px;
@@ -9,6 +27,7 @@
   flex: 1;
   background-image:url('./images/robot.png');
   background-size:cover;
+  background-repeat:no-repeat;
   background-position:center center;
   max-height:43px;
   max-width:50px;

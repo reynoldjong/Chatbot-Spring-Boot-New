@@ -60,6 +60,10 @@ const Navbar = props => {
               {" "}
               Chatbot Ratings
             </Link>
+            <Link className={classes.title} to="/admin/reset">
+              {" "}
+              Data Reset
+            </Link>
           </Typography>
           <Button
             onClick={props.logOutHandler}

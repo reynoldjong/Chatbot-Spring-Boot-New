@@ -88,7 +88,6 @@ public class FilesServlet extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             //response.getWriter().write(String.format("{\"files\": %s }",jsonFromJavaArrayList));
-            System.out.println(jsonFromJavaArrayList);
             response.getWriter().write(jsonFromJavaArrayList);
 
         } catch (SQLException e) {

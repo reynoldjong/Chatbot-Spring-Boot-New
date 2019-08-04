@@ -9,6 +9,7 @@ import axios from "axios";
 import qs from "qs";
 import Navbar from "../Navbar/Navbar";
 import DocumentsTable from './DocumentsTable/DocumentsTable';
+import RatingTable from './RatingTable/RatingTable';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -35,6 +36,7 @@ const AdminFeedback = props => {
   // when component is first loaded we should load all the files in the database
   useEffect(() => {
     viewAllFeedback();
+    viewAllAnswerRating();
   }, []);
   const classes = useStyles();
   /*
@@ -43,6 +45,7 @@ const AdminFeedback = props => {
   });
   */
   const [feedback, setFeedback] = React.useState([]);
+  const [answerRating, setAnswerRating] = React.useState([]);
   const [average, setAverage] = React.useState([]);
 
 
@@ -56,8 +59,25 @@ const AdminFeedback = props => {
         //for(var key in response['date']){
          //   listSites.push(response['data'][key])
         //}
-        setFeedback(response['data']);
-        setAverage('${average}');
+        setFeedback(response['data']['feedback']);
+        setAverage(response['data']['average']);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  const viewAllAnswerRating = async () =>{
+      console.log('hello');
+    await axios
+      .get("/answerrating")
+      .then(response => {
+          console.log(response)
+        //let listSites = []
+        //for(var key in response['date']){
+         //   listSites.push(response['data'][key])
+        //}
+        setAnswerRating(response['data']);
       })
       .catch(function(error) {
         console.log(error);
@@ -87,6 +107,30 @@ const AdminFeedback = props => {
       });
   };
 
+
+  const getCsvOfRating = async () => {
+    // Create JSON object
+    const data = {
+      getAnswerRating: "please"
+    };
+
+    await axios
+      .post("/getdata", qs.stringify(data))
+      .then(response => {
+
+        console.log(response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "answerRating.csv"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
   document.body.style = "background: rgba(0,0,0,0.05);";
   let admin = null;
   if (props.loggedIn) {
@@ -98,7 +142,7 @@ const AdminFeedback = props => {
           <Container maxWidth="md">
             <Paper className={classes.root}>
               <Typography variant="h4" component="h4" align="left">
-                How Is The Chatbot Performing?
+                Current Average Rating: {average}
               </Typography>
               <Typography
                 variant="body1"
@@ -129,6 +173,41 @@ const AdminFeedback = props => {
             </Paper>
           </Container>
         </Box>
+            <Box marginTop={3} marginBottom={3}>
+              <Container maxWidth="md">
+                <Paper className={classes.root}>
+                  <Typography variant="h4" component="h4" align="left">
+                    How Is The Chatbot Performing?
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                    align="left"
+                    style={{ margin: "10px" }}
+                  >
+                    Take a look at what people are picky about Chatbot's answers!
+                  </Typography>
+                  <Button
+                    onClick={getCsvOfRating}
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    style={{
+                      display: "block",
+                      marginTop: "20px",
+                      position: "relative",
+                      marginLeft: "auto",
+                      marginBottom: "20px"
+                    }}
+                  >
+                    export rating to csv
+                  </Button>
+                    <RatingTable
+                      answerRating={answerRating}
+                    />
+                </Paper>
+              </Container>
+            </Box>
       </React.Fragment>
     );
   } else {
