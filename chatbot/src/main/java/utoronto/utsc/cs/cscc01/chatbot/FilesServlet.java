@@ -83,17 +83,12 @@ public class FilesServlet extends HttpServlet {
         
             request.setAttribute("listUploadedFile", listUploadedFile);
 
-
-
-            ArrayList<String> list = new ArrayList<>();
-            for(UploadedFile f:listUploadedFile){
-                list.add(f.getFilename());
-            }
             Gson gsonBuilder = new GsonBuilder().create();
             String jsonFromJavaArrayList = gsonBuilder.toJson(listUploadedFile);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             //response.getWriter().write(String.format("{\"files\": %s }",jsonFromJavaArrayList));
+            System.out.println(jsonFromJavaArrayList);
             response.getWriter().write(jsonFromJavaArrayList);
 
         } catch (SQLException e) {

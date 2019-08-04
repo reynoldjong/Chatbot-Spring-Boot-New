@@ -70,12 +70,8 @@ public class FeedbackServlet extends HttpServlet {
 
             request.setAttribute("listFeedback", listFeedback);
 
-            ArrayList<String> list = new ArrayList<>();
-            for(Feedback f: listFeedback){
-                list.add(f.getComments());
-            }
             Gson gsonBuilder = new GsonBuilder().create();
-            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            String jsonFromJavaArrayList = gsonBuilder.toJson(listFeedback);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(String.format("{\"feedback\": %s }",jsonFromJavaArrayList));

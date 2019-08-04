@@ -17,12 +17,13 @@ const documentsTable = (props) => {
           <tr>
             <th>Id</th>
             <th>Name</th>
-  
+            <th>Date</th>
+            <th>Remove</th>
           </tr>
         </thead>
         <tbody>
           {props.sites.map((item, i) => {
-            return <DocumentRow key={i} id={i} name={item}/>
+            return <DocumentRow key={i} removeSiteHandler={(url) => props.removeSiteHandler(item['seed'])} id={i} name={item['seed']} date={item['date']}/>
           }
 
           )}
