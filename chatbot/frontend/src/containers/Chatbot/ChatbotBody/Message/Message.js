@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import classes from "./Message.module.css";
 import SoundClass from "./Sound/Sound";
+import Rating from './Rating/Rating';
 /**
  * Componenet representing a repsosne from watson and lucene
  * @param {*} props
@@ -117,7 +118,7 @@ const Message = props => {
                 marginBottom: "5px"
               }}
             >
-              DFI Chatbot{" "}
+              Alex's response{" "}
             </p>
             <Box
               boxShadow={1}
@@ -159,9 +160,13 @@ const Message = props => {
                   {props.watsonFile}
                 </p>
               ) : null}
+             
             </Box>
+            <Rating style={{position:'relative', textAight:'right'}} message={watsonText}/>
           </Grid>
+        
         </Grid>
+       
        
       </React.Fragment>
     );
