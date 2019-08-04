@@ -33,6 +33,8 @@ const useStyles = makeStyles(theme => ({
 const AdminFeedback = props => {
     const classes = useStyles();
    const [reset, setReset] = React.useState("");
+   const [reindex, setReindex] = React.useState("");
+
   const resetData = async () => {
     // Create JSON object
     const data = {
@@ -50,6 +52,26 @@ const AdminFeedback = props => {
       .catch(function(error) {
         setReset("Data could not be reset");
       
+      });
+  };
+
+  const reindexData = async () => {
+    // Create JSON object
+    const data = {
+      reindex: "wow!"
+    };
+
+    await axios
+      .post("/index", qs.stringify(data))
+      .then(response => {
+          console.log(response);
+          setReindex("Data Reindex");
+
+
+      })
+      .catch(function(error) {
+        setReindex("Data could not be reindex");
+
       });
   };
 
@@ -74,6 +96,25 @@ const AdminFeedback = props => {
                 style={{ margin: "10px" }}
               >
                 Delete all indexed documents and files from the chatbot's brain :(
+              </Typography>
+              <Button
+                onClick={reindexData}
+                type="submit"
+                color="secondary"
+                variant="contained"
+                style={{
+                  display: "block",
+                  marginTop: "20px",
+                  position: "relative",
+                  marginLeft: "auto",
+                  marginBottom: "20px",
+                  color:'white'
+                }}
+              >
+               Reindex Data
+              </Button>
+              <Typography>
+                  {reindex}
               </Typography>
               <Button
                 onClick={resetData}

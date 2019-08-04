@@ -24,6 +24,8 @@ public class CrawlerServlet extends HttpServlet {
 
     private WebCrawler crawler;
     private LinksDatabaseAdmin linksDb;
+    private Indexer indexer;
+    private String indexPath = "../chatbot/index/documents";
 
     @Override
     public void init() {
@@ -33,26 +35,42 @@ public class CrawlerServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        String url = request.getParameter("url");
-        String depth = request.getParameter("depth");
+        String action = request.getParameter("action");
 
-        try {
-            this.crawler = new WebCrawler(Integer.parseInt(depth));
-            crawler.crawl(url, 0, "?page_id", "?p");
-            linksDb.insert(url, crawler.getLinks());
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter writer = response.getWriter();
-            writer.write("{\"reply\": \"Website is crawled\"}");
+        if ("remove".equals(action)) {
 
-        } catch (IOException e) {
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter writer = response.getWriter();
-            writer.write("{\"reply\": \"Error spotted\"}");
+            String url = request.getParameter("url");
+
+            if (! this.linksDb.remove(url)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write("{\"reply\": \"Can't remove link!\"}");
+            }
+
+        } else if ("crawl".equals(action)) {
+
+            String url = request.getParameter("url");
+            String depth = request.getParameter("depth");
+
+            try {
+                this.indexer = new Indexer(indexPath);
+                this.crawler = new WebCrawler(Integer.parseInt(depth));
+                crawler.crawl(url, 0, "?page_id", "?p");
+                indexer.indexUrl(crawler.getLinks());
+                linksDb.insert(url, crawler.getLinks());
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write("{\"reply\": \"Website is crawled\"}");
+
+            } catch (IOException e) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write("{\"reply\": \"Error spotted\"}");
+            }
         }
-
-
 
     }
 
@@ -66,15 +84,12 @@ public class CrawlerServlet extends HttpServlet {
 
             request.setAttribute("listCrawledLink", listCrawledLink);
 
-            ArrayList<String> list = new ArrayList<>();
-            for(CrawledLink c:listCrawledLink){
-                list.add(c.getSeed());
-            }
             Gson gsonBuilder = new GsonBuilder().create();
-            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            String jsonFromJavaArrayList = gsonBuilder.toJson(listCrawledLink);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(String.format("{\"links\": %s }",jsonFromJavaArrayList));
+            response.getWriter().write(jsonFromJavaArrayList);
+            // response.getWriter().write(String.format("{\"links\": %s }",jsonFromJavaArrayList));
 
 
         } catch (SQLException e) {

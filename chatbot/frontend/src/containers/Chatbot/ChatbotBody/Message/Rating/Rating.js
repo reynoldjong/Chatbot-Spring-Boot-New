@@ -26,7 +26,7 @@ const BotRating = (props) => {
   const submitFeedback = async (rating) =>{
     if(submittedFeedback === false){
       const data = {
-        message:props.message,
+        message: props.message,
         answerRating: rating
       }
    

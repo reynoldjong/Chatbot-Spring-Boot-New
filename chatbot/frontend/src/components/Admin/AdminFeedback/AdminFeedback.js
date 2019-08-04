@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import qs from "qs";
 import Navbar from "../Navbar/Navbar";
+import DocumentsTable from './DocumentsTable/DocumentsTable';
+import RatingTable from './RatingTable/RatingTable';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -33,7 +35,8 @@ const useStyles = makeStyles(theme => ({
 const AdminFeedback = props => {
   // when component is first loaded we should load all the files in the database
   useEffect(() => {
-    //viewAllFeedback();
+    viewAllFeedback();
+    viewAllAnswerRating();
   }, []);
   const classes = useStyles();
   /*
@@ -41,6 +44,45 @@ const AdminFeedback = props => {
     feedback: []
   });
   */
+  const [feedback, setFeedback] = React.useState([]);
+  const [answerRating, setAnswerRating] = React.useState([]);
+  const [average, setAverage] = React.useState([]);
+
+
+  const viewAllFeedback = async () =>{
+      console.log('hello');
+    await axios
+      .get("/feedback")
+      .then(response => {
+          console.log(response)
+        //let listSites = []
+        //for(var key in response['date']){
+         //   listSites.push(response['data'][key])
+        //}
+        setFeedback(response['data']['feedback']);
+        setAverage(response['data']['average']);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  const viewAllAnswerRating = async () =>{
+      console.log('hello');
+    await axios
+      .get("/answerrating")
+      .then(response => {
+          console.log(response)
+        //let listSites = []
+        //for(var key in response['date']){
+         //   listSites.push(response['data'][key])
+        //}
+        setAnswerRating(response['data']);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   const getCsvOfFeedback = async () => {
     // Create JSON object
@@ -51,12 +93,36 @@ const AdminFeedback = props => {
     await axios
       .post("/getdata", qs.stringify(data))
       .then(response => {
-        // viewAllFilesHandler needs to be called to update the file list being displayed
+
         console.log(response);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", "feedback.csv"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+
+  const getCsvOfRating = async () => {
+    // Create JSON object
+    const data = {
+      getAnswerRating: "please"
+    };
+
+    await axios
+      .post("/getdata", qs.stringify(data))
+      .then(response => {
+
+        console.log(response);
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "answerRating.csv"); //or any other extension
         document.body.appendChild(link);
         link.click();
       })
@@ -76,7 +142,7 @@ const AdminFeedback = props => {
           <Container maxWidth="md">
             <Paper className={classes.root}>
               <Typography variant="h4" component="h4" align="left">
-                How Is The Chatbot Performing?
+                Current Average Rating: {average}
               </Typography>
               <Typography
                 variant="body1"
@@ -101,9 +167,47 @@ const AdminFeedback = props => {
               >
                 export feedback to csv
               </Button>
+                <DocumentsTable
+                  feedback={feedback}
+                />
             </Paper>
           </Container>
         </Box>
+            <Box marginTop={3} marginBottom={3}>
+              <Container maxWidth="md">
+                <Paper className={classes.root}>
+                  <Typography variant="h4" component="h4" align="left">
+                    How Is The Chatbot Performing?
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                    align="left"
+                    style={{ margin: "10px" }}
+                  >
+                    Take a look at what people are picky about Chatbot's answers!
+                  </Typography>
+                  <Button
+                    onClick={getCsvOfRating}
+                    type="submit"
+                    color="secondary"
+                    variant="contained"
+                    style={{
+                      display: "block",
+                      marginTop: "20px",
+                      position: "relative",
+                      marginLeft: "auto",
+                      marginBottom: "20px"
+                    }}
+                  >
+                    export rating to csv
+                  </Button>
+                    <RatingTable
+                      answerRating={answerRating}
+                    />
+                </Paper>
+              </Container>
+            </Box>
       </React.Fragment>
     );
   } else {

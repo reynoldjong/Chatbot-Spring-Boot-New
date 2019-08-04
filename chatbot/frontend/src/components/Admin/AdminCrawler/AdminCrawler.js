@@ -47,6 +47,7 @@ const AdminCrawler = props => {
 
     event.preventDefault();
     const data = {
+      action: "crawl",
       url: url,
       depth: depth
     };
@@ -57,6 +58,7 @@ const AdminCrawler = props => {
       .post("/webcrawler", qs.stringify(data))
       .then(response => {
         setCrawledStatus("Successfully crawled " + url);
+        getCrawledSites();
       })
       .catch(function(error) {
         setCrawledStatus("An error has occured for " + url);
@@ -74,12 +76,28 @@ const AdminCrawler = props => {
         //for(var key in response['date']){
          //   listSites.push(response['data'][key])
         //}
-        setSites(response['data']['links']);
+        setSites(response['data']);
       })
       .catch(function(error) {
         console.log(error);
       });
   }
+
+  const removeSiteHandler = async url => {
+    const data = {
+      action: "remove",
+      url: url
+    };
+    await axios
+      .post("/webcrawler", qs.stringify(data))
+      .then(response => {
+      console.log(response)
+        getCrawledSites();
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     getCrawledSites();
@@ -169,6 +187,7 @@ const AdminCrawler = props => {
 
             <DocumentsTable
               sites={sites}
+              removeSiteHandler={removeSiteHandler}
             />
           </Paper>
         </Container>

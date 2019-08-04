@@ -10,8 +10,9 @@ const documentRow = (props) =>{
     return( 
     <React.Fragment>
           <tr>
-            <td>{props.id}</td>
             <td>{props.name}</td>
+            <td>{props.date}</td>
+            <td><button onClick={props.removeSiteHandler} className="btn red">Remove</button></td>
           </tr>
     </React.Fragment>
     );

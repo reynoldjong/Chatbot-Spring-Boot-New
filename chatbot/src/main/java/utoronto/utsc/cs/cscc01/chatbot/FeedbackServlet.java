@@ -70,15 +70,12 @@ public class FeedbackServlet extends HttpServlet {
 
             request.setAttribute("listFeedback", listFeedback);
 
-            ArrayList<String> list = new ArrayList<>();
-            for(Feedback f: listFeedback){
-                list.add(f.getComments());
-            }
             Gson gsonBuilder = new GsonBuilder().create();
-            String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+            String jsonFromJavaArrayList = gsonBuilder.toJson(listFeedback);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(String.format("{\"feedback\": %s }",jsonFromJavaArrayList));
+            float average = feedbackDb.getAverage();
+            response.getWriter().write(String.format("{\"feedback\": %s, \"average\": [%.2f] }", jsonFromJavaArrayList, average));
 
 
         } catch (SQLException e) {
@@ -92,8 +89,8 @@ public class FeedbackServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         listFeedback(request, response);
-        response.setContentType("text/html");
-        request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request, response);
+        //response.setContentType("text/html");
+        //request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request, response);
     }
 
 

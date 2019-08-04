@@ -162,7 +162,7 @@ const Message = props => {
               ) : null}
              
             </Box>
-            <Rating style={{position:'relative', textAight:'right'}} message={watsonText}/>
+            <Rating style={{position:'relative', textAight:'right'}} message={props.watsonText}/>
           </Grid>
         
         </Grid>

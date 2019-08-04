@@ -42,7 +42,7 @@ public class IndexerServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
 
-        if (request.getParameter("index") != null) {
+        if (request.getParameter("reindex") != null) {
 
 
             List<UploadedFile> fileList;
