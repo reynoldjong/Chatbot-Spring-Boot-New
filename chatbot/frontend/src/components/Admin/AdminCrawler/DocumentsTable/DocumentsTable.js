@@ -15,7 +15,6 @@ const documentsTable = (props) => {
       <table className={classes.fixedHeader + " striped"}>
         <thead className={"z-depth-1"}>
           <tr>
-            <th>Id</th>
             <th>Name</th>
             <th>Date</th>
             <th>Remove</th>
