@@ -2,13 +2,12 @@
   .root {
   
    
-   
-    max-height:56px!important;
+      max-height:56px!important;
     min-height:56px!important;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
+    border-top-left-radius: 0px!important;
+    border-top-right-radius: 0px !important;
     margin-top:5px!important;
-  
+    
     
 
   

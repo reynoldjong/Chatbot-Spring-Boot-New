@@ -99,7 +99,7 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
 
     public void extractCSV() throws SQLException, IOException {
 
-        String selectSQL = "SELECT * FROM ANSWERRATING ORDER BY BAD DESCENDING";
+        String selectSQL = "SELECT * FROM ANSWERRATING";
         ResultSet rs;
         PreparedStatement stmt;
 
@@ -107,7 +107,7 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
         stmt = this.connection.prepareStatement(selectSQL);
         rs = stmt.executeQuery();
         // Open CSV file.
-        CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/data/answerRatingsData.csv"));
+        CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/data/answerRatingData.csv"));
 
         writer.writeAll(rs, true);
 
@@ -117,27 +117,39 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
 
     }
 
-//    public List<Feedback> list() throws SQLException {
-//
-//        List<Feedback> listFeedback = new ArrayList<>();
-//
-//
-//        String sql = "SELECT * FROM feedback ORDER BY rating";
-//        connect();
-//
-//        Statement statement = this.connection.createStatement();
-//        ResultSet result = statement.executeQuery(sql);
-//
-//        while (result.next()) {
-//            int id = result.getInt("feedbackId");
-//            int rating = result.getInt("rating");
-//            String comments = result.getString("comments");
-//            Feedback feedback = new Feedback(id, rating, comments);
-//
-//            listFeedback.add(feedback);
-//            close();
-//        }
-//
-//        return listFeedback;
-//    }
+    public List<AnswerRating> list() throws SQLException {
+
+        List<AnswerRating> listAnswerRating = new ArrayList<>();
+
+
+        String sql = "SELECT * FROM answerrating ORDER BY answer";
+        this.connect();
+
+        PreparedStatement stmt = this.connection.prepareStatement(sql);
+        ResultSet result = stmt.executeQuery();
+
+        while (result.next()) {
+            int id = result.getInt("answerratingId");
+            String answer = result.getString("answer");
+            int good = result.getInt("good");
+            int bad = result.getInt("bad");
+            AnswerRating answerRating = new AnswerRating(id, answer, good, bad);
+
+            listAnswerRating.add(answerRating);
+        }
+        this.close();
+
+        return listAnswerRating;
+    }
+
+    public static void main (String args[]) {
+        AnswerRatingDatabaseAdmin db = new AnswerRatingDatabaseAdmin();
+        try {
+            db.extractCSV();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

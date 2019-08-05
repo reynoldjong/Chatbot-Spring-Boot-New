@@ -1,6 +1,5 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,7 +18,6 @@ import com.google.gson.Gson;
  * URL
  * 
  * @author Reynold
- *
  */
 @WebServlet(urlPatterns = "/index")
 public class IndexerServlet extends HttpServlet {
@@ -36,9 +34,7 @@ public class IndexerServlet extends HttpServlet {
     this.linksDb = new LinksDatabaseAdmin();
   }
 
-  /**
-   * Post method used to index certain URL/files
-   */
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
@@ -47,7 +43,7 @@ public class IndexerServlet extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
     PrintWriter writer = response.getWriter();
 
-    if (request.getParameter("index") != null) {
+    if (request.getParameter("reindex") != null) {
 
 
       List<UploadedFile> fileList;

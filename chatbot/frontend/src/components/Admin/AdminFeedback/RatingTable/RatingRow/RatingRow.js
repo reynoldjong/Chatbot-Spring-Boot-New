@@ -5,15 +5,16 @@ import React from 'react';
  *  @param {string} name - name of a file
  *  @param {int} rating - type of a file
  */
-const documentRow = (props) =>{
+const ratingRow = (props) =>{
     return( 
     <React.Fragment>
           <tr>
-            <td>{props.comments}</td>
-            <td>{props.rating}</td>
+            <td>{props.message}</td>
+            <td>{props.good}</td>
+            <td>{props.bad}</td>
           </tr>
     </React.Fragment>
     );
 };
 
-export default documentRow;
+export default ratingRow;

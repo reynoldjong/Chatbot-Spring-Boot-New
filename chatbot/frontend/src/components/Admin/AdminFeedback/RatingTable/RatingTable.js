@@ -1,12 +1,12 @@
 import React from 'react';
-import classes from './DocumentsTable.module.css';
-import DocumentRow from './DocumentRow/DocumentRow';
+import classes from './RatingTable.module.css';
+import RatingRow from './RatingRow/RatingRow';
 /**
  * Compoenent representing a table of all the files in the  database
  * @param {props} props:
  *  @param {list} feedback - a list containing every file in Files.db
  */
-const documentsTable = (props) => {
+const ratingTable = (props) => {
 
   return (
     <React.Fragment>
@@ -14,15 +14,17 @@ const documentsTable = (props) => {
       <table className={classes.fixedHeader + " striped"}>
         <thead className={"z-depth-1"}>
           <tr>
-            <th>Comments</th>
-            <th>Rating</th>
+            <th>Answer</th>
+            <th>Good Rating</th>
+            <th>Bad Rating</th>
           </tr>
         </thead>
         <tbody>
-          {props.feedback.map((item, i) => {
-            const comments= item['comments'];
-            const rating = item['rating'];
-            return <DocumentRow key={i}  comments={comments} rating={rating}/>
+          {props.answerRating.map((item, i) => {
+            const message= item['answer'];
+            const good = item['good'];
+            const bad = item['bad'];
+            return <RatingRow key={i}  message={message} good={good} bad={bad}/>
           }
 
           )}
@@ -34,4 +36,4 @@ const documentsTable = (props) => {
   );
 }
 
-export default documentsTable;
+export default ratingTable;

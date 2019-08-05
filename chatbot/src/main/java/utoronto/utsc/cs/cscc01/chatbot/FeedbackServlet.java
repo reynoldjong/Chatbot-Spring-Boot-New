@@ -1,10 +1,8 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -15,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
 /**
  * Web servlet used to handle user feedback
  * 
  * @author Reynold
- *
  */
 @WebServlet(urlPatterns = "/feedback")
 public class FeedbackServlet extends HttpServlet {
@@ -80,16 +78,14 @@ public class FeedbackServlet extends HttpServlet {
 
       request.setAttribute("listFeedback", listFeedback);
 
-      ArrayList<String> list = new ArrayList<>();
-      for (Feedback f : listFeedback) {
-        list.add(f.getComments());
-      }
       Gson gsonBuilder = new GsonBuilder().create();
-      String jsonFromJavaArrayList = gsonBuilder.toJson(list);
+      String jsonFromJavaArrayList = gsonBuilder.toJson(listFeedback);
       response.setContentType("application/json");
       response.setCharacterEncoding("UTF-8");
+      float average = feedbackDb.getAverage();
       response.getWriter()
-          .write(String.format("{\"feedback\": %s }", jsonFromJavaArrayList));
+          .write(String.format("{\"feedback\": %s, \"average\": [%.2f] }",
+              jsonFromJavaArrayList, average));
 
 
     } catch (SQLException e) {
@@ -104,9 +100,9 @@ public class FeedbackServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     listFeedback(request, response);
-    response.setContentType("text/html");
-    request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request,
-        response);
+    // response.setContentType("text/html");
+    // request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request,
+    // response);
   }
 
 

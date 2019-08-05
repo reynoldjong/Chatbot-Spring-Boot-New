@@ -30,6 +30,9 @@ public class FilesServlet extends HttpServlet {
 
   private FilesDatabaseAdmin db;
   private WatsonDiscovery wdisc;
+  private Indexer indexer;
+  private String indexPath = "../chatbot/index/documents";
+  private FileParser fileParser;
   // TODO: see if these fields are needed
 
   // private int maxFileSize = 1024 * 1024;
@@ -39,6 +42,7 @@ public class FilesServlet extends HttpServlet {
   public void init() {
 
     this.db = new FilesDatabaseAdmin();
+    this.fileParser = new FileParser();
     this.wdisc = WatsonDiscovery.buildDiscovery();
   }
 
@@ -89,12 +93,6 @@ public class FilesServlet extends HttpServlet {
 
       request.setAttribute("listUploadedFile", listUploadedFile);
 
-
-
-      ArrayList<String> list = new ArrayList<>();
-      for (UploadedFile f : listUploadedFile) {
-        list.add(f.getFilename());
-      }
       Gson gsonBuilder = new GsonBuilder().create();
       String jsonFromJavaArrayList = gsonBuilder.toJson(listUploadedFile);
       response.setContentType("application/json");
@@ -132,7 +130,7 @@ public class FilesServlet extends HttpServlet {
     List<Part> fileParts; // Retrieves <input type="file" name="file"
                           // multiple="true">
     try {
-
+      this.indexer = new Indexer(indexPath);
       fileParts = request.getParts().stream()
           .filter(part -> "file".equals(part.getName()))
           .collect(Collectors.toList());
@@ -141,6 +139,17 @@ public class FilesServlet extends HttpServlet {
         String fileName = getFileName(filePart);
         InputStream fileContent = filePart.getInputStream();
         InputStream fileContentForDb = filePart.getInputStream();
+        String content = fileParser.parse(fileName, fileContent);
+        if (fileName.equals("Chatbot Corpus.docx")) {
+          Gson gson = new Gson();
+          ArrayList<ArrayList<String>> obj =
+              gson.fromJson(content, ArrayList.class);
+          for (ArrayList<String> list : obj) {
+            this.indexer.indexDoc(list.get(0), list.get(1));
+          }
+        } else {
+          this.indexer.indexDoc(fileName, content);
+        }
         db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
         out.println("Uploaded Filename: " + fileName);
 

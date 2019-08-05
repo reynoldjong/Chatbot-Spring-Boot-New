@@ -1,12 +1,13 @@
-@media only screen and (min-width: 1200px) {
+@media only screen and (max-width: 1200px) {
   .Chatbot {
     width: 22vw !important;
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (min-width: 800px) {
   .Chatbot {
     width: 22vw !important;
+ 
   }
 
   .bottomRightPosition{
@@ -19,15 +20,18 @@
 
 @media only screen and (max-width: 600px) {
     .Chatbot {
-      width:98%important;
-      min-width:98vw!important;
-      max-width:98vw!important;
-      height:95%!important;
-      max-height:95vh!important;
+     
+      min-width:97vw!important;
+    
+      height:98%!important;
+    
       position:fixed!important;
-      margin-top:10px!important;
+
+      left:0.1px!important;
+      right:auto!important;
       top:0!important;
-      right:10px!important;
+      bottom:5px!important;
+     
     }
 
     .bottomRightPosition{
