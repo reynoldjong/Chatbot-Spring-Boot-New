@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 /**
- * Componenet representing message input
+ * Component representing message input
  * @param {props:function} addMessageHandler - function for adding messages
  */
 const MessageInput = props => {

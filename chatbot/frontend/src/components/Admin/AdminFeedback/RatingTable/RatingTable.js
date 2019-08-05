@@ -2,9 +2,9 @@ import React from 'react';
 import classes from './RatingTable.module.css';
 import RatingRow from './RatingRow/RatingRow';
 /**
- * Compoenent representing a table of all the files in the  database
+ * Component representing a table of all the feed in the  database
  * @param {props} props:
- *  @param {list} feedback - a list containing every file in Files.db
+ *  @param {list} feedback - a list containing each feedback row in Chatbot.db
  */
 const ratingTable = (props) => {
 

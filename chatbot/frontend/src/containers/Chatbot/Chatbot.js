@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 // 1) text
 
 /**
- * Componenet representing DFI's chatbot
+ * Component representing DFI's chatbot
  */
 const Chatbot = () => {
   const classes = useStyles();

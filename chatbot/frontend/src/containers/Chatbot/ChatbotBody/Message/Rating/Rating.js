@@ -1,5 +1,4 @@
 import React from 'react';
-import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import ThumbDown from '@material-ui/icons/ThumbDown';
@@ -8,21 +7,37 @@ import axios from 'axios';
 import classes from './Rating.module.css';
 import Grid from "@material-ui/core/Grid";
 import qs from 'qs';
+
+/**
+ * Component represents a rating for a message coming back from watson or lucene
+ * @param props
+ *  {string, [string]} message- Message from either watson or lucene
+ */
 const BotRating = (props) => {
-    
+  // Feedback can only be submitted once so this bool is used to track whether
+  // feedback has been submitted or not
   const [submittedFeedback, setSubmittedFeedback] = React.useState(false);
 
   const [good, setGood] = React.useState(false);
   const [bad, setBad] = React.useState(false);
+  /**
+   * styles are used as a visual cue to the user indicating that they have
+   * rated the question
+   */
   let goodStyling= null;
   let badStyling = null;
-
+  // if the user rated the question as good then the color is green and  red for bad
   if(good){
     goodStyling = {color:'green'};
   }
   if(bad){
     badStyling = {color:'red'};
   }
+  /**
+   * Function is used to send a rating to the back end which is recorded in the database
+   * along with the message
+   * @param {string} rating - Either "Good" or "Bad"
+   */
   const submitFeedback = async (rating) =>{
     if(submittedFeedback === false){
       const data = {
@@ -49,7 +64,6 @@ const BotRating = (props) => {
   }
 
   }
- 
 
   return (
     <div>

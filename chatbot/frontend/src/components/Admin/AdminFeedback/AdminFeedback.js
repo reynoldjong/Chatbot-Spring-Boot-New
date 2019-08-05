@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 /**
- * Compoenent representing all the documents the admin has uploaded
+ * Component representing all the documents the admin has uploaded
  * and has the abillity for admins to uplaod or remove documents
  * @param {props} props:
  *  @param {list} feedback - a list containing every file in Files.db

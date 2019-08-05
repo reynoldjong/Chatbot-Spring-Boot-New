@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 /**
- * Compoenent representing all the documents the admin has uploaded
+ * Component representing all the documents the admin has uploaded
  * and has the abillity for admins to uplaod or remove documents
  * @param {props} props:
  *  @param {list} feedback - a list containing every file in Files.db
@@ -37,6 +37,8 @@ const AdminCrawler = props => {
     // Create JSON object
     const url = event.target.url.value;
     const depth = event.target.depth.value;
+
+    // initialize variables with a default value if the user inputed nothing for some reason
     if (url === null) {
       url = "";
     }
@@ -52,8 +54,6 @@ const AdminCrawler = props => {
       depth: depth
     };
 
-    console.log(data);
-
     await axios
       .post("/webcrawler", qs.stringify(data))
       .then(response => {
@@ -66,8 +66,11 @@ const AdminCrawler = props => {
       });
   };
 
+  /**
+   * Function retrieves all the crawled sites from the database
+   */
   const getCrawledSites = async () =>{
-      console.log('hello');
+     
     await axios
       .get("/webcrawler")
       .then(response => {
@@ -82,7 +85,11 @@ const AdminCrawler = props => {
         console.log(error);
       });
   }
-
+  /**
+   * Function removes a site from the list of crawled sites in the database
+   * thus removing its data from being displayed back to the user
+   * @param {string} url- a site url that is to be removed from the database
+   */
   const removeSiteHandler = async url => {
     const data = {
       action: "remove",
@@ -98,11 +105,11 @@ const AdminCrawler = props => {
         console.log(error);
       });
   };
-
+  // When component is loaded crawled sites should be displayed
   useEffect(() => {
     getCrawledSites();
   }, []);
-
+  // Admin dashboard background color should be a bit darker for stylistic reasons
   document.body.style = "background: rgba(0,0,0,0.05);";
   let admin = null;
   if (props.loggedIn) {
