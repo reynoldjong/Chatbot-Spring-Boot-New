@@ -1,210 +1,245 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import com.ibm.watson.discovery.v1.Discovery;
-import com.ibm.watson.discovery.v1.model.*;
+import com.ibm.watson.discovery.v1.model.Collection;
+import com.ibm.watson.discovery.v1.model.Configuration;
+import com.ibm.watson.discovery.v1.model.CreateCollectionOptions;
+import com.ibm.watson.discovery.v1.model.CreateConfigurationOptions;
+import com.ibm.watson.discovery.v1.model.CreateCredentialsOptions;
+import com.ibm.watson.discovery.v1.model.CredentialDetails;
+import com.ibm.watson.discovery.v1.model.Credentials;
+import com.ibm.watson.discovery.v1.model.CredentialsList;
+import com.ibm.watson.discovery.v1.model.DeleteConfigurationOptions;
+import com.ibm.watson.discovery.v1.model.DeleteConfigurationResponse;
+import com.ibm.watson.discovery.v1.model.DeleteCredentialsOptions;
+import com.ibm.watson.discovery.v1.model.GetCollectionOptions;
+import com.ibm.watson.discovery.v1.model.GetConfigurationOptions;
+import com.ibm.watson.discovery.v1.model.ListConfigurationsOptions;
+import com.ibm.watson.discovery.v1.model.ListConfigurationsResponse;
+import com.ibm.watson.discovery.v1.model.ListCredentialsOptions;
+import com.ibm.watson.discovery.v1.model.Source;
+import com.ibm.watson.discovery.v1.model.SourceSchedule;
+import com.ibm.watson.discovery.v1.model.UpdateCollectionOptions;
+import com.ibm.watson.discovery.v1.model.UpdateConfigurationOptions;
+import com.ibm.watson.discovery.v1.model.UpdateCredentialsOptions;
 
 
 
 public class CrawlerEngine {
 
-    private WatsonDiscovery wdisc;
-    private String environmentId;
-    private String credentialType;
-    private String sourceType;
-    private String languageCode;
-    private String collectionId;
+  private WatsonDiscovery wdisc;
+  private String environmentId;
+  private String credentialType;
+  private String sourceType;
+  private String languageCode;
+  private String collectionId;
 
-    public CrawlerEngine(WatsonDiscovery wdisc) {
-        this.wdisc = wdisc;
-        this.environmentId = this.wdisc.getEnvironmentId();
-        this.collectionId = this.wdisc.getCrawlerCollectionId();
-        this.credentialType = "noauth";
-        this.sourceType = "web_crawl";
-        this.languageCode = "en";
-    }
+  public CrawlerEngine(WatsonDiscovery wdisc) {
+    this.wdisc = wdisc;
+    this.environmentId = this.wdisc.getEnvironmentId();
+    this.collectionId = this.wdisc.getCrawlerCollectionId();
+    this.credentialType = "noauth";
+    this.sourceType = "web_crawl";
+    this.languageCode = "en";
+  }
 
-    public String createCredential(String url) {
-        Discovery discovery = wdisc.getDiscovery();
-        CredentialDetails credentialDetails = new CredentialDetails();
-        credentialDetails.setCredentialType(this.credentialType);
-        credentialDetails.setUrl(url);
-        Credentials credentials = new Credentials();
-        credentials.setSourceType(this.sourceType);
-        credentials.setCredentialDetails(credentialDetails);
-        CreateCredentialsOptions createOptions = new CreateCredentialsOptions.Builder()
-                .environmentId(this.environmentId)
-                .credentials(credentials)
-                .build();
-        Credentials response = discovery.createCredentials(createOptions).execute().getResult();
-        return response.getCredentialId();
-    }
+  public String createCredential(String url) {
+    Discovery discovery = wdisc.getDiscovery();
+    CredentialDetails credentialDetails = new CredentialDetails();
+    credentialDetails.setCredentialType(this.credentialType);
+    credentialDetails.setUrl(url);
+    Credentials credentials = new Credentials();
+    credentials.setSourceType(this.sourceType);
+    credentials.setCredentialDetails(credentialDetails);
+    CreateCredentialsOptions createOptions =
+        new CreateCredentialsOptions.Builder().environmentId(this.environmentId)
+            .credentials(credentials).build();
+    Credentials response =
+        discovery.createCredentials(createOptions).execute().getResult();
+    return response.getCredentialId();
+  }
 
-    public void list() {
-        Discovery discovery = wdisc.getDiscovery();
-        ListCredentialsOptions listOptions = new ListCredentialsOptions.Builder()
-                .environmentId(environmentId)
-                .build();
+  public void list() {
+    Discovery discovery = wdisc.getDiscovery();
+    ListCredentialsOptions listOptions = new ListCredentialsOptions.Builder()
+        .environmentId(environmentId).build();
 
-        CredentialsList response = discovery.listCredentials(listOptions).execute().getResult();
-        System.out.println(response.getCredentials());
-    }
+    CredentialsList response =
+        discovery.listCredentials(listOptions).execute().getResult();
+    System.out.println(response.getCredentials());
+  }
 
-    public String updateCredential(String url, String credentialId) {
-        Discovery discovery = wdisc.getDiscovery();
-        CredentialDetails updatedDetails = new CredentialDetails();
-        updatedDetails.setCredentialType(credentialType);
-        updatedDetails.setUrl(url);
+  public String updateCredential(String url, String credentialId) {
+    Discovery discovery = wdisc.getDiscovery();
+    CredentialDetails updatedDetails = new CredentialDetails();
+    updatedDetails.setCredentialType(credentialType);
+    updatedDetails.setUrl(url);
 
-        UpdateCredentialsOptions updateOptions = new UpdateCredentialsOptions.Builder()
-                .environmentId(environmentId)
-                .credentialId(credentialId)
-                .sourceType(sourceType)
-                .credentialDetails(updatedDetails)
-                .build();
+    UpdateCredentialsOptions updateOptions =
+        new UpdateCredentialsOptions.Builder().environmentId(environmentId)
+            .credentialId(credentialId).sourceType(sourceType)
+            .credentialDetails(updatedDetails).build();
 
-        Credentials response = discovery.updateCredentials(updateOptions).execute().getResult();
-        System.out.println(response.getCredentialDetails());
-        return response.getStatus();
-    }
+    Credentials response =
+        discovery.updateCredentials(updateOptions).execute().getResult();
+    System.out.println(response.getCredentialDetails());
+    return response.getStatus();
+  }
 
-    public void deleteCredential(String credentialId) {
-        Discovery discovery = wdisc.getDiscovery();
-        DeleteCredentialsOptions deleteOptions = new DeleteCredentialsOptions.Builder()
-                .environmentId(environmentId)
-                .credentialId(credentialId)
-                .build();
+  public void deleteCredential(String credentialId) {
+    Discovery discovery = wdisc.getDiscovery();
+    DeleteCredentialsOptions deleteOptions =
+        new DeleteCredentialsOptions.Builder().environmentId(environmentId)
+            .credentialId(credentialId).build();
 
-        discovery.deleteCredentials(deleteOptions).execute();
-    }
+    discovery.deleteCredentials(deleteOptions).execute();
+  }
 
-    public String createConfiguration(String configurationName, String credentialId) {
-        Discovery discovery = wdisc.getDiscovery();
+  public String createConfiguration(String configurationName,
+      String credentialId) {
+    Discovery discovery = wdisc.getDiscovery();
 
-        CreateConfigurationOptions.Builder createBuilder = new CreateConfigurationOptions.Builder();
-        Configuration configuration = new Configuration();
-        configuration.setName(configurationName);
-        createBuilder.configuration(configuration);
-        createBuilder.environmentId(environmentId);
-        Source source = new Source();
-        source.setCredentialId(credentialId);
-        source.setType(sourceType);
-        source.setSchedule(getSourceSchedule());
-        createBuilder.source(source);
-        Configuration createResponse = discovery.createConfiguration(createBuilder.build()).execute().getResult();
-        return createResponse.getConfigurationId();
+    CreateConfigurationOptions.Builder createBuilder =
+        new CreateConfigurationOptions.Builder();
+    Configuration configuration = new Configuration();
+    configuration.setName(configurationName);
+    createBuilder.configuration(configuration);
+    createBuilder.environmentId(environmentId);
+    Source source = new Source();
+    source.setCredentialId(credentialId);
+    source.setType(sourceType);
+    source.setSchedule(getSourceSchedule());
+    createBuilder.source(source);
+    Configuration createResponse = discovery
+        .createConfiguration(createBuilder.build()).execute().getResult();
+    return createResponse.getConfigurationId();
 
-    }
+  }
 
-    public String updateConfiguration(String configurationId, String credentialId, String name) {
-        Discovery discovery = wdisc.getDiscovery();
-        Configuration updatedConfiguration = new Configuration();
-        UpdateConfigurationOptions.Builder updateBuilder = new UpdateConfigurationOptions.Builder()
-                .environmentId(environmentId)
-                .configurationId(configurationId)
-                .name(name);
-        updatedConfiguration.setName(name);
-        Source source = new Source();
-        source.setCredentialId(credentialId);
-        source.setType(sourceType);
-        source.setSchedule(getSourceSchedule());
-        updateBuilder.source(source);
-        updateBuilder.configuration(updatedConfiguration);
-        Configuration updateResponse = discovery.updateConfiguration(updateBuilder.build()).execute().getResult();
-        return updateResponse.getConfigurationId();
-    }
+  public String updateConfiguration(String configurationId, String credentialId,
+      String name) {
+    Discovery discovery = wdisc.getDiscovery();
+    Configuration updatedConfiguration = new Configuration();
+    UpdateConfigurationOptions.Builder updateBuilder =
+        new UpdateConfigurationOptions.Builder().environmentId(environmentId)
+            .configurationId(configurationId).name(name);
+    updatedConfiguration.setName(name);
+    Source source = new Source();
+    source.setCredentialId(credentialId);
+    source.setType(sourceType);
+    source.setSchedule(getSourceSchedule());
+    updateBuilder.source(source);
+    updateBuilder.configuration(updatedConfiguration);
+    Configuration updateResponse = discovery
+        .updateConfiguration(updateBuilder.build()).execute().getResult();
+    return updateResponse.getConfigurationId();
+  }
 
-    public SourceSchedule getSourceSchedule() {
-        SourceSchedule ss = new SourceSchedule();
-        ss.setEnabled(true);
-        ss.setTimeZone("America/New_York");
-        ss.setFrequency("weekly");
-        return ss;
+  public SourceSchedule getSourceSchedule() {
+    SourceSchedule ss = new SourceSchedule();
+    ss.setEnabled(true);
+    ss.setTimeZone("America/New_York");
+    ss.setFrequency("weekly");
+    return ss;
 
-    }
+  }
 
-    public void listConfiguration() {
-        Discovery discovery = wdisc.getDiscovery();
-        ListConfigurationsOptions listOptions = new ListConfigurationsOptions.Builder(environmentId).build();
-        ListConfigurationsResponse listResponse = discovery.listConfigurations(listOptions).execute().getResult();
-        System.out.println(listResponse.getConfigurations());
-    }
+  public void listConfiguration() {
+    Discovery discovery = wdisc.getDiscovery();
+    ListConfigurationsOptions listOptions =
+        new ListConfigurationsOptions.Builder(environmentId).build();
+    ListConfigurationsResponse listResponse =
+        discovery.listConfigurations(listOptions).execute().getResult();
+    System.out.println(listResponse.getConfigurations());
+  }
 
-    public String getCredentialId() {
-        Discovery discovery = wdisc.getDiscovery();
-        GetConfigurationOptions getOptions = new GetConfigurationOptions.Builder(environmentId, getConfigurationId()).build();
-        Configuration getResponse = discovery.getConfiguration(getOptions).execute().getResult();
-        return getResponse.getSource().getCredentialId();
-    }
+  public String getCredentialId() {
+    Discovery discovery = wdisc.getDiscovery();
+    GetConfigurationOptions getOptions =
+        new GetConfigurationOptions.Builder(environmentId, getConfigurationId())
+            .build();
+    Configuration getResponse =
+        discovery.getConfiguration(getOptions).execute().getResult();
+    return getResponse.getSource().getCredentialId();
+  }
 
-    public String createCrawlerCollection(String configurationId, String collectionName) {
+  public String createCrawlerCollection(String configurationId,
+      String collectionName) {
 
-        Discovery discovery = wdisc.getDiscovery();
+    Discovery discovery = wdisc.getDiscovery();
 
-        CreateCollectionOptions.Builder createCollectionBuilder = new CreateCollectionOptions.Builder()
-                .environmentId(environmentId)
-                .configurationId(configurationId)
-                .name(collectionName)
-                .language(languageCode);
-        Collection createResponse = discovery.createCollection(createCollectionBuilder.build()).execute().getResult();
-        return createResponse.getCollectionId();
-    }
+    CreateCollectionOptions.Builder createCollectionBuilder =
+        new CreateCollectionOptions.Builder().environmentId(environmentId)
+            .configurationId(configurationId).name(collectionName)
+            .language(languageCode);
+    Collection createResponse =
+        discovery.createCollection(createCollectionBuilder.build()).execute()
+            .getResult();
+    return createResponse.getCollectionId();
+  }
 
-    public String getConfigurationId() {
-        Discovery discovery = wdisc.getDiscovery();
-        GetCollectionOptions getOptions = new GetCollectionOptions.Builder(environmentId, collectionId).build();
-        Collection getResponse = discovery.getCollection(getOptions).execute().getResult();
-        return getResponse.getConfigurationId();
-    }
+  public String getConfigurationId() {
+    Discovery discovery = wdisc.getDiscovery();
+    GetCollectionOptions getOptions =
+        new GetCollectionOptions.Builder(environmentId, collectionId).build();
+    Collection getResponse =
+        discovery.getCollection(getOptions).execute().getResult();
+    return getResponse.getConfigurationId();
+  }
 
-    public void deleteConfiguration(String configurationId) {
-        Discovery discovery = wdisc.getDiscovery();
-        DeleteConfigurationOptions deleteRequest = new DeleteConfigurationOptions.Builder(environmentId, configurationId).build();
-        DeleteConfigurationResponse deleteResponse = discovery.deleteConfiguration(deleteRequest).execute().getResult();
-    }
+  public void deleteConfiguration(String configurationId) {
+    Discovery discovery = wdisc.getDiscovery();
+    DeleteConfigurationOptions deleteRequest =
+        new DeleteConfigurationOptions.Builder(environmentId, configurationId)
+            .build();
+    DeleteConfigurationResponse deleteResponse =
+        discovery.deleteConfiguration(deleteRequest).execute().getResult();
+  }
 
-    public String updateCollection(String configurationId) {
+  public String updateCollection(String configurationId) {
 
-        Discovery discovery = wdisc.getDiscovery();
+    Discovery discovery = wdisc.getDiscovery();
 
-        String updateCollectionName = "newCrawler";
+    String updateCollectionName = "newCrawler";
 
-        UpdateCollectionOptions updateOptions = new UpdateCollectionOptions.Builder(environmentId, collectionId)
-                .name(updateCollectionName)
-                .configurationId(configurationId)
-                .build();
+    UpdateCollectionOptions updateOptions =
+        new UpdateCollectionOptions.Builder(environmentId, collectionId)
+            .name(updateCollectionName).configurationId(configurationId)
+            .build();
 
-        Collection updatedCollection = discovery.updateCollection(updateOptions).execute().getResult();
-        return updatedCollection.getCollectionId();
+    Collection updatedCollection =
+        discovery.updateCollection(updateOptions).execute().getResult();
+    return updatedCollection.getCollectionId();
 
-    }
+  }
 
-    public static void main (String args[]) {
+  public static void main(String args[]) {
 
-        WatsonDiscovery widsc = WatsonDiscovery.buildDiscovery();
-        CrawlerEngine ce = new CrawlerEngine(widsc);
-        String credId = "d69cea7c-7765-4d40-b189-a2a74c6b3296";
+    WatsonDiscovery widsc = WatsonDiscovery.buildDiscovery();
+    CrawlerEngine ce = new CrawlerEngine(widsc);
+    String credId = "d69cea7c-7765-4d40-b189-a2a74c6b3296";
 
-        ce.listConfiguration();
-
-
-//        String configId = ce.getConfigurationId();
-//        String configId = ce.createConfiguration("test", credId);
-        ce.createCrawlerCollection("69812a88-76ba-4afd-b883-1fe572305d89", "test");
-//        System.out.println(configId);
-//        String configId2 = ce.updateConfiguration(configId, credId, "newConfig");
-//        System.out.println(configId2);
-//        System.out.println(ce.updateCollection(configId2));
+    ce.listConfiguration();
 
 
-//        ArrayList<String> as = new ArrayList<>();
-//        as.add("a04f284d-d20a-4d7c-a2f9-df1dba7c3c4f");
-//        as.add("ff17aca6-16e9-4274-83cb-0a25204340ca");
-//        as.add("ab1e17ba-5fd1-4a69-8e4c-57237c216698");
-//        for (String s: as) {
-//            ce.deleteConfiguration(s);
-//        }
-//        ce.list();
-        System.out.println(ce.getCredentialId());
+    // String configId = ce.getConfigurationId();
+    // String configId = ce.createConfiguration("test", credId);
+    ce.createCrawlerCollection("69812a88-76ba-4afd-b883-1fe572305d89", "test");
+    // System.out.println(configId);
+    // String configId2 = ce.updateConfiguration(configId, credId, "newConfig");
+    // System.out.println(configId2);
+    // System.out.println(ce.updateCollection(configId2));
 
-    }
+
+    // ArrayList<String> as = new ArrayList<>();
+    // as.add("a04f284d-d20a-4d7c-a2f9-df1dba7c3c4f");
+    // as.add("ff17aca6-16e9-4274-83cb-0a25204340ca");
+    // as.add("ab1e17ba-5fd1-4a69-8e4c-57237c216698");
+    // for (String s: as) {
+    // ce.deleteConfiguration(s);
+    // }
+    // ce.list();
+    System.out.println(ce.getCredentialId());
+
+  }
 }

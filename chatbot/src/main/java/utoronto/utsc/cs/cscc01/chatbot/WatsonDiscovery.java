@@ -3,6 +3,11 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.discovery.v1.Discovery;
 
+/**
+ * Singleton class used to wrap the IBM Watson Discovery object
+ * @author Chris
+ *
+ */
 public class WatsonDiscovery {
   private static WatsonDiscovery watsonDiscovery = null;
   private Discovery discovery;
@@ -21,22 +26,47 @@ public class WatsonDiscovery {
         .setEndPoint("https://gateway-wdc.watsonplatform.net/discovery/api");
   }
 
+  /**
+   * Method used to unwrap the singleton and retrieve the Discovery class
+   * defined by IBM
+   * @return Discovery object contained within the singleton
+   */
   public Discovery getDiscovery() {
     return this.discovery;
   }
 
+  /**
+   * Retrieve the environment ID of the Watson Discovery instance on IBM cloud
+   * @return String representing the Watson Discovery environment ID
+   */
   public String getEnvironmentId() {
     return this.environmentId;
   }
 
+  /**
+   * Retrieve the collection ID of the uploaded files collection for the 
+   * Watson Discovery instance on IBM cloud
+   * @return String representing the Watson Discovery collection ID of
+   * uploaded files
+   */
   public String getUploadedFilesCollectionId() {
     return this.uploadedFilesCollectionId;
   }
 
+  /**
+   * Retrieve the collection ID of the crawled url collection for the 
+   * Watson Discovery instance on IBM cloud
+   * @return String representing the Watson Discovery collection ID of
+   * crawled url
+   */
   public String getCrawlerCollectionId() {
     return this.crawlerCollectionId;
   }
 
+  /**
+   * Singleton constructor
+   * @return Watson Discovery object that contains the IBM Discovery object
+   */
   public static WatsonDiscovery buildDiscovery() {
     if (watsonDiscovery == null)
       watsonDiscovery = new WatsonDiscovery();

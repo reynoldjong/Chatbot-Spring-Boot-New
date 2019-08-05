@@ -7,6 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Servlet responsible for handling text to speech request by the front end
+ * @author Chris
+ *
+ */
 @WebServlet(urlPatterns = "/tts")
 public class TextToSpeechServlet extends HttpServlet {
   private TextToSpeechEngine ttsEngine;

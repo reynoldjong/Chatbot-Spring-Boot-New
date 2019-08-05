@@ -10,6 +10,13 @@ import com.ibm.watson.discovery.v1.model.QueryPassages;
 import com.ibm.watson.discovery.v1.model.QueryResponse;
 import com.ibm.watson.discovery.v1.model.QueryResult;
 
+/**
+ * QueryEngine class containing the main methods for a user query to IBM
+ * Discovery
+ * 
+ * @author Chris
+ *
+ */
 public class QueryEngine implements SearchEngine {
 
   private WatsonDiscovery wdisc;
@@ -18,6 +25,14 @@ public class QueryEngine implements SearchEngine {
     this.wdisc = wdisc;
   }
 
+  /**
+   * Main query method that returns a hashtable with the string key as the type
+   * of file being returned and the value is a list of strings that is the body
+   * of the file
+   * 
+   * @param q - string that contains the user query to Discovery
+   * @return a hashtable in the format required by the queryServlet
+   */
   public Hashtable<String, ArrayList<String>> simpleQuery(String q) {
     Discovery discovery = wdisc.getDiscovery();
 

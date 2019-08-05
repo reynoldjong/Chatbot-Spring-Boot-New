@@ -3,6 +3,10 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import com.ibm.cloud.sdk.core.service.security.IamOptions;
 import com.ibm.watson.assistant.v2.Assistant;
 
+/**
+ * Singleton class used to wrap the Assistant object by IBM Watson
+ * @author Chris
+ */
 public class WatsonAssistant {
   private static WatsonAssistant watsonAssistant = null;
   private Assistant assistant;
@@ -17,16 +21,29 @@ public class WatsonAssistant {
         .setEndPoint("https://gateway-wdc.watsonplatform.net/assistant/api");
   }
 
+  /**
+   * Used to unwrap the singleton and retrieve the Assistant object
+   * @return the Assistant object defined by IBM
+   */
   public Assistant getAssistant() {
     return this.assistant;
   }
 
+  /**
+   * Singleton constructor
+   * @return WatsonAssistant singleton object
+   */
   public static WatsonAssistant buildAssistant() {
     if (watsonAssistant == null)
       watsonAssistant = new WatsonAssistant();
     return watsonAssistant;
   }
 
+  /**
+   * Used to retrieve the Assistant's ID, which is required for Assistant
+   * function calls
+   * @return String representing the assistant's ID
+   */
   public String getAssistantId() {
     return this.assistantId;
   }
