@@ -1,8 +1,7 @@
 import React from 'react';
-import classes from './DocumentsTable.module.css';
 import DocumentRow from './DocumentRow/DocumentRow';
 /**
- * Compoenent representing a table of all the files in the  database
+ * Component representing a table of all the files in the  database
  * @param {props} props:
  *  @param {list} files - a list containing every file in Files.db
  *  @param {function} addFileHandler - function which adds a file to the database
@@ -12,7 +11,7 @@ const documentsTable = (props) => {
 
   return (
     <React.Fragment>
-      <table className={classes.fixedHeader + " striped"}>
+      <table className={" striped"}>
         <thead className={"z-depth-1"}>
           <tr>
             <th>File Name</th>

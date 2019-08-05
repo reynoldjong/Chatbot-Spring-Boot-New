@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import qs from "qs";
 import Navbar from "../Navbar/Navbar";
-import DocumentsTable from './DocumentsTable/DocumentsTable';
+import FeedbackTable from './FeedbackTable/FeedbackTable';
 import RatingTable from './RatingTable/RatingTable';
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,12 +25,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 /**
- * Component representing all the documents the admin has uploaded
- * and has the abillity for admins to uplaod or remove documents
+ * Component representing a visual on all the feedback a user has uploaded
  * @param {props} props:
  *  @param {list} feedback - a list containing every file in Files.db
- *  @param {function} addFileHandler - function which adds a file to the database
- *  @param {function} removeFileHandler - function which removes a file from the database
  */
 const AdminFeedback = props => {
   // when component is first loaded we should load all the files in the database
@@ -167,7 +164,7 @@ const AdminFeedback = props => {
               >
                 export feedback to csv
               </Button>
-                <DocumentsTable
+                <FeedbackTable
                   feedback={feedback}
                 />
             </Paper>

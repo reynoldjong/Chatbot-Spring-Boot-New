@@ -1,17 +1,17 @@
 import React from 'react';
-import classes from './DocumentsTable.module.css';
-import DocumentRow from './DocumentRow/DocumentRow';
+import classes from './FeedbackTable.module.css';
+import FeedbackRow from './FeedbackRow/FeedbackRow';
 /**
  * Compoenent representing a table of all the files in the  database
  * @param {props} props:
- *  @param {list} feedback - a list containing every file in Files.db
+ *  @param {list} feedback - a list containing every file in Chatbot.db
  */
-const documentsTable = (props) => {
+const feedbackTable = (props) => {
 
   return (
     <React.Fragment>
-    <div className={classes.ScrollableTable}>
-      <table className={classes.fixedHeader + " striped"}>
+ 
+      <table className={classes.ScrollableTable + " striped"}>
         <thead className={"z-depth-1"}>
           <tr>
             <th>Comments</th>
@@ -22,16 +22,16 @@ const documentsTable = (props) => {
           {props.feedback.map((item, i) => {
             const comments= item['comments'];
             const rating = item['rating'];
-            return <DocumentRow key={i}  comments={comments} rating={rating}/>
+            return <FeedbackRow key={i}  comments={comments} rating={rating}/>
           }
 
           )}
 
         </tbody>
       </table>
-    </div>
+   
     </React.Fragment>
   );
 }
 
-export default documentsTable;
+export default feedbackTable;

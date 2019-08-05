@@ -4,6 +4,7 @@ import React from 'react';
  * @param {props} props:
  *  @param {string} name - name of a file
  *  @param {string} type - type of a file
+ *  @param {string} date - date the file was added
  *  @param {function} removeFileHandler - function which removes a file from the database
  */
 const documentRow = (props) =>{

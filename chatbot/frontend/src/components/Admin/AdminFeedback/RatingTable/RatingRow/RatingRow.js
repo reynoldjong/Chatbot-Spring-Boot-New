@@ -7,13 +7,11 @@ import React from 'react';
  */
 const ratingRow = (props) =>{
     return( 
-    <React.Fragment>
           <tr>
             <td>{props.message}</td>
             <td>{props.good}</td>
             <td>{props.bad}</td>
           </tr>
-    </React.Fragment>
     );
 };
 

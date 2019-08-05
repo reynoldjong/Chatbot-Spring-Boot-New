@@ -10,8 +10,8 @@ const ratingTable = (props) => {
 
   return (
     <React.Fragment>
-    <div className={classes.ScrollableTable}>
-      <table className={classes.fixedHeader + " striped"}>
+ 
+      <table className={classes.ScrollableTable + " striped"}>
         <thead className={"z-depth-1"}>
           <tr>
             <th>Answer</th>
@@ -31,7 +31,7 @@ const ratingTable = (props) => {
 
         </tbody>
       </table>
-    </div>
+  
     </React.Fragment>
   );
 }

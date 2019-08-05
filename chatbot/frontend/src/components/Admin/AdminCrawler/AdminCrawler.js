@@ -10,7 +10,7 @@ import qs from "qs";
 import Navbar from "../Navbar/Navbar";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import DocumentsTable from './DocumentsTable/DocumentsTable';
+import CrawlerTable from './CrawlerTable/CrawlerTable';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -192,7 +192,7 @@ const AdminCrawler = props => {
             </Typography>
           
 
-            <DocumentsTable
+            <CrawlerTable
               sites={sites}
               removeSiteHandler={removeSiteHandler}
             />
