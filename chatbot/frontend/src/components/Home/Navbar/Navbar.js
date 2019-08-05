@@ -45,12 +45,9 @@ const Navbar2 = props => {
   if (props.loggedIn) {
     navbarLinks = (
       <React.Fragment>
-        <Link to="/admin">
-         
-        <Typography variant="h6"component='a' className={classes.title}>Admin Dashboard</Typography>
+        <Link to="/admin" >
+        <Typography variant="h6" className={classes.title} >Admin Dashboard</Typography>
         </Link>
-       
-      
           <Button
             onClick={props.logOutHandler}
             variant="contained"

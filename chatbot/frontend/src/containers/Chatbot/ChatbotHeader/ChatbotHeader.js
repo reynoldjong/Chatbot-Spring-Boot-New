@@ -24,10 +24,11 @@ const ChatbotHeader = props => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  // Opens chatbot menu
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
-
+  // Closes chatbot menu
   function handleClose() {
     setAnchorEl(null);
   }

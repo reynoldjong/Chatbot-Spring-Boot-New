@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -35,8 +35,8 @@ const AdminCrawler = props => {
 
   const crawl = async event => {
     // Create JSON object
-    const url = event.target.url.value;
-    const depth = event.target.depth.value;
+    let url = event.target.url.value;
+    let depth = event.target.depth.value;
 
     // initialize variables with a default value if the user inputed nothing for some reason
     if (url === null) {
