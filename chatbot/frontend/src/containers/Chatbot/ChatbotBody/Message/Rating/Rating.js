@@ -60,7 +60,7 @@ const BotRating = (props) => {
   }
 
   }
- 
+}
 
   return (
     <div>
