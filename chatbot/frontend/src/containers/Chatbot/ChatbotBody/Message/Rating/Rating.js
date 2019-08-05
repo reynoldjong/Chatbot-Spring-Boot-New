@@ -40,8 +40,19 @@ const BotRating = (props) => {
    */
   const submitFeedback = async (rating) =>{
     if(submittedFeedback === false){
+      let message = "";
+    if (Array.isArray(props.message)){
+      props.message.forEach(function(word){
+        message += word + " ";
+      });
+    }
+    else{
+      message = props.message;
+    }
+  
+    if(submittedFeedback === false){
       const data = {
-        message: props.message,
+        message: message,
         answerRating: rating
       }
    
