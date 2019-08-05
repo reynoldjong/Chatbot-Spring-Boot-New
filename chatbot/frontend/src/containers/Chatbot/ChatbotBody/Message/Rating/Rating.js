@@ -8,6 +8,7 @@ import axios from 'axios';
 import classes from './Rating.module.css';
 import Grid from "@material-ui/core/Grid";
 import qs from 'qs';
+
 const BotRating = (props) => {
     
   const [submittedFeedback, setSubmittedFeedback] = React.useState(false);
@@ -60,7 +61,7 @@ const BotRating = (props) => {
   }
 
   }
- 
+
 
   return (
     <div>
@@ -78,6 +79,7 @@ const BotRating = (props) => {
       </Box>
      </div>
   );
+}
 }
 
 export default BotRating;

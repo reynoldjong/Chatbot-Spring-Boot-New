@@ -34,7 +34,9 @@ public class CrawlerServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
         String action = request.getParameter("action");
 
         if ("remove".equals(action)) {
@@ -42,10 +44,10 @@ public class CrawlerServlet extends HttpServlet {
             String url = request.getParameter("url");
 
             if (! this.linksDb.remove(url)) {
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter writer = response.getWriter();
+
                 writer.write("{\"reply\": \"Can't remove link!\"}");
+            } else {
+                writer.write("{\"reply\": \"Link removed!\"}");
             }
 
         } else if ("crawl".equals(action)) {
@@ -59,15 +61,9 @@ public class CrawlerServlet extends HttpServlet {
                 crawler.crawl(url, 0, "?page_id", "?p");
                 indexer.indexUrl(crawler.getLinks());
                 linksDb.insert(url, crawler.getLinks());
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter writer = response.getWriter();
                 writer.write("{\"reply\": \"Website is crawled\"}");
 
             } catch (IOException e) {
-                response.setContentType("application/json");
-                response.setCharacterEncoding("UTF-8");
-                PrintWriter writer = response.getWriter();
                 writer.write("{\"reply\": \"Error spotted\"}");
             }
         }
@@ -89,7 +85,6 @@ public class CrawlerServlet extends HttpServlet {
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(jsonFromJavaArrayList);
-            // response.getWriter().write(String.format("{\"links\": %s }",jsonFromJavaArrayList));
 
 
         } catch (SQLException e) {
@@ -103,9 +98,6 @@ public class CrawlerServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         listCrawledLink(request, response);
-        response.setContentType("text/html");
-       
-       // request.getRequestDispatcher("/WEB-INF/crawler.jsp").forward(request, response);
     }
 
 }

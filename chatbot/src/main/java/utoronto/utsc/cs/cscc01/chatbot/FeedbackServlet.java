@@ -32,24 +32,27 @@ public class FeedbackServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter writer = response.getWriter();
 
+        String rating = request.getParameter("rating");
+        String comments = request.getParameter("comments");
+
         try {
-            Enumeration e = request.getParameterNames();
-            int rating = 0;
-            String comments = "";
+//            Enumeration e = request.getParameterNames();
+//            int rating = 0;
+//            String comments = "";
+//
+//            while (e.hasMoreElements()) {
+//                String fieldName = (String) e.nextElement();
+//                if (fieldName.equals("rating")) {
+//                    rating = Integer.parseInt(request.getParameter(fieldName));
+//
+//                } else if (fieldName.equals("comments")) {
+//                    comments = request.getParameter(fieldName);
+//
+//                }
+//            }
 
-            while (e.hasMoreElements()) {
-                String fieldName = (String) e.nextElement();
-                if (fieldName.equals("rating")) {
-                    rating = Integer.parseInt(request.getParameter(fieldName));
-
-                } else if (fieldName.equals("comments")) {
-                    comments = request.getParameter(fieldName);
-
-                }
-            }
-
-            if (rating != 0) {
-                feedbackDb.insertFeedback(rating, comments);
+            if (Integer.parseInt(rating) != 0) {
+                feedbackDb.insertFeedback(Integer.parseInt(rating), comments);
             }
 
             writer.write("{\"reply\": \"Feedback received. Thank you!\"}");
@@ -89,8 +92,6 @@ public class FeedbackServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         listFeedback(request, response);
-        //response.setContentType("text/html");
-        //request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request, response);
     }
 
 

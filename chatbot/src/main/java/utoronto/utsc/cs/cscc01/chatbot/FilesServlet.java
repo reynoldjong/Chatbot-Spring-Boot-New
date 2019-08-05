@@ -112,10 +112,13 @@ public class FilesServlet extends HttpServlet {
     }
 
     public void upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Check that we have a file upload request
-        java.io.PrintWriter out = response.getWriter();
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
         
-        List<Part> fileParts; // Retrieves <input type="file" name="file" multiple="true">
+        List<Part> fileParts;
+
         try {
             this.indexer = new Indexer(indexPath);
             fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
@@ -135,12 +138,12 @@ public class FilesServlet extends HttpServlet {
                     this.indexer.indexDoc(fileName, content);
                 }
                 db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
-                out.println("Uploaded Filename: " + fileName);
+                writer.write("{\"reply\": \"Uploaded file successfully!\"}");
 
             }
             
         } catch (ServletException e) {
-            out.println("Can't upload any files");
+            writer.write("{\"reply\": \"Failed to upload a file\"}");
         }
 
     }
