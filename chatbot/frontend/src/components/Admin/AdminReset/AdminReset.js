@@ -95,7 +95,7 @@ const AdminFeedback = props => {
                 align="left"
                 style={{ margin: "10px" }}
               >
-                Delete all indexed documents and files from the chatbot's brain :(
+                Delete all indexed links and files from the chatbot's lucene brain, but they will still be on IBM Watson and database! You can reindex them anytime :)
               </Typography>
               <Button
                 onClick={reindexData}

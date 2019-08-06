@@ -1,18 +1,11 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-<<<<<<< HEAD
-
-/**
- * A class that stores all the information associated with the rating of answer. It will be put into a list and sent to
- * the frontend for information displaying
- *
-=======
 /**
  * Class used to encapsulate user answer ratings into an object
- * 
->>>>>>> 2dd5b7e3b83ef5b7bd3491d98db036f80ca6ef0e
+ *
  * @author Reynold
  */
+
 public class AnswerRating {
 
   private int id;

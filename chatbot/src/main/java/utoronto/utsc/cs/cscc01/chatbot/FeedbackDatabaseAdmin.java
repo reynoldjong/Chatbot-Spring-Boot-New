@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.opencsv.CSVWriter;
 
-public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
-
-
+public class FeedbackDatabaseAdmin extends GeneralDatabaseAdmin {
 
   /**
    * Insert the given information to the database, filename and the content of

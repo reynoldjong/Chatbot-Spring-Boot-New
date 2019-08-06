@@ -50,15 +50,17 @@ public class FilesServlet extends HttpServlet {
    * Post method used to handle upload/removal of files on the admin page
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
     String action = request.getParameter("action");
 
     if ("upload".equals(action)) {
       try {
         upload(request, response);
       } catch (IOException e) {
-        System.out.println(e.getMessage());
+          response.getWriter().write("{\"reply\": \"Fail to upload files!\"}");
       }
     } else if ("remove".equals(action)) {
       try {
@@ -66,7 +68,7 @@ public class FilesServlet extends HttpServlet {
 
       } catch (IOException e) {
 
-        System.out.println(e.getMessage());
+          response.getWriter().write("{\"reply\": \"Fail to remove files!\"}");
       }
     }
 
@@ -77,14 +79,19 @@ public class FilesServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, java.io.IOException {
+      throws IOException {
 
     listUploadedFile(request, response);
   }
 
+    /**
+     * Method to list files
+     */
   private void listUploadedFile(HttpServletRequest request,
-      HttpServletResponse response) throws ServletException, IOException {
+      HttpServletResponse response) throws IOException {
 
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
 
     try {
 
@@ -95,20 +102,19 @@ public class FilesServlet extends HttpServlet {
 
       Gson gsonBuilder = new GsonBuilder().create();
       String jsonFromJavaArrayList = gsonBuilder.toJson(listUploadedFile);
-      response.setContentType("application/json");
-      response.setCharacterEncoding("UTF-8");
-      // response.getWriter().write(String.format("{\"files\": %s
-      // }",jsonFromJavaArrayList));
+
       response.getWriter().write(jsonFromJavaArrayList);
 
     } catch (SQLException e) {
 
-      e.printStackTrace();
-      throw new ServletException(e);
+        response.getWriter().write("{\"reply\": \"Fail to list files!\"}");
 
     }
   }
 
+    /**
+     * Method to remove files
+     */
   protected void remove(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
@@ -121,6 +127,9 @@ public class FilesServlet extends HttpServlet {
       }
   }
 
+    /**
+     * Method to upload files
+     */
     public void upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         response.setContentType("application/json");
@@ -158,6 +167,9 @@ public class FilesServlet extends HttpServlet {
 
   }
 
+    /**
+     * Method to get filename
+     */
   private String getFileName(Part part) {
     String contentDisp = part.getHeader("content-disposition");
     // System.out.println("content-disposition header= "+contentDisp);

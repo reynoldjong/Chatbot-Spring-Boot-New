@@ -8,7 +8,7 @@ import java.sql.*;
  * Admin page for handling uploading/removing files from the database
  *
  */
-public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserDatabase {
+public class UserDatabaseAdmin extends GeneralDatabaseAdmin implements UserDatabase {
 
 
     /**

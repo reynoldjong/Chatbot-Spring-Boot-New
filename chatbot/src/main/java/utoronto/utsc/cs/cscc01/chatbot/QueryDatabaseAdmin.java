@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
+public class QueryDatabaseAdmin extends GeneralDatabaseAdmin {
 
 
 
@@ -164,11 +164,6 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
             e.printStackTrace();
         }
         return outerList;
-    }
-
-        public static void main (String args[]) {
-        QueryDatabaseAdmin qb = new QueryDatabaseAdmin();
-        System.out.println(qb.list().toString());
     }
 
 }

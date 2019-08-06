@@ -106,27 +106,4 @@ public class LuceneQueryEngine implements SearchEngine {
     return dict;
   }
 
-  public static void main(String[] args)
-      throws IOException, java.text.ParseException {
-    String uploadPath = "../chatbot/files/Chatbot Corpus.docx";
-    String fileName = "Chatbot Corpus.docx";
-    // FileParser fp = new FileParser();
-    // String content = fp.parse(fileName, new FileInputStream(new
-    // File(uploadPath)));
-    // String url = "https://www.digitalfinanceinstitute.org/";
-    // System.out.println(content);
-    String filePath = "../chatbot/index/documents";
-    // WebCrawler wc = new WebCrawler(2);
-    // wc.crawl(url, 0, "?page_id", "?p");
-    // Indexer indexer = new Indexer(filePath);
-    // indexer.indexDoc(fileName, content);
-    // indexer.indexUrl(wc.getLinks());
-    LuceneQueryEngine qe = new LuceneQueryEngine(filePath);
-    Hashtable<String, ArrayList<String>> searchResult =
-        qe.simpleQuery("What funding opportunities?");
-    System.out.println(searchResult);
-    // File dirFile = new File(filePath);
-    // FileUtils.cleanDirectory(dirFile);
-  }
-
 }

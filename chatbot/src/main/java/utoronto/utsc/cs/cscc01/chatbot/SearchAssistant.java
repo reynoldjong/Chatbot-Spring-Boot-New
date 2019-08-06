@@ -4,5 +4,5 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public interface SearchAssistant {
-	public Hashtable<String, ArrayList<String>> simpleAssistantQuery(String q);
+	Hashtable<String, ArrayList<String>> simpleAssistantQuery(String q);
 }

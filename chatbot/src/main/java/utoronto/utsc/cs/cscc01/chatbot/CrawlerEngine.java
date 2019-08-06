@@ -25,8 +25,9 @@ import com.ibm.watson.discovery.v1.model.UpdateCredentialsOptions;
 
 /**
  * Contain methods used to change the URL to which Watson Discovery crawls. As it is still Beta version, it does not suppport
- *  * link adding. It only supports creation of collections. As our lite version only supports two collections, we
- *  * are not using this class for now, but it can be used in the future
+ * link adding. It only supports creation of collections. As our lite version only supports two collections, we
+ * are not using this class for now, but it can be used in the future
+ * It is not a lazy class, just for future usage
  * @author Reynold
  *
  */

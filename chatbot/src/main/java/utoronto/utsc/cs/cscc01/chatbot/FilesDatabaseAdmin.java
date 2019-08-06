@@ -13,7 +13,7 @@ import java.util.List;
  * Admin page for handling uploading/removing files from the database
  *
  */
-public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
+public class FilesDatabaseAdmin extends GeneralDatabaseAdmin {
 
     private FilesEngine fileEngine;
     private FileParser fileParser;
@@ -237,14 +237,6 @@ public class FilesDatabaseAdmin extends AbstractDatabaseAdmin {
         }
         return listUploadedFile;
        
-    }
-
-    public static void main(String[] args) {
-
-        FilesDatabaseAdmin db = new FilesDatabaseAdmin();
-            db.remove("MSIN3004 notes.docx");
-
-
     }
 
 }

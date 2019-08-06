@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
+public class LinksDatabaseAdmin extends GeneralDatabaseAdmin {
 
     /**
      * Insert the given information to the database, filename and the content of files

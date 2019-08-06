@@ -15,7 +15,7 @@ import com.opencsv.CSVWriter;
  *
  * @author Reynold
  */
-public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
+public class AnswerRatingDatabaseAdmin extends GeneralDatabaseAdmin {
 
 
     /**
