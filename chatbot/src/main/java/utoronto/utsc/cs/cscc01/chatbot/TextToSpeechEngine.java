@@ -55,10 +55,4 @@ public class TextToSpeechEngine {
     return base64String;
   }
 
-  public static void main(String[] args) throws IOException {
-    WatsonTextToSpeech watsonTTS = WatsonTextToSpeech.buildWatsonTTS();
-    TextToSpeechEngine ttsEngine = new TextToSpeechEngine(watsonTTS);
-    // ttsEngine.createAudioFromText("Hello World, How are you doing today? What
-    // is DFI? What is context switch? How long can this go on for?");
-  }
 }

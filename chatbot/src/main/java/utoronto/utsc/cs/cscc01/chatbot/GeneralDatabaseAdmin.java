@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-abstract class AbstractDatabaseAdmin {
+/**
+ * A general database class that has the implementation of connect and close method for database connection and closing
+ * @author Reynold
+ */
+abstract class GeneralDatabaseAdmin {
 
 
   public Connection connection;
 
-  public AbstractDatabaseAdmin() {
+  public GeneralDatabaseAdmin() {
     this.connection = null;
   }
 
@@ -26,7 +30,6 @@ abstract class AbstractDatabaseAdmin {
 
     } catch (SQLException e) {
 
-      System.out.println("Can't connect to database");
       return false;
     }
   }
@@ -46,12 +49,10 @@ abstract class AbstractDatabaseAdmin {
 
       } catch (SQLException e) {
 
-        System.out.println(e.getMessage());
       }
     }
     return false;
   }
-
 
 
 }

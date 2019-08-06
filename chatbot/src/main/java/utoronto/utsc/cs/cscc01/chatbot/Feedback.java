@@ -1,8 +1,9 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+
 /**
  * Class used to encapsulate user feedbacks into an object
- * 
+ *
  * @author Reynold
  */
 public class Feedback {

@@ -105,24 +105,4 @@ public class QueryEngine implements SearchEngine {
     return dict;
   }
 
-  public static void main(String[] args) {
-    WatsonDiscovery watsonDiscovery = WatsonDiscovery.buildDiscovery();
-    QueryEngine qe = new QueryEngine(watsonDiscovery);
-
-    System.out.println(qe.simpleQuery("What is context switch?"));
-    // System.out.println(qe.simpleQuery("Who is DFI?"));
-
-    Hashtable<String, ArrayList> dict = new Hashtable<>();
-
-    ArrayList<String> text = new ArrayList<>();
-    ArrayList<String> image = new ArrayList<>();
-    ArrayList<String> url = new ArrayList<>();
-    ArrayList<String> file = new ArrayList<>();
-
-    dict.put("text", text);
-    dict.put("image", image);
-    dict.put("url", url);
-    dict.put("file", file);
-
-  }
 }

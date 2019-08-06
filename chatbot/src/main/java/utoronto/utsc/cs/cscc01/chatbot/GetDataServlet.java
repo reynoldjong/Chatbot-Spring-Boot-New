@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.SQLException;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,115 +39,83 @@ public class GetDataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    if (request.getParameter("getQueries") != null) {
-      response.setContentType("text/csv");
-      response.setHeader("Content-Disposition",
-          "attachment; filename=queriesData.csv");
-      this.queryDb.extractCSV();
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    try {
+      if (request.getParameter("getQueries") != null) {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=queriesData.csv");
 
-      InputStream inStream = new FileInputStream(
-          new File("../chatbot/files/data/queriesData.csv"));
-      OutputStream outputStream = response.getOutputStream();
-      byte[] buffer = new byte[4096];
-      int bytesRead;
+        this.queryDb.extractCSV();
 
-      while ((bytesRead = inStream.read(buffer)) != -1) {
-        outputStream.write(buffer, 0, bytesRead);
-      }
-      outputStream.flush();
-      outputStream.close();
+        InputStream inStream = new FileInputStream(
+                new File("../chatbot/files/data/queriesData.csv"));
+        OutputStream outputStream = response.getOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+          outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.flush();
+        outputStream.close();
+        response.getWriter().write("{\"reply\": \"queriesData.csv extracted!\"}");
 
 
-    } else if (request.getParameter("getFeedback") != null) {
-      response.setContentType("text/csv");
-      response.setHeader("Content-Disposition",
-          "attachment; filename=feedbackData.csv");
-      try {
+      } else if (request.getParameter("getFeedback") != null) {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=feedbackData.csv");
+
         this.feedbackDb.extractCSV();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+        InputStream inStream = new FileInputStream(
+                new File("../chatbot/files/data/feedbackData.csv"));
+        OutputStream outputStream = response.getOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead;
 
-      InputStream inStream = new FileInputStream(
-          new File("../chatbot/files/data/feedbackData.csv"));
-      OutputStream outputStream = response.getOutputStream();
-      byte[] buffer = new byte[4096];
-      int bytesRead;
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+          outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.flush();
+        outputStream.close();
+        response.getWriter().write("{\"reply\": \"feedbackData.csv extracted!\"}");
 
-      while ((bytesRead = inStream.read(buffer)) != -1) {
-        outputStream.write(buffer, 0, bytesRead);
-      }
-      outputStream.flush();
-      outputStream.close();
-
-    } else if (request.getParameter("getAnswerRating") != null) {
-      response.setContentType("text/csv");
-      response.setHeader("Content-Disposition",
-          "attachment; filename=answerRatingData.csv");
-      try {
+      } else if (request.getParameter("getAnswerRating") != null) {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=answerRatingData.csv");
         this.answerRatingDb.extractCSV();
-      } catch (SQLException e) {
-        e.printStackTrace();
+
+        InputStream inStream = new FileInputStream(
+                new File("../chatbot/files/data/answerRatingData.csv"));
+        OutputStream outputStream = response.getOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+          outputStream.write(buffer, 0, bytesRead);
+        }
+        outputStream.flush();
+        outputStream.close();
+        response.getWriter().write("{\"reply\": \"answerRatingData.csv extracted!\"}");
+
       }
-
-      InputStream inStream = new FileInputStream(
-          new File("../chatbot/files/data/answerRatingData.csv"));
-      OutputStream outputStream = response.getOutputStream();
-      byte[] buffer = new byte[4096];
-      int bytesRead;
-
-      while ((bytesRead = inStream.read(buffer)) != -1) {
-        outputStream.write(buffer, 0, bytesRead);
-      }
-      outputStream.flush();
-      outputStream.close();
-
+    } catch (SQLException e) {
+      response.getWriter().write("{\"reply\": \"error extracting file!\"}");
     }
   }
 
-  //
-  // private void listQueries(HttpServletRequest request, HttpServletResponse
-  // response)
-  // throws ServletException, IOException {
-  //
-  // try {
-  //
-  //
-  // List<Query> listQuery = queryDb.list();
-  //
-  // request.setAttribute("listQuery", listQuery);
-  //
-  // ArrayList<String> list = new ArrayList<>();
-  // for(Query q: listQuery){
-  // list.add(q.getContent());
-  // }
-  // Gson gsonBuilder = new GsonBuilder().create();
-  // String jsonFromJavaArrayList = gsonBuilder.toJson(list);
-  // response.setContentType("application/json");
-  // response.setCharacterEncoding("UTF-8");
-  // response.getWriter().write(String.format("{\"query\": %s
-  // }",jsonFromJavaArrayList));
-  //
-  //
-  // } catch (SQLException e) {
-  //
-  // e.printStackTrace();
-  // throw new ServletException(e);
-  //
-  // }
-  // }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+      throws IOException {
 
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     String result = this.queryDb.list().toString();
     response.getWriter().write(String.format("{\"queries\": %s }", result));
-    // listQueries(request, response);
-    // request.getRequestDispatcher("/WEB-INF/getdata.jsp").forward(request,
-    // response);
   }
 
 

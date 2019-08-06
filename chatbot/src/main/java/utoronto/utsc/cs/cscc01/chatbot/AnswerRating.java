@@ -2,9 +2,10 @@ package utoronto.utsc.cs.cscc01.chatbot;
 
 /**
  * Class used to encapsulate user answer ratings into an object
- * 
+ *
  * @author Reynold
  */
+
 public class AnswerRating {
 
   private int id;

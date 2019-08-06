@@ -3,7 +3,6 @@ package utoronto.utsc.cs.cscc01.chatbot;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,25 +38,15 @@ public class FeedbackServlet extends HttpServlet {
     response.setCharacterEncoding("UTF-8");
     PrintWriter writer = response.getWriter();
 
-    try {
-      Enumeration e = request.getParameterNames();
-      int rating = 0;
-      String comments = "";
+        String rating = request.getParameter("rating");
+        String comments = request.getParameter("comments");
 
-      while (e.hasMoreElements()) {
-        String fieldName = (String) e.nextElement();
-        if (fieldName.equals("rating")) {
-          rating = Integer.parseInt(request.getParameter(fieldName));
+        try {
 
-        } else if (fieldName.equals("comments")) {
-          comments = request.getParameter(fieldName);
 
-        }
-      }
-
-      if (rating != 0) {
-        feedbackDb.insertFeedback(rating, comments);
-      }
+            if (Integer.parseInt(rating) != 0) {
+                feedbackDb.insertFeedback(Integer.parseInt(rating), comments);
+            }
 
       writer.write("{\"reply\": \"Feedback received. Thank you!\"}");
 
@@ -67,6 +56,11 @@ public class FeedbackServlet extends HttpServlet {
           .write("{\"reply\": \"Error getting feedback. Please try again.\"}");
     }
   }
+
+  /**
+   * Get all the feedback data, make a Feedback object and put them into a list, which will be sent to frontend
+   * for information displaying
+   */
 
   private void listFeedback(HttpServletRequest request,
       HttpServletResponse response) throws ServletException, IOException {
@@ -96,15 +90,13 @@ public class FeedbackServlet extends HttpServlet {
     }
   }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    listFeedback(request, response);
-    // response.setContentType("text/html");
-    // request.getRequestDispatcher("/WEB-INF/feedback.jsp").forward(request,
-    // response);
+  /**
+   * Get request for information displaying
+   */
+
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        listFeedback(request, response);
   }
-
-
 
 }

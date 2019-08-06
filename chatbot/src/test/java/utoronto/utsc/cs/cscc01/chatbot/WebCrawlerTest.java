@@ -25,21 +25,16 @@ public class WebCrawlerTest {
     }
 
     @Test
-    public void testVerifyingSublinks() {
+    public void testCrawlingLinks() {
         boolean verify = true;
         wc.crawl(seedValue, 0, "?page_id", "?p");
         for (Map.Entry<String, HashMap<String, String>> entry : wc.getLinks().entrySet()) {
-            if (! entry.getKey().contains("digitalfinanceinstitute")) {
+            if (!entry.getKey().contains("digitalfinanceinstitute")) {
                 verify = false;
+                break;
             }
         }
         assertTrue(verify);
-    }
-
-    @Test
-    public void testNumLinksCrawled() {
-        wc.crawl(seedValue, 0, "?page_id", "?p");
-        // count manually
         assertEquals(wc.getLinks().size(), 11);
     }
 

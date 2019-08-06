@@ -1,5 +1,12 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+/**
+ * A class that stores all the information associated with crawled links. It will be put into a list and sent to
+ * the frontend for information displaying
+ *
+ * @author Reynold
+ */
+
 public class CrawledLink {
 
     private int id;

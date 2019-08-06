@@ -53,51 +53,45 @@ public class QueryServlet extends HttpServlet {
    * @param req - http request containing the query
    * @param resp - http response used to send data back to chatbot
    */
-  public void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws IOException {
-    String watsonReply;
-    String luceneReply;
-    String fullReply;
 
-    // we are returning json to the front end
-    resp.setContentType("application/json");
-    resp.setCharacterEncoding("UTF-8");
-    PrintWriter writer = resp.getWriter();
-
-    // get user request from http request, and decode it so we have it
-    // standardized between browsers
-    String userQuery = req.getQueryString();
-    // have to replace all %_ with just % or we crash our decoder
-    userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
-    queryDatabase.insertQuery(userQuery.replaceAll("\\+", " "));
-    userQuery = URLDecoder.decode(userQuery, "UTF-8");
-
-    // first try watson assistant
-    Hashtable<String, ArrayList<String>> assistantHashTable =
-        queryAssistant.simpleAssistantQuery(userQuery);
-    // if assistant cannot pattern match the user input, query flag
-    // will be set to "Need to query"
-    if (assistantHashTable.get("queryFlag").size() > 0
-        && assistantHashTable.get("queryFlag").get(0).equals("Need to query")) {
-      // query watson discovery
-      Hashtable<String, ArrayList<String>> watsonHashTable =
-          queryEngine.simpleQuery(userQuery);
-      watsonReply = hashToJson(watsonHashTable);
-    }
-    // if watson assistant is able to answer, we simply return that answer
-    else {
-      watsonReply = hashToJson(assistantHashTable);
-    }
-
-    // now query the index created by lucene
-    Hashtable<String, ArrayList<String>> luceneHashTable =
-        luceneQueryEngine.simpleQuery(userQuery);
-    luceneReply = hashToJson(luceneHashTable);
-
-    fullReply =
-        "{\"watson\":" + watsonReply + ",\"lucene\":" + luceneReply + "}";
-
-    writer.write(fullReply);
+  public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	    String watsonReply;
+	    String luceneReply;
+	    String fullReply;
+	    
+	    // we are returning json to the front end
+	    resp.setContentType("application/json");
+	    resp.setCharacterEncoding("UTF-8");
+		PrintWriter writer = resp.getWriter();
+		
+		// get user request from http request, and decode it so we have it standardized between browsers
+		String userQuery = req.getQueryString();
+		// have to replace all %_ with just % or we crash our decoder
+		userQuery = userQuery.replaceAll("%(?![0-9a-fA-F]{2})", "%25");
+		queryDatabase.insertQuery(userQuery.replaceAll("\\+", " "));
+		userQuery = URLDecoder.decode(userQuery, "UTF-8");
+		
+		// first try watson assistant
+		Hashtable<String, ArrayList<String>> assistantHashTable = queryAssistant.simpleAssistantQuery(userQuery);
+		// if assistant cannot pattern match the user input, query flag
+		// will be set to "Need to query"
+		if (assistantHashTable.get("queryFlag").size() > 0 && assistantHashTable.get("queryFlag").get(0).equals("Need to query")) {
+			// query watson discovery
+			Hashtable<String, ArrayList<String>> watsonHashTable = queryEngine.simpleQuery(userQuery);
+			watsonReply = hashToJson(watsonHashTable);
+		}
+		// if watson assistant is able to answer, we simply return that answer
+		else {
+		  watsonReply = hashToJson(assistantHashTable);
+		}
+		
+		// now query the index created by lucene
+		Hashtable<String, ArrayList<String>> luceneHashTable = luceneQueryEngine.simpleQuery(userQuery);
+		luceneReply = hashToJson(luceneHashTable);
+		
+		fullReply = "{\"watson\":" + watsonReply + ",\"lucene\":" + luceneReply + "}";
+		
+		writer.write(fullReply);
   }
   
   /**

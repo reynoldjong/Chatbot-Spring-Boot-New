@@ -50,15 +50,17 @@ public class FilesServlet extends HttpServlet {
    * Post method used to handle upload/removal of files on the admin page
    */
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
     String action = request.getParameter("action");
 
     if ("upload".equals(action)) {
       try {
         upload(request, response);
       } catch (IOException e) {
-        System.out.println(e.getMessage());
+          response.getWriter().write("{\"reply\": \"Fail to upload files!\"}");
       }
     } else if ("remove".equals(action)) {
       try {
@@ -66,7 +68,7 @@ public class FilesServlet extends HttpServlet {
 
       } catch (IOException e) {
 
-        System.out.println(e.getMessage());
+          response.getWriter().write("{\"reply\": \"Fail to remove files!\"}");
       }
     }
 
@@ -77,14 +79,19 @@ public class FilesServlet extends HttpServlet {
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, java.io.IOException {
+      throws IOException {
 
     listUploadedFile(request, response);
   }
 
+    /**
+     * Method to list files
+     */
   private void listUploadedFile(HttpServletRequest request,
-      HttpServletResponse response) throws ServletException, IOException {
+      HttpServletResponse response) throws IOException {
 
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
 
     try {
 
@@ -95,72 +102,74 @@ public class FilesServlet extends HttpServlet {
 
       Gson gsonBuilder = new GsonBuilder().create();
       String jsonFromJavaArrayList = gsonBuilder.toJson(listUploadedFile);
-      response.setContentType("application/json");
-      response.setCharacterEncoding("UTF-8");
-      // response.getWriter().write(String.format("{\"files\": %s
-      // }",jsonFromJavaArrayList));
+
       response.getWriter().write(jsonFromJavaArrayList);
 
     } catch (SQLException e) {
 
-      e.printStackTrace();
-      throw new ServletException(e);
+        response.getWriter().write("{\"reply\": \"Fail to list files!\"}");
 
     }
   }
 
+    /**
+     * Method to remove files
+     */
   protected void remove(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
 
     String fileName = request.getParameter("file");
-
-    if (!db.remove(fileName)) {
-      response.setContentType("application/json");
-      response.setCharacterEncoding("UTF-8");
-      PrintWriter writer = response.getWriter();
-      writer.write("{\"reply\": \"Can't remove file!\"}");
-    }
-  }
-
-  public void upload(HttpServletRequest request, HttpServletResponse response)
-      throws IOException {
-    // Check that we have a file upload request
-    java.io.PrintWriter out = response.getWriter();
-
-    List<Part> fileParts; // Retrieves <input type="file" name="file"
-                          // multiple="true">
-    try {
-      this.indexer = new Indexer(indexPath);
-      fileParts = request.getParts().stream()
-          .filter(part -> "file".equals(part.getName()))
-          .collect(Collectors.toList());
-
-      for (Part filePart : fileParts) {
-        String fileName = getFileName(filePart);
-        InputStream fileContent = filePart.getInputStream();
-        InputStream fileContentForDb = filePart.getInputStream();
-        String content = fileParser.parse(fileName, fileContent);
-        if (fileName.equals("Chatbot Corpus.docx")) {
-          Gson gson = new Gson();
-          ArrayList<ArrayList<String>> obj =
-              gson.fromJson(content, ArrayList.class);
-          for (ArrayList<String> list : obj) {
-            this.indexer.indexDoc(list.get(0), list.get(1));
-          }
-        } else {
-          this.indexer.indexDoc(fileName, content);
-        }
-        db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
-        out.println("Uploaded Filename: " + fileName);
-
+      if (!db.remove(fileName)) {
+          response.setContentType("application/json");
+          response.setCharacterEncoding("UTF-8");
+          PrintWriter writer = response.getWriter();
+          writer.write("{\"reply\": \"Can't remove file!\"}");
       }
+  }
 
-    } catch (ServletException e) {
-      out.println("Can't upload any files");
-    }
+    /**
+     * Method to upload files
+     */
+    public void upload(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter writer = response.getWriter();
+
+        List<Part> fileParts;
+
+        try {
+            this.indexer = new Indexer(indexPath);
+            fileParts = request.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+
+            for (Part filePart : fileParts) {
+                String fileName = getFileName(filePart);
+                InputStream fileContent = filePart.getInputStream();
+                InputStream fileContentForDb = filePart.getInputStream();
+                String content = fileParser.parse(fileName, fileContent);
+                if (fileName.equals("Chatbot Corpus.docx")) {
+                    Gson gson = new Gson();
+                    ArrayList<ArrayList<String>> obj = gson.fromJson(content, ArrayList.class);
+                    for (ArrayList<String> list: obj) {
+                        this.indexer.indexDoc(list.get(0), list.get(1));
+                    }
+                } else {
+                    this.indexer.indexDoc(fileName, content);
+                }
+                db.insert(fileName, fileContent, fileContentForDb, filePart.getSize());
+                writer.write("{\"reply\": \"Uploaded file successfully!\"}");
+
+            }
+
+        } catch (ServletException e) {
+            writer.write("{\"reply\": \"Failed to upload a file\"}");
+        }
 
   }
 
+    /**
+     * Method to get filename
+     */
   private String getFileName(Part part) {
     String contentDisp = part.getHeader("content-disposition");
     // System.out.println("content-disposition header= "+contentDisp);

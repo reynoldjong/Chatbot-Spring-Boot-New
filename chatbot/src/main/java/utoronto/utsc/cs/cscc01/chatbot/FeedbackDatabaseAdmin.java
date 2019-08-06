@@ -9,13 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import com.opencsv.CSVWriter;
 
-public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
-
-
+/**
+ * A class that will handle the feedback data to the database
+ *
+ * @author Reynold
+ */
+public class FeedbackDatabaseAdmin extends GeneralDatabaseAdmin {
 
   /**
-   * Insert the given information to the database, filename and the content of
-   * files
+   * Insert the given information to the database, rating and comments
    *
    * @param rating
    * @param comments
@@ -51,6 +53,21 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
     this.close();
 
     return average;
+  }
+
+  /**
+   * Remove all the feedback from the database
+   *
+   */
+  public void removeAll() throws SQLException {
+    PreparedStatement stmt;
+    // SQL code for delete
+    String deleteSQL = "DELETE FROM FEEDBACK";
+    connect();
+    // Create SQL statement for deleting
+    stmt = this.connection.prepareStatement(deleteSQL);
+    stmt.executeUpdate();
+    close();
   }
 
 
@@ -97,15 +114,6 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
     this.close();
 
     return listFeedback;
-  }
-
-  public static void main(String args[]) {
-    FeedbackDatabaseAdmin fb = new FeedbackDatabaseAdmin();
-    try {
-      fb.extractCSV();
-    } catch (SQLException | IOException e) {
-      e.printStackTrace();
-    }
   }
 
 }

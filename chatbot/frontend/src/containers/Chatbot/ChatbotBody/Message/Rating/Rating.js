@@ -77,6 +77,7 @@ const BotRating = (props) => {
   }
 }
 
+
   return (
     <div>
       <Box component="fieldset" mb={3} mt={1} mr={8} borderColor="transparent">
@@ -94,5 +95,6 @@ const BotRating = (props) => {
      </div>
   );
 }
+
 
 export default BotRating;

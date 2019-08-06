@@ -1,9 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -118,25 +116,5 @@ public class WebCrawler {
     return links;
   }
 
-  public static void main(String[] args) {
-    // WebCrawler wc = new WebCrawler(2);
-    String url = "https://digitalfinanceinstitute.org/";
-    // wc.crawl(url, 0, "?page_id", "?p");
-    LinksDatabaseAdmin linksDb = new LinksDatabaseAdmin();
-    try {
-      HashMap<String, HashMap<String, String>> links =
-          linksDb.extractLinkCollection(url);
-      for (Map.Entry<String, HashMap<String, String>> entry : links
-          .entrySet()) {
-        System.out.println(entry.getKey());
-        for (Map.Entry<String, String> entry2 : entry.getValue().entrySet()) {
-          System.out.println(entry2.getKey());
-          System.out.println(entry2.getValue());
-        }
-      }
-    } catch (SQLException | ClassNotFoundException | IOException e) {
-      e.printStackTrace();
-    }
-  }
 
 }

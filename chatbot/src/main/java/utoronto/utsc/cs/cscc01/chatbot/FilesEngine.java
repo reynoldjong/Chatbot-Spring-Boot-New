@@ -13,6 +13,7 @@ import com.ibm.watson.discovery.v1.model.UpdateDocumentOptions;
  * 
  * @author Reynold
  */
+
 public class FilesEngine {
 
   private WatsonDiscovery wdisc;
@@ -25,8 +26,6 @@ public class FilesEngine {
     this.uploadedFilesCollectionId = this.wdisc.getUploadedFilesCollectionId();
   }
 
-  // String environmentId = wdisc.getEnvironmentId();
-  // String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
 
   /**
    * Used to upload a file to IBM Watson Discovery

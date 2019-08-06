@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
+/**
+ * A class that will handle the crawled links data in the database
+ *
+ * @author Reynold
+ */
+public class LinksDatabaseAdmin extends GeneralDatabaseAdmin {
 
     /**
      * Insert the given information to the database, filename and the content of files
@@ -15,7 +20,7 @@ public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
      * @param seed
      * @param content
      */
-    public void insert(String seed, HashMap<String, HashMap<String, String>> content) {
+    public void insert(String seed, HashMap<String, HashMap<String, String>> content) throws IOException, SQLException {
 
         PreparedStatement stmt;
         // SQL code for insert
@@ -25,30 +30,23 @@ public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
 
         if (existLink.equals("")) {
 
-            try {
-                connect();
-                // Create SQL statement for inserting
-                stmt = this.connection.prepareStatement(insertSQL);
-                stmt.setString(1, seed);
-                ByteArrayOutputStream b = new ByteArrayOutputStream();
-                ObjectOutputStream output = new ObjectOutputStream(b);
-                output.writeObject(content);
-                byte[] bytes = b.toByteArray();
-                ByteArrayInputStream input = new ByteArrayInputStream(bytes);
-                stmt.setBinaryStream(2, input, bytes.length);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-                Date date = new Date(System.currentTimeMillis());
-                String formattedDate = formatter.format(date);
-                stmt.setString(3, formattedDate);
-                stmt.executeUpdate();
+            connect();
+            // Create SQL statement for inserting
+            stmt = this.connection.prepareStatement(insertSQL);
+            stmt.setString(1, seed);
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            ObjectOutputStream output = new ObjectOutputStream(b);
+            output.writeObject(content);
+            byte[] bytes = b.toByteArray();
+            ByteArrayInputStream input = new ByteArrayInputStream(bytes);
+            stmt.setBinaryStream(2, input, bytes.length);
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+            Date date = new Date(System.currentTimeMillis());
+            String formattedDate = formatter.format(date);
+            stmt.setString(3, formattedDate);
+            stmt.executeUpdate();
+            close();
 
-            } catch (SQLException | IOException e) {
-                System.out.println(e);
-            } finally {
-
-                close();
-
-            }
         } else {
             remove(seed);
             insert(seed, content);
@@ -57,30 +55,23 @@ public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
     }
 
     /**
-     * Remove the given information of the given filename from the database
+     * Remove the given information of the given link from the database
      *
      * @param seed
      */
-    public boolean remove(String seed) {
+    public void remove(String seed) throws SQLException {
         PreparedStatement stmt;
         String documentId = getLink(seed);
         // SQL code for delete
         String deleteSQL = "DELETE FROM LINKS WHERE seed = ?";
-        try {
-            connect();
-            // Create SQL statement for deleting
-            stmt = this.connection.prepareStatement(deleteSQL);
-            stmt.setString(1, seed);
-            stmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        finally {
 
-            close();
-        }
-        return false;
+        connect();
+        // Create SQL statement for deleting
+        stmt = this.connection.prepareStatement(deleteSQL);
+        stmt.setString(1, seed);
+        stmt.executeUpdate();
+
+        close();
     }
 
     /**
@@ -108,70 +99,49 @@ public class LinksDatabaseAdmin extends AbstractDatabaseAdmin {
                 linksCollection = (HashMap<String, HashMap<String, String>>) ois.readObject();
             }
 
-        } else {
-
-            throw new SQLException();
         }
-
         return linksCollection;
     }
 
 
-    public String getLink(String link) {
+    public String getLink(String link) throws SQLException {
         String selectSQL = "SELECT * FROM LINKS WHERE seed=?";
         ResultSet rs;
         PreparedStatement stmt;
         String seed = "";
+        this.connect();
+        stmt = this.connection.prepareStatement(selectSQL);
+        stmt.setString(1, link);
+        rs = stmt.executeQuery();
 
-        try {
-            connect();
-            stmt = this.connection.prepareStatement(selectSQL);
-            stmt.setString(1, link);
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                seed = rs.getString("SEED");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        while (rs.next()) {
+            seed = rs.getString("SEED");
         }
-        finally{
-
-            close();
-        }
+        this.close();
 
         return seed;
     }
 
     public List<CrawledLink> list() throws SQLException {
         List<CrawledLink> listCrawledLink = new ArrayList<>();
-        try{
 
-            String sql = "SELECT * FROM links ORDER BY seed";
-            connect();
+        String sql = "SELECT * FROM links ORDER BY seed";
+        this.connect();
 
-            Statement statement = this.connection.createStatement();
-            ResultSet result = statement.executeQuery(sql);
+        Statement statement = this.connection.createStatement();
+        ResultSet result = statement.executeQuery(sql);
 
-            while (result.next()) {
-                int id = result.getInt("linkid");
-                String seed = result.getString("seed");
-                String date = result.getString("date");
-                CrawledLink link = new CrawledLink(id, seed, date);
+        while (result.next()) {
+            int id = result.getInt("linkid");
+            String seed = result.getString("seed");
+            String date = result.getString("date");
+            CrawledLink link = new CrawledLink(id, seed, date);
 
-                listCrawledLink.add(link);
-            }
-
-
+            listCrawledLink.add(link);
         }
-        catch(SQLException e){
-            System.out.println(e.getMessage());
-        }
-        finally{
 
-            close();
-        }
+        this.close();
+
         return listCrawledLink;
 
     }

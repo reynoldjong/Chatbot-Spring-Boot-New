@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -79,8 +78,7 @@ public class IndexerServlet extends HttpServlet {
 
       } catch (SQLException | ClassNotFoundException | IOException e) {
 
-        writer
-            .write("{\"reply\": \"Error getting information from database\"}");
+        writer.write("{\"reply\": \"Error getting information from database\"}");
       }
 
     } else if (request.getParameter("reset") != null) {
@@ -95,14 +93,6 @@ public class IndexerServlet extends HttpServlet {
       }
     }
 
-  }
-
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
-    response.setContentType("text/html");
-    request.getRequestDispatcher("/WEB-INF/indexer.jsp").forward(request,
-        response);
   }
 
 }

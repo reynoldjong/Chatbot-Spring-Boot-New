@@ -1,8 +1,6 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -147,6 +145,12 @@ public class FileParser {
   }
 
 
+  /**
+   * A method for overall file parsing, which will call other parsing methods
+   *
+   * @param fileName - name of file
+   * @param file - input stream of file
+   */
   public String parse(String fileName, InputStream file) throws IOException {
     String docType = FilenameUtils.getExtension(fileName);
     String text = "";
@@ -174,23 +178,6 @@ public class FileParser {
     }
     return text;
 
-  }
-
-  public static void main(String args[]) {
-    FileParser fp = new FileParser();
-    try {
-      File f = new File("../chatbot/files/Chatbot Corpus.docx");
-      String content = fp.parse(f.getName(), new FileInputStream(f));
-      Gson gson = new Gson();
-      ArrayList<ArrayList<String>> obj =
-          gson.fromJson(content, ArrayList.class);
-      for (ArrayList<String> list : obj) {
-        System.out.println(list.get(0));
-        System.out.println(list.get(1));
-      }
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 }
 

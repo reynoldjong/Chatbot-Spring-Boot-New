@@ -5,19 +5,20 @@ import java.sql.*;
 
 
 /**
- * Admin page for handling uploading/removing files from the database
+ * Admin page for handling the user data inthe database
+ *
  *
  */
-public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserDatabase {
+public class UserDatabaseAdmin extends GeneralDatabaseAdmin implements UserDatabase {
 
 
     /**
-     * Insert the given information to the database, filename and the content of files
+     * Insert the given information to the database, username and password
      *
      * @param username
      * @param password
      */
-    public void insertUser(String username, String password) {
+    public void insertUser(String username, String password) throws SQLException {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO USERS(USERNAME, PASSWORD) VALUES(?, ?)";
@@ -47,7 +48,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
 
 
     /**
-     * Remove the given information of the given filename from the database
+     * Remove the given information of the given username from the database
      *
      * @param username
      */
@@ -70,13 +71,13 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
     }
 
     /**
-     * Read file using the given filename
+     * Verify the user information in the database
      *
      * @param username
      * @param password
      */
 
-    public boolean verifyUser(String username, String password) {
+    public boolean verifyUser(String username, String password) throws SQLException {
 
         // update sql
         String pwGot = getPassword(username);
@@ -89,42 +90,26 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
     }
 
 
-    public String getPassword(String username) {
+    public String getPassword(String username) throws SQLException {
 
 
         String sql = "SELECT * FROM Users WHERE username = ?";
         String password = "";
         ResultSet rs;
         PreparedStatement stmt;
-        try {
-            connect();
-            stmt = this.connection.prepareStatement(sql);
-            stmt.setString(1, username);
-            rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                password = rs.getString("password");
-            }
+        connect();
+        stmt = this.connection.prepareStatement(sql);
+        stmt.setString(1, username);
+        rs = stmt.executeQuery();
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            close();
+        while (rs.next()) {
+            password = rs.getString("password");
         }
+        close();
 
         return password;
     }
-
-    public static void main(String[] args) {
-
-        UserDatabaseAdmin db = new UserDatabaseAdmin();
-        if (db.connect()) {
-            db.insertUser("admin", "admin");
-        }
-
-    }
-
-
 
 }
 
