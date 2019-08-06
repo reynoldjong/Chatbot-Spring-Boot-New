@@ -2,16 +2,16 @@ import React from 'react';
 import classes from './RatingTable.module.css';
 import RatingRow from './RatingRow/RatingRow';
 /**
- * Compoenent representing a table of all the files in the  database
+ * Component representing a table of all the feed in the  database
  * @param {props} props:
- *  @param {list} feedback - a list containing every file in Files.db
+ *  @param {list} feedback - a list containing each feedback row in Chatbot.db
  */
 const ratingTable = (props) => {
 
   return (
     <React.Fragment>
-    <div className={classes.ScrollableTable}>
-      <table className={classes.fixedHeader + " striped"}>
+ 
+      <table className={classes.ScrollableTable + " striped"}>
         <thead className={"z-depth-1"}>
           <tr>
             <th>Answer</th>
@@ -31,7 +31,7 @@ const ratingTable = (props) => {
 
         </tbody>
       </table>
-    </div>
+  
     </React.Fragment>
   );
 }

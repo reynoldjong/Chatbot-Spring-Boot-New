@@ -1,23 +1,23 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
- * A servlet that will insert all the ratings associated with the answer by IBM Watson to the database connected
- * It will also display all the answers and ratings associated with it
- *
+ * Web servlet used to get user rating for chatbot answers to the admin page on
+ * the chatbot application
+ * 
  * @author Reynold
+ *
  */
 @WebServlet(urlPatterns = "/answerrating")
 public class AnswerRatingServlet extends HttpServlet {
@@ -28,8 +28,13 @@ public class AnswerRatingServlet extends HttpServlet {
         this.answerRatingDb = new AnswerRatingDatabaseAdmin();
     }
 
+    /**
+     * Post method used to get the user rating feedback from the database and
+     * writes it as a json object to the response
+     */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
 
         String rating = request.getParameter("answerRating");
         String answer = request.getParameter("message");
@@ -39,29 +44,23 @@ public class AnswerRatingServlet extends HttpServlet {
         try {
             this.answerRatingDb.insert(answer, rating);
             writer.write("{\"reply\": \"AnswerRating received. Thank you!\"}");
-
         } catch (SQLException e) {
             writer.write("{\"reply\": \"Error receiving feedback!\"}");
         }
     }
 
-    private void listAnswerRating(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
+    private void listAnswerRating(HttpServletRequest request,
+                                  HttpServletResponse response) throws IOException {
 
         try {
             List<AnswerRating> listAnswerRating = answerRatingDb.list();
 
             request.setAttribute("listAnswerRating", listAnswerRating);
-
             Gson gsonBuilder = new GsonBuilder().create();
             String jsonFromJavaArrayList = gsonBuilder.toJson(listAnswerRating);
-
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
             response.getWriter().write(jsonFromJavaArrayList);
-
-
         } catch (SQLException e) {
             response.getWriter().write("{\"reply\": \"Fail to list ratings!\"}");
         }
@@ -71,6 +70,5 @@ public class AnswerRatingServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         listAnswerRating(request, response);
     }
-
-
 }
+

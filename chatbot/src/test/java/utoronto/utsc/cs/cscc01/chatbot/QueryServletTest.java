@@ -51,11 +51,10 @@ public class QueryServletTest {
 
     when(mockResponse.getWriter()).thenReturn(writer);
     when(mockRequest.getQueryString())
-        .thenReturn("qwer98df7ywo34y5bi]q236rgqfivb");
+        .thenReturn("qwer98df7ywo34y5biq236rgqfivb");
 
     servlet.doGet(mockRequest, mockResponse);
     String reply = stringWriter.toString();
-
     assertEquals("{\"watson\":{},\"lucene\":{}}", reply);
   }
 }

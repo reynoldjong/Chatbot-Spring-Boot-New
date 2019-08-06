@@ -1,12 +1,13 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
-import com.opencsv.CSVWriter;
-
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.opencsv.CSVWriter;
 
 
 /**
@@ -14,11 +15,11 @@ import java.util.List;
  *
  * @author Reynold
  */
-
 public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
 
+
     /**
-     * Insert the given information to the database, filename and the content of files
+     * Insert the given information to the database, answer and the rating associated with it
      *
      * @param answer
      * @param rating
@@ -101,53 +102,51 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
             }
             this.close();
 
-        return numberOfRatings;
+            return numberOfRatings;
     }
 
 
-    public void extractCSV() throws SQLException, IOException {
+  public void extractCSV() throws SQLException, IOException {
 
-        String selectSQL = "SELECT * FROM ANSWERRATING";
-        ResultSet rs;
-        PreparedStatement stmt;
+    String selectSQL = "SELECT * FROM ANSWERRATING";
+    ResultSet rs;
+    PreparedStatement stmt;
 
-        this.connect();
-        stmt = this.connection.prepareStatement(selectSQL);
-        rs = stmt.executeQuery();
-        // Open CSV file.
-        CSVWriter writer = new CSVWriter(new FileWriter("../chatbot/files/data/answerRatingData.csv"));
+    this.connect();
+    stmt = this.connection.prepareStatement(selectSQL);
+    rs = stmt.executeQuery();
+    // Open CSV file.
+    CSVWriter writer = new CSVWriter(
+        new FileWriter("../chatbot/files/data/answerRatingData.csv"));
 
-        writer.writeAll(rs, true);
+    writer.writeAll(rs, true);
 
-        writer.close();
+    writer.close();
 
-        this.close();
+    this.close();
 
-    }
+  }
 
-    public List<AnswerRating> list() throws SQLException {
+  public List<AnswerRating> list() throws SQLException {
 
-        List<AnswerRating> listAnswerRating = new ArrayList<>();
+      List<AnswerRating> listAnswerRating = new ArrayList<>();
 
 
-        String sql = "SELECT * FROM answerrating ORDER BY answer";
-        this.connect();
+      String sql = "SELECT * FROM answerrating ORDER BY answer";
+      this.connect();
 
-        PreparedStatement stmt = this.connection.prepareStatement(sql);
-        ResultSet result = stmt.executeQuery();
+      PreparedStatement stmt = this.connection.prepareStatement(sql);
+      ResultSet result = stmt.executeQuery();
 
-        while (result.next()) {
-            int id = result.getInt("answerratingId");
-            String answer = result.getString("answer");
-            int good = result.getInt("good");
-            int bad = result.getInt("bad");
-            AnswerRating answerRating = new AnswerRating(id, answer, good, bad);
+      while (result.next()) {
+          int id = result.getInt("answerratingId");
+          String answer = result.getString("answer");
+          int good = result.getInt("good");
+          int bad = result.getInt("bad");
+          AnswerRating answerRating = new AnswerRating(id, answer, good, bad);
 
-            listAnswerRating.add(answerRating);
-        }
-        this.close();
-
-        return listAnswerRating;
-    }
-
+          listAnswerRating.add(answerRating);
+      }
+      return listAnswerRating;
+  }
 }

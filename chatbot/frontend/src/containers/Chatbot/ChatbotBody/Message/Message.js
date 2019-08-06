@@ -5,7 +5,7 @@ import classes from "./Message.module.css";
 import SoundClass from "./Sound/Sound";
 import Rating from './Rating/Rating';
 /**
- * Componenet representing a repsosne from watson and lucene
+ * Component representing a repsosne from watson and lucene
  * @param {*} props
  *  @param {string} watsonText = message from Watson
  *  @param {string} watsonPicture = picture from Watson
@@ -26,6 +26,12 @@ const Message = props => {
   let textToSpeechMessageWatson = null;
   let textToSpeechMessageLucene = null;
 
+  /**
+   * Generates a text to speech message based off of everything watson responds with
+   * @param props
+   * @param {string} errorMessage - if there is nothing in error message then this means watson has something
+   * to respond with otherwise the text to speech message becomes the error message
+   */
   const generateTextToSpeechMessage = (props, errorMessage) => {
     let message = "";
     if (errorMessage != null) {
@@ -45,6 +51,12 @@ const Message = props => {
     return message;
   };
 
+  /**
+   * Generates a text to speech message based off of everything Lucene responds with
+   * @param props
+   * @param {string} errorMessage - if there is nothing in error message then this means Lucene has something
+   * to respond with otherwise the text to speech message becomes the error message
+   */
   const generateTextToSpeechMessageLucene = (props, errorMessage) => {
     let message = "";
     if (errorMessage != null) {

@@ -35,7 +35,7 @@ const Hero = () => {
   };
   return (
     <React.Fragment>
-      <Container maxWidth="false" className={classes.root}>
+      <Container maxWidth={false} className={classes.root}>
         <Typography
           className={classes.title}
           component="h3"

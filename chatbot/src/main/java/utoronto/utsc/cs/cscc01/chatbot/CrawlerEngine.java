@@ -23,11 +23,10 @@ import com.ibm.watson.discovery.v1.model.UpdateCollectionOptions;
 import com.ibm.watson.discovery.v1.model.UpdateConfigurationOptions;
 import com.ibm.watson.discovery.v1.model.UpdateCredentialsOptions;
 
-
 /**
- * A class that connects IBM Watson for data source connection. As it is still Beta version, it does not suppport
- * link adding. It only supports creation of collections. As our lite version only supports two collections, we
- * are not using this class for now, but it can be used in the future
+ * Contain methods used to change the URL to which Watson Discovery crawls. As it is still Beta version, it does not suppport
+ *  * link adding. It only supports creation of collections. As our lite version only supports two collections, we
+ *  * are not using this class for now, but it can be used in the future
  * @author Reynold
  *
  */

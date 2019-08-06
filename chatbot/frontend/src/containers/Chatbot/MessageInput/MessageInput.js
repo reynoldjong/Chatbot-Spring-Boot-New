@@ -29,14 +29,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 /**
- * Componenet representing message input
+ * Component representing message input
  * @param {props:function} addMessageHandler - function for adding messages
  */
 const MessageInput = props => {
   const classes = useStyles();
   return (
     <div className={media.root}>
-      <form onSubmit={props.addMessageHandler} autocomplete="off">
+      <form onSubmit={props.addMessageHandler} autoComplete="off">
         <Paper
           style={{ borderTopRightRadius: "0px", borderTopLeftRadius: "0px" }}
         >
@@ -46,9 +46,9 @@ const MessageInput = props => {
                 id="standard-name"
                 name="userMessage"
                 className={classes.textField}
-                autocomplete="off"
+                autoComplete="off"
                 style={{ width: "95%" }}
-                placeholder="Type a question to get answered!"
+                placeholder="Send a message!"
               />
             </Grid>
             <Grid item xs={2}>
