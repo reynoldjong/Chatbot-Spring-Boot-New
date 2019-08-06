@@ -13,13 +13,25 @@ import com.ibm.watson.assistant.v2.model.MessageOutput;
 import com.ibm.watson.assistant.v2.model.MessageResponse;
 import com.ibm.watson.assistant.v2.model.SessionResponse;
 
+/**
+ * Contains the methods used to query IBM Assistant
+ * @author Chris
+ *
+ */
 public class QueryAssistant implements SearchAssistant {
 	private WatsonAssistant wa;
 	
 	public QueryAssistant(WatsonAssistant assistant) {
 		this.wa = assistant;
 	}
-	
+	/**
+	 * Main method used to query IBM Watson Assistant and returns a hashtable
+	 * with the string key representing the type of file being returned and the
+	 * list string values representing the content of the file
+	 * 
+	 * @param q - string containing the user query
+	 * @return hashtable with the format specified by queryServlet
+	 */
 	public Hashtable<String, ArrayList<String>> simpleAssistantQuery(String q) {
 	    Assistant service = wa.getAssistant();
 	    

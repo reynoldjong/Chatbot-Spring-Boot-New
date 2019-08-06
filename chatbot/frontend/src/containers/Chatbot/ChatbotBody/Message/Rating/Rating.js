@@ -61,6 +61,7 @@ const BotRating = (props) => {
   }
 
   }
+}
 
 
   return (
@@ -80,6 +81,6 @@ const BotRating = (props) => {
      </div>
   );
 }
-}
+
 
 export default BotRating;

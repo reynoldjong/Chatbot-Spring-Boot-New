@@ -200,7 +200,7 @@ const Message = props => {
                   marginBottom: "5px"
                 }}
               >
-                DFI Chatbot
+                Alex's response{" "}
                
               </p>
               <Box
