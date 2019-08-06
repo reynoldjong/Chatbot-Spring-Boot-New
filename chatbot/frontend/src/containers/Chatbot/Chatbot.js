@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 // 1) text
 
 /**
- * Componenet representing DFI's chatbot
+ * Component representing DFI's chatbot
  */
 const Chatbot = () => {
   const classes = useStyles();
@@ -84,11 +84,10 @@ const Chatbot = () => {
   const showClickHandler = (type, index) => {
     // Need length of messages array to check for out of bounds cases
     const length = values.messages.length;
-    console.log(index, type);
+    
     if (type === "bot") {
       // Make sure that this doesn't apply to greeting message which has index 0
       if (index !== 0) {
-        console.log("here");
         setValues({
           ...values,
           showing: { question: index, answer: index - 1 }
@@ -360,7 +359,7 @@ const Chatbot = () => {
               " " +
               media.Chatbot
             }
-            maxWidth={false}
+            
           >
             <ChatbotHeader
               title="DFI Agent Alex"

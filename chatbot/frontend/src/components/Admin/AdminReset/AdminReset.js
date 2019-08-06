@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -26,9 +26,9 @@ const useStyles = makeStyles(theme => ({
  * Compoenent representing all the documents the admin has uploaded
  * and has the abillity for admins to uplaod or remove documents
  * @param {props} props:
- *  @param {list} feedback - a list containing every file in Files.db
- *  @param {function} addFileHandler - function which adds a file to the database
- *  @param {function} removeFileHandler - function which removes a file from the database
+ *  @param {list} feedback - a list containing every file in Chatbot.db
+ *  @param {function} reindexData - function which re-indexes lucene data
+ *  @param {function} resetData - function which removes resets all data in lucene
  */
 const AdminFeedback = props => {
     const classes = useStyles();

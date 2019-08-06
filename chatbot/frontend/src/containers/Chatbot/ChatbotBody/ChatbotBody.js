@@ -5,16 +5,12 @@ import media from "./ChatbotBody.module.css";
 
 
 /**
- * Componenet representing the body of the chatbot
+ * Component representing the body of the chatbot
  */
 const ChatbotBody = props => {
-  // Everytime the component is rendered we need to scroll to bottom
-
-
-
+  // Build appropriate message component based off of whether message
+  // is bot or user and if bot lucene or watson
   let messages = props.messages.map((item, index) => {
-    console.log(item);
-
     if (item.type === "bot") {
       // If the index is the same as question or answer we doon't change the opacity
       if (
