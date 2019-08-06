@@ -23,8 +23,11 @@ import com.ibm.watson.discovery.v1.model.UpdateCollectionOptions;
 import com.ibm.watson.discovery.v1.model.UpdateConfigurationOptions;
 import com.ibm.watson.discovery.v1.model.UpdateCredentialsOptions;
 
-
-
+/**
+ * Contain methods used to change the URL to which Watson Discovery crawls
+ * @author Reynold
+ *
+ */
 public class CrawlerEngine {
 
   private WatsonDiscovery wdisc;

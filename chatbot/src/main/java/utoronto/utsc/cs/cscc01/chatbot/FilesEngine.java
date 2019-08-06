@@ -83,5 +83,5 @@ public class FilesEngine {
         discovery.deleteDocument(deleteRequest).execute().getResult();
     return deleteResponse.getStatus();
   }
-
+  
 }

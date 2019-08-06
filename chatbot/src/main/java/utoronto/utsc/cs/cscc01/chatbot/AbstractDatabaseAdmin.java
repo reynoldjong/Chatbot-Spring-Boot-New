@@ -7,49 +7,50 @@ import java.sql.SQLException;
 abstract class AbstractDatabaseAdmin {
 
 
-    public Connection connection;
+  public Connection connection;
 
-    public AbstractDatabaseAdmin() {
-        this.connection = null;
+  public AbstractDatabaseAdmin() {
+    this.connection = null;
+  }
+
+  /**
+   * Make a connection to database
+   */
+  public boolean connect() {
+
+    // Connect to Chatbot.db at project folder and return true if it is
+    // successful.
+    try {
+      this.connection = DriverManager.getConnection("jdbc:sqlite:Chatbot.db");
+      return true;
+
+    } catch (SQLException e) {
+
+      System.out.println("Can't connect to database");
+      return false;
     }
+  }
 
-    /**
-     * Make a connection to database
-     */
-    public boolean connect() {
 
-        // Connect to Chatbot.db at project folder and return true if it is successful.
-        try {
-            this.connection = DriverManager.getConnection("jdbc:sqlite:Chatbot.db");
-            return true;
+  /**
+   * Close a database connection if it is connected
+   */
+  public boolean close() {
 
-        } catch (SQLException e) {
+    if (this.connection != null) {
+      try {
 
-            System.out.println("Can't connect to database");
-            return false;
-        }
+        this.connection.close();
+
+        return true;
+
+      } catch (SQLException e) {
+
+        System.out.println(e.getMessage());
+      }
     }
-
-
-    /**
-     * Close a database connection if it is connected
-     */
-    public boolean close() {
-
-        if (this.connection != null) {
-            try {
-
-                this.connection.close();
-
-                return true;
-
-            } catch (SQLException e) {
-
-                System.out.println(e.getMessage());
-            }
-        }
-        return false;
-    }
+    return false;
+  }
 
 
 
