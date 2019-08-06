@@ -13,7 +13,12 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-
+/**
+ * A servlet that will insert all the ratings associated with the answer by IBM Watson to the database connected
+ * It will also display all the answers and ratings associated with it
+ *
+ * @author Reynold
+ */
 @WebServlet(urlPatterns = "/answerrating")
 public class AnswerRatingServlet extends HttpServlet {
 
@@ -34,41 +39,37 @@ public class AnswerRatingServlet extends HttpServlet {
         try {
             this.answerRatingDb.insert(answer, rating);
             writer.write("{\"reply\": \"AnswerRating received. Thank you!\"}");
+
         } catch (SQLException e) {
             writer.write("{\"reply\": \"Error receiving feedback!\"}");
         }
     }
 
     private void listAnswerRating(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         try {
-
-
             List<AnswerRating> listAnswerRating = answerRatingDb.list();
 
             request.setAttribute("listAnswerRating", listAnswerRating);
 
             Gson gsonBuilder = new GsonBuilder().create();
             String jsonFromJavaArrayList = gsonBuilder.toJson(listAnswerRating);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
+
             response.getWriter().write(jsonFromJavaArrayList);
 
 
         } catch (SQLException e) {
-
-            e.printStackTrace();
-            throw new ServletException(e);
-
+            response.getWriter().write("{\"reply\": \"Fail to list ratings!\"}");
         }
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         listAnswerRating(request, response);
-//        response.setContentType("text/html");
-//        request.getRequestDispatcher("/WEB-INF/answerrating.jsp").forward(request, response);
     }
 
 

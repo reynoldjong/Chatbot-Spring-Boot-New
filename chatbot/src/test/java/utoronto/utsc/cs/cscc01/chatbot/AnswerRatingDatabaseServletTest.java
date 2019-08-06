@@ -47,11 +47,13 @@ public class AnswerRatingDatabaseServletTest {
         servlet.doPost(mockRequest, mockResponse);
         assertEquals("{\"reply\": \"AnswerRating received. Thank you!\"}", stringWriter.toString());
         assertEquals(db.getNumberOfRatings("Test", "Good"), 1);
+        db.remove("Test");
 
     }
 
     @Test
     public void testGetRating() throws Exception {
+        db.insert("Test", "Good");
         HttpServletRequest mockRequest = mock(HttpServletRequest.class);
         HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         StringWriter stringWriter = new StringWriter();
@@ -65,11 +67,8 @@ public class AnswerRatingDatabaseServletTest {
         String reply = stringWriter.toString();
         assertEquals("[{", reply.subSequence(0, 2));
         assertEquals("}]", reply.subSequence(reply.length() - 2, reply.length()));
+        db.remove("Test");
 
     }
 
-    @After
-    public void tearDown() throws IOException {
-        //db.deleteAll();
-    }
 }

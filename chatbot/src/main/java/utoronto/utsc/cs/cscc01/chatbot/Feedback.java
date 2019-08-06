@@ -1,5 +1,12 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
+
+/**
+ * A class that stores all the information associated with feedback given by user. It will be put into a list and sent to
+ * the frontend for information displaying
+ *
+ * @author Reynold
+ */
 public class Feedback {
 
   private int id;

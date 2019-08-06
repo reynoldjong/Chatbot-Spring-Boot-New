@@ -24,6 +24,13 @@ import com.ibm.watson.discovery.v1.model.UpdateConfigurationOptions;
 import com.ibm.watson.discovery.v1.model.UpdateCredentialsOptions;
 
 
+/**
+ * A class that connects IBM Watson for data source connection. As it is still Beta version, it does not suppport
+ * link adding. It only supports creation of collections. As our lite version only supports two collections, we
+ * are not using this class for now, but it can be used in the future
+ * @author Reynold
+ *
+ */
 
 public class CrawlerEngine {
 
@@ -213,33 +220,4 @@ public class CrawlerEngine {
 
   }
 
-  public static void main(String args[]) {
-
-    WatsonDiscovery widsc = WatsonDiscovery.buildDiscovery();
-    CrawlerEngine ce = new CrawlerEngine(widsc);
-    String credId = "d69cea7c-7765-4d40-b189-a2a74c6b3296";
-
-    ce.listConfiguration();
-
-
-    // String configId = ce.getConfigurationId();
-    // String configId = ce.createConfiguration("test", credId);
-    ce.createCrawlerCollection("69812a88-76ba-4afd-b883-1fe572305d89", "test");
-    // System.out.println(configId);
-    // String configId2 = ce.updateConfiguration(configId, credId, "newConfig");
-    // System.out.println(configId2);
-    // System.out.println(ce.updateCollection(configId2));
-
-
-    // ArrayList<String> as = new ArrayList<>();
-    // as.add("a04f284d-d20a-4d7c-a2f9-df1dba7c3c4f");
-    // as.add("ff17aca6-16e9-4274-83cb-0a25204340ca");
-    // as.add("ab1e17ba-5fd1-4a69-8e4c-57237c216698");
-    // for (String s: as) {
-    // ce.deleteConfiguration(s);
-    // }
-    // ce.list();
-    System.out.println(ce.getCredentialId());
-
-  }
 }

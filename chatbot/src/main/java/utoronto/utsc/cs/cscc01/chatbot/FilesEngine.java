@@ -25,8 +25,6 @@ public class FilesEngine {
     this.uploadedFilesCollectionId = this.wdisc.getUploadedFilesCollectionId();
   }
 
-  // String environmentId = wdisc.getEnvironmentId();
-  // String uploadedFilesCollectionId = wdisc.getUploadedFilesCollectionId();
 
   /**
    * Used to upload a file to IBM Watson Discovery

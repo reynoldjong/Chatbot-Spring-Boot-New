@@ -1,13 +1,11 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import com.opencsv.CSVWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
 
@@ -93,36 +91,6 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
         return frequency;
     }
 
-//    public List<Query> list() throws SQLException {
-//
-//        List<Query> listQuery = new ArrayList<>();
-//
-//        try{
-//
-//            String sql = "SELECT * FROM queries ORDER BY query";
-//            connect();
-//
-//            Statement statement = this.connection.createStatement();
-//            ResultSet result = statement.executeQuery(sql);
-//
-//            while (result.next()) {
-//                int id = result.getInt("queryid");
-//                String content = result.getString("query");
-//                int frequency = result.getInt("frequency");
-//                Query query = new Query(id, content, frequency);
-//
-//                listQuery.add(query);
-//            }
-//        }
-//        catch(SQLException e){
-//            System.out.println(e.getMessage());
-//        }
-//        finally{
-//            close();
-//        }
-//        return listQuery;
-//
-//    }
 
 
     public void extractCSV() {
@@ -152,6 +120,21 @@ public class QueryDatabaseAdmin extends AbstractDatabaseAdmin {
             this.close();
         }
 
+    }
+
+    /**
+     * Remove all the queries record from the database
+     *
+     */
+    public void removeAll() throws SQLException {
+        PreparedStatement stmt;
+        // SQL code for delete
+        String deleteSQL = "DELETE FROM FEEDBACK";
+        connect();
+        // Create SQL statement for deleting
+        stmt = this.connection.prepareStatement(deleteSQL);
+        stmt.executeUpdate();
+        close();
     }
 
     public ArrayList<ArrayList<String>> list() {

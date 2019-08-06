@@ -17,7 +17,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
      * @param username
      * @param password
      */
-    public void insertUser(String username, String password) {
+    public void insertUser(String username, String password) throws SQLException {
         PreparedStatement stmt;
         // SQL code for insert
         String insertSQL = "INSERT INTO USERS(USERNAME, PASSWORD) VALUES(?, ?)";
@@ -76,7 +76,7 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
      * @param password
      */
 
-    public boolean verifyUser(String username, String password) {
+    public boolean verifyUser(String username, String password) throws SQLException {
 
         // update sql
         String pwGot = getPassword(username);
@@ -89,42 +89,26 @@ public class UserDatabaseAdmin extends AbstractDatabaseAdmin implements UserData
     }
 
 
-    public String getPassword(String username) {
+    public String getPassword(String username) throws SQLException {
 
 
         String sql = "SELECT * FROM Users WHERE username = ?";
         String password = "";
         ResultSet rs;
         PreparedStatement stmt;
-        try {
-            connect();
-            stmt = this.connection.prepareStatement(sql);
-            stmt.setString(1, username);
-            rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                password = rs.getString("password");
-            }
+        connect();
+        stmt = this.connection.prepareStatement(sql);
+        stmt.setString(1, username);
+        rs = stmt.executeQuery();
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            close();
+        while (rs.next()) {
+            password = rs.getString("password");
         }
+        close();
 
         return password;
     }
-
-    public static void main(String[] args) {
-
-        UserDatabaseAdmin db = new UserDatabaseAdmin();
-        if (db.connect()) {
-            db.insertUser("admin", "admin");
-        }
-
-    }
-
-
 
 }
 

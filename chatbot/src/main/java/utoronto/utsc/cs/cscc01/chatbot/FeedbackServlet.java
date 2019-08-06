@@ -58,6 +58,11 @@ public class FeedbackServlet extends HttpServlet {
     }
   }
 
+  /**
+   * Get all the feedback data, make a Feedback object and put them into a list, which will be sent to frontend
+   * for information displaying
+   */
+
   private void listFeedback(HttpServletRequest request,
       HttpServletResponse response) throws ServletException, IOException {
 
@@ -85,6 +90,10 @@ public class FeedbackServlet extends HttpServlet {
 
     }
   }
+
+  /**
+   * Get request for information displaying
+   */
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,6 +1,7 @@
 package utoronto.utsc.cs.cscc01.chatbot;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +34,10 @@ public class LoginServlet extends HttpServlet {
    */
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
+      throws IOException {
+
+    resp.setContentType("application/json");
+    resp.setCharacterEncoding("UTF-8");
     // grab username and password from the fields
     String username = req.getParameter("username");
     String password = req.getParameter("password");
@@ -42,23 +46,15 @@ public class LoginServlet extends HttpServlet {
       req.login(username, password);
       if (req.getUserPrincipal() != null && db.verifyUser(username, password)) {
 
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write("{\"authenticated\":true}");
 
-        // resp.sendRedirect("localhost:8080/");
       } else {
         // if we couldn't verify the user, try again
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write("{\"authenticated\":false}");
       }
 
-    } catch (ServletException e) {
-      // System.out.println(e.getMessage());
+    } catch (ServletException | SQLException e) {
 
-      resp.setContentType("application/json");
-      resp.setCharacterEncoding("UTF-8");
       resp.getWriter().write("{\"authenticated\":false}");
     }
   }

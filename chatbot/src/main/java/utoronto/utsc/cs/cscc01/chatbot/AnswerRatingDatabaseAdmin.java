@@ -4,10 +4,16 @@ import com.opencsv.CSVWriter;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+
+/**
+ * A class that will insert all the ratings associated with the answer by IBM Watson to the database
+ *
+ * @author Reynold
+ */
 
 public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
 
@@ -26,57 +32,65 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
 
         if (numberOfRatings == -1) {
 
-            try {
-                this.connect();
-                // Create SQL statement for inserting
-                stmt = this.connection.prepareStatement(insertSQL);
-                stmt.setString(1, answer);
-                if (rating.equals("Good")) {
-                    stmt.setInt(2, 1);
-                    stmt.setInt(3, 0);
-                } else if (rating.equals("Bad")) {
-                    stmt.setInt(2, 0);
-                    stmt.setInt(3, 1);
-                }
-                stmt.executeUpdate();
-
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+            this.connect();
+            // Create SQL statement for inserting
+            stmt = this.connection.prepareStatement(insertSQL);
+            stmt.setString(1, answer);
+            if (rating.equals("Good")) {
+                stmt.setInt(2, 1);
+                stmt.setInt(3, 0);
+            } else if (rating.equals("Bad")) {
+                stmt.setInt(2, 0);
+                stmt.setInt(3, 1);
             }
+            stmt.executeUpdate();
+            this.close();
 
         } else {
             update(answer, rating, numberOfRatings);
         }
     }
 
-    public void update(String answer, String rating, int numberOfRatings) {
+    public void update(String answer, String rating, int numberOfRatings) throws SQLException {
+
         PreparedStatement stmt;
         String updateSQL = "UPDATE ANSWERRATING SET " + rating + " = ? WHERE ANSWER = ?";
         int newNumberOfRatings = numberOfRatings + 1;
-        try {
-            this.connect();
-            // Create SQL statement for inserting
-            stmt = this.connection.prepareStatement(updateSQL);
-            stmt.setInt(1, newNumberOfRatings);
-            stmt.setString(2, answer);
+        this.connect();
+        // Create SQL statement for inserting
+        stmt = this.connection.prepareStatement(updateSQL);
+        stmt.setInt(1, newNumberOfRatings);
+        stmt.setString(2, answer);
+        stmt.executeUpdate();
+        this.close();
+    }
+
+    /**
+     * Remove the given information of the given answer rating from the database
+     *
+     * @param answer
+     */
+    public void remove(String answer) throws SQLException {
+        PreparedStatement stmt;
+        // SQL code for delete
+        String deleteSQL = "DELETE FROM ANSWERRATING WHERE ANSWER = ?";
+        if (getNumberOfRatings(answer, "Good") != -1) {
+            connect();
+            // Create SQL statement for deleting
+            stmt = this.connection.prepareStatement(deleteSQL);
+            stmt.setString(1, answer);
             stmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.err.println("Can't update ratings");
-        }
-
-        finally{
-            this.close();
+            close();
         }
     }
 
-    public int getNumberOfRatings(String answer, String rating) {
+
+    public int getNumberOfRatings(String answer, String rating) throws SQLException {
         String selectSQL = "SELECT " + rating + " FROM ANSWERRATING WHERE answer=?";
         ResultSet rs;
         PreparedStatement stmt;
         int numberOfRatings = -1;
 
-        try {
             this.connect();
             stmt = this.connection.prepareStatement(selectSQL);
             stmt.setString(1, answer);
@@ -85,13 +99,7 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
             while (rs.next()) {
                 numberOfRatings = rs.getInt(1);
             }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        finally{
             this.close();
-        }
 
         return numberOfRatings;
     }
@@ -142,14 +150,4 @@ public class AnswerRatingDatabaseAdmin extends AbstractDatabaseAdmin {
         return listAnswerRating;
     }
 
-    public static void main (String args[]) {
-        AnswerRatingDatabaseAdmin db = new AnswerRatingDatabaseAdmin();
-        try {
-            db.extractCSV();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

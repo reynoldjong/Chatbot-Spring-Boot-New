@@ -46,11 +46,14 @@ public class FeedbackDatabaseServletTest {
         servlet.doPost(mockRequest, mockResponse);
         assertEquals("{\"reply\": \"Feedback received. Thank you!\"}", stringWriter.toString());
         assertEquals(db.getAverage(), 4, 1e-10);
+        db.removeAll();
 
     }
 
     @Test
     public void testGetRating() throws Exception {
+
+        db.insertFeedback(4, "Test");
         HttpServletRequest mockRequest = mock(HttpServletRequest.class);
         HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         StringWriter stringWriter = new StringWriter();
@@ -64,11 +67,8 @@ public class FeedbackDatabaseServletTest {
         String reply = stringWriter.toString();
         assertEquals("{\"", reply.subSequence(0, 2));
         assertEquals(" }", reply.subSequence(reply.length() - 2, reply.length()));
+        db.removeAll();
 
     }
 
-    @After
-    public void tearDown() throws IOException {
-        //db.removeAll();
-    }
 }

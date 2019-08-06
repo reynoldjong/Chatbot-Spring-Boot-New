@@ -49,7 +49,11 @@ public class CrawlerServlet extends HttpServlet {
 
           String url = request.getParameter("url");
 
-          if (!this.linksDb.remove(url)) {
+          try {
+              this.linksDb.remove(url) ;
+              writer.write("{\"reply\": \"Link removed!\"}");
+
+          } catch (SQLException e) {
               writer.write("{\"reply\": \"Can't remove link!\"}");
           }
 
@@ -66,7 +70,7 @@ public class CrawlerServlet extends HttpServlet {
               linksDb.insert(url, crawler.getLinks());
               writer.write("{\"reply\": \"Website is crawled\"}");
 
-          } catch (IOException e) {
+          } catch (IOException | SQLException e) {
               writer.write("{\"reply\": \"Error spotted\"}");
           }
       }
@@ -74,9 +78,13 @@ public class CrawlerServlet extends HttpServlet {
 
 
   private void listCrawledLink(HttpServletRequest request,
-      HttpServletResponse response) throws ServletException, IOException {
+      HttpServletResponse response) throws IOException {
 
-    try {
+      response.setContentType("application/json");
+      response.setCharacterEncoding("UTF-8");
+      PrintWriter writer = response.getWriter();
+
+      try {
 
       List<CrawledLink> listCrawledLink = linksDb.list();
 
@@ -91,14 +99,13 @@ public class CrawlerServlet extends HttpServlet {
 
         } catch (SQLException e){
 
-          e.printStackTrace();
-          throw new ServletException(e);
+        writer.write("{\"reply\": \"Can't list links!\"}");
 
       }
     }
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         listCrawledLink(request, response);
     }
 

@@ -53,6 +53,21 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
     return average;
   }
 
+  /**
+   * Remove all the feedback from the database
+   *
+   */
+  public void removeAll() throws SQLException {
+    PreparedStatement stmt;
+    // SQL code for delete
+    String deleteSQL = "DELETE FROM FEEDBACK";
+    connect();
+    // Create SQL statement for deleting
+    stmt = this.connection.prepareStatement(deleteSQL);
+    stmt.executeUpdate();
+    close();
+  }
+
 
   public void extractCSV() throws SQLException, IOException {
 
@@ -97,15 +112,6 @@ public class FeedbackDatabaseAdmin extends AbstractDatabaseAdmin {
     this.close();
 
     return listFeedback;
-  }
-
-  public static void main(String args[]) {
-    FeedbackDatabaseAdmin fb = new FeedbackDatabaseAdmin();
-    try {
-      fb.extractCSV();
-    } catch (SQLException | IOException e) {
-      e.printStackTrace();
-    }
   }
 
 }
