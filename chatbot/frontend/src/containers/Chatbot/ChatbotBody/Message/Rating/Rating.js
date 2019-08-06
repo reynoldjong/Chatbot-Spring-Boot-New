@@ -8,14 +8,11 @@ import classes from './Rating.module.css';
 import Grid from "@material-ui/core/Grid";
 import qs from 'qs';
 
-<<<<<<< HEAD
-=======
 /**
  * Component represents a rating for a message coming back from watson or lucene
  * @param props
  *  {string, [string]} message- Message from either watson or lucene
  */
->>>>>>> 2dd5b7e3b83ef5b7bd3491d98db036f80ca6ef0e
 const BotRating = (props) => {
   // Feedback can only be submitted once so this bool is used to track whether
   // feedback has been submitted or not
