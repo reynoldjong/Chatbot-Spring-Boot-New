@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 /**
  * A general database class that has the implementation of connect and close method for database connection and closing
+ * @author Reynold
  */
 abstract class GeneralDatabaseAdmin {
 

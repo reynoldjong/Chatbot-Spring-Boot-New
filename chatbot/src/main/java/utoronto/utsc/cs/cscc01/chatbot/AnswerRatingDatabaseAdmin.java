@@ -11,7 +11,7 @@ import com.opencsv.CSVWriter;
 
 
 /**
- * A class that will insert all the ratings associated with the answer by IBM Watson to the database
+ * A class that will handle the ratings data associated with the answer by IBM Watson in the database
  *
  * @author Reynold
  */

@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Admin page for handling uploading/removing files from the database
  *
+ * @author Reynold
  */
 public class FilesDatabaseAdmin extends GeneralDatabaseAdmin {
 

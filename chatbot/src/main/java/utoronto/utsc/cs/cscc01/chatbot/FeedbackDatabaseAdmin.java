@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import com.opencsv.CSVWriter;
 
+/**
+ * A class that will handle the feedback data to the database
+ *
+ * @author Reynold
+ */
 public class FeedbackDatabaseAdmin extends GeneralDatabaseAdmin {
 
   /**
-   * Insert the given information to the database, filename and the content of
-   * files
+   * Insert the given information to the database, rating and comments
    *
    * @param rating
    * @param comments

@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * A class that will handle the crawled links data in the database
+ *
+ * @author Reynold
+ */
 public class LinksDatabaseAdmin extends GeneralDatabaseAdmin {
 
     /**

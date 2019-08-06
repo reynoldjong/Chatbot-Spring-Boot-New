@@ -5,14 +5,15 @@ import java.sql.*;
 
 
 /**
- * Admin page for handling uploading/removing files from the database
+ * Admin page for handling the user data inthe database
+ *
  *
  */
 public class UserDatabaseAdmin extends GeneralDatabaseAdmin implements UserDatabase {
 
 
     /**
-     * Insert the given information to the database, filename and the content of files
+     * Insert the given information to the database, username and password
      *
      * @param username
      * @param password
@@ -47,7 +48,7 @@ public class UserDatabaseAdmin extends GeneralDatabaseAdmin implements UserDatab
 
 
     /**
-     * Remove the given information of the given filename from the database
+     * Remove the given information of the given username from the database
      *
      * @param username
      */
@@ -70,7 +71,7 @@ public class UserDatabaseAdmin extends GeneralDatabaseAdmin implements UserDatab
     }
 
     /**
-     * Read file using the given filename
+     * Verify the user information in the database
      *
      * @param username
      * @param password

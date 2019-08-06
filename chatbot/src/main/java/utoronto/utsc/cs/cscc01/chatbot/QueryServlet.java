@@ -84,14 +84,12 @@ public class QueryServlet extends HttpServlet {
 		else {
 		  watsonReply = hashToJson(assistantHashTable);
 		}
-		System.out.println(watsonReply);
 		
 		// now query the index created by lucene
 		Hashtable<String, ArrayList<String>> luceneHashTable = luceneQueryEngine.simpleQuery(userQuery);
 		luceneReply = hashToJson(luceneHashTable);
 		
 		fullReply = "{\"watson\":" + watsonReply + ",\"lucene\":" + luceneReply + "}";
-		System.out.println(fullReply);
 		
 		writer.write(fullReply);
   }

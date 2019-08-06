@@ -7,6 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A class that will handle the user queries data in the database
+ *
+ * @author Reynold
+ */
 public class QueryDatabaseAdmin extends GeneralDatabaseAdmin {
 
 
