@@ -5,7 +5,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import logo from "./images/DFILogo.png";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import auth from "../../../auth/auth";
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -41,8 +43,9 @@ const useStyles = makeStyles(theme => ({
 const Navbar2 = props => {
   const classes = useStyles();
   let navbarLinks = null;
+  const user = auth.getUser();
 
-  if (props.loggedIn) {
+  if (user) {
     navbarLinks = (
       <React.Fragment>
         <Link to="/admin" >
