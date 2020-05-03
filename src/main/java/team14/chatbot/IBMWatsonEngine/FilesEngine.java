@@ -2,11 +2,7 @@ package team14.chatbot.IBMWatsonEngine;
 
 import java.io.InputStream;
 import com.ibm.watson.discovery.v1.Discovery;
-import com.ibm.watson.discovery.v1.model.AddDocumentOptions;
-import com.ibm.watson.discovery.v1.model.DeleteDocumentOptions;
-import com.ibm.watson.discovery.v1.model.DeleteDocumentResponse;
-import com.ibm.watson.discovery.v1.model.DocumentAccepted;
-import com.ibm.watson.discovery.v1.model.UpdateDocumentOptions;
+import com.ibm.watson.discovery.v1.model.*;
 
 /**
  * Contain methods for uploading/removing files from IBM Watson Discovery
@@ -25,7 +21,6 @@ public class FilesEngine {
     this.environmentId = this.wdisc.getEnvironmentId();
     this.uploadedFilesCollectionId = this.wdisc.getUploadedFilesCollectionId();
   }
-
 
   /**
    * Used to upload a file to IBM Watson Discovery
@@ -82,5 +77,14 @@ public class FilesEngine {
         discovery.deleteDocument(deleteRequest).execute().getResult();
     return deleteResponse.getStatus();
   }
-  
+
+
+//  public void query() {
+//    Discovery discovery = wdisc.getDiscovery();
+//    QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, this.uploadedFilesCollectionId);
+//    queryBuilder.query("*.*");
+//    QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
+//    System.out.println(queryResponse);
+//  }
+
 }
