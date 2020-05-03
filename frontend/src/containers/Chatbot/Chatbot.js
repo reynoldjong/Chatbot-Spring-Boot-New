@@ -128,7 +128,7 @@ const Chatbot = () => {
    */
   const getWatsonMessage = response => {
     let message = "";
-    if (response["data"]["watson"]["text"]) {
+    if (response["data"]["watson"]["text"].length > 0) {
       message = response["data"]["watson"]["text"];
     }
     return message;
@@ -152,8 +152,8 @@ const Chatbot = () => {
    */
   const getLuceneFilePassage = response => {
     let file = "";
-    if (response["data"]["lucene"]["file"]) {
-      file = response["data"]["lucene"]["file"]["passage"];
+    if (response["data"]["lucene"]["file"].length > 0) {
+      file = response["data"]["lucene"]["file"][0]["passage"];
     }
     return file;
   };
@@ -164,8 +164,8 @@ const Chatbot = () => {
    */
   const getLuceneFilename = response => {
     let filename = "";
-    if (response["data"]["lucene"]["file"]) {
-      filename = response["data"]["lucene"]["file"]["filename"];
+    if (response["data"]["lucene"]["file"].length > 0) {
+      filename = response["data"]["lucene"]["file"][0]["filename"];
     }
     return filename;
   };
@@ -176,7 +176,7 @@ const Chatbot = () => {
    */
   const getWatsonFileName = response => {
     let filename = "";
-    if (response["data"]["watson"]["file"]) {
+    if (response["data"]["watson"]["file"] && response["data"]["watson"]["file"].length > 0) {
       filename = response["data"]["watson"]["file"]["filename"];
     }
     return filename;
@@ -187,7 +187,7 @@ const Chatbot = () => {
    */
   const getWatsonFilePassage = response => {
     let file = "";
-    if (response["data"]["watson"]["file"]) {
+    if (response["data"]["watson"]["file"] && response["data"]["watson"]["file"].length > 0) {
       file = response["data"]["watson"]["file"]["passage"];
     }
     return file;
@@ -200,8 +200,8 @@ const Chatbot = () => {
   const getWatsonImage = response => {
     let image = null;
 
-    if (response["data"]["watson"]["image"]) {
-      image = response["data"]["watson"]["image"].replace(/['"]+/g, "");
+    if (response["data"]["watson"]["image"].length > 0) {
+      image = response["data"]["watson"]["image"].toString().replace(/['"]+/g, "");
     }
 
     return image;
@@ -214,7 +214,7 @@ const Chatbot = () => {
   const getLuceneImage = response => {
     let image = null;
     if (response["data"]["lucene"]["image"]) {
-      image = response["data"]["lucene"]["image"].replace(/['"]+/g, "");
+      image = response["data"]["lucene"]["image"].toString().replace(/['"]+/g, "");
     }
     return image;
   };
@@ -225,7 +225,7 @@ const Chatbot = () => {
    */
   const getWatsonLink = response => {
     let link = null;
-    if (response["data"]["watson"]["url"]) {
+    if (response["data"]["watson"]["url"].length > 0) {
       link = response["data"]["watson"]["url"];
     }
 
@@ -239,7 +239,8 @@ const Chatbot = () => {
   const getLuceneLink = response => {
     let link = null;
 
-    if (response["data"]["lucene"]["url"]) {
+    if (response["data"]["lucene"]["url"].length > 0) {
+      console.log("hitlucenelink", response["data"]["lucene"]["url"])
       link = response["data"]["lucene"]["url"];
     }
     return link;
@@ -257,6 +258,7 @@ const Chatbot = () => {
     watsonObject["file"] = getWatsonFilePassage(response);
     watsonObject["type"] = "bot";
     watsonObject["message"] = getWatsonMessage(response);
+    console.log(watsonObject);
     return watsonObject;
   };
   /**
@@ -271,6 +273,7 @@ const Chatbot = () => {
     luceneMessage["file"] = getLuceneFilePassage(response);
     luceneMessage["type"] = "bot";
     luceneMessage["message"] = getLuceneMessage(response);
+    console.log(luceneMessage);
     return luceneMessage;
   };
 
@@ -306,10 +309,10 @@ const Chatbot = () => {
       const getMessage = convertToGet(userMessage);
 
       axios
-        .get("/userquery?" + getMessage)
+        .get("/userquery?userQuery=" + getMessage)
         .then(response => {
           // build the botMessage response object
-
+          console.log(response)
           let botMessage = {};
           botMessage["watson"] = getWatsonObject(response);
           botMessage["lucene"] = getLuceneObject(response);
