@@ -7,6 +7,9 @@ target/
 /frontend/build/
 /frontend/node_modules/
 /hs_err_pid*
+**/.DS_Store
+**.DS_Store
+*/.DS_Store
 *.DS_Store
 .DS_Store
 !.mvn/wrapper/maven-wrapper.jar
