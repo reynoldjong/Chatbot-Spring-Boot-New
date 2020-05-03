@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -11,6 +12,8 @@ import Navbar from "../Navbar/Navbar";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import CrawlerTable from './CrawlerTable/CrawlerTable';
+import auth from '../../../auth/auth';
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -27,6 +30,8 @@ const useStyles = makeStyles(theme => ({
  */
 const AdminCrawler = props => {
   // when component is first loaded we should load all the files in the database
+
+  const user = auth.getUser()
 
   const classes = useStyles();
 
@@ -49,13 +54,12 @@ const AdminCrawler = props => {
 
     event.preventDefault();
     const data = {
-      action: "crawl",
       url: url,
       depth: depth
     };
 
     await axios
-      .post("/webcrawler", qs.stringify(data))
+      .put("/webcrawler", qs.stringify(data))
       .then(response => {
         setCrawledStatus("Successfully crawled " + url);
         getCrawledSites();
@@ -74,7 +78,6 @@ const AdminCrawler = props => {
     await axios
       .get("/webcrawler")
       .then(response => {
-          console.log(response)
         //let listSites = []
         //for(var key in response['date']){
          //   listSites.push(response['data'][key])
@@ -91,12 +94,8 @@ const AdminCrawler = props => {
    * @param {string} url- a site url that is to be removed from the database
    */
   const removeSiteHandler = async url => {
-    const data = {
-      action: "remove",
-      url: url
-    };
     await axios
-      .post("/webcrawler", qs.stringify(data))
+      .delete("/webcrawler?url=" + url)
       .then(response => {
       console.log(response)
         getCrawledSites();
@@ -105,106 +104,107 @@ const AdminCrawler = props => {
         console.log(error);
       });
   };
-  // When component is loaded crawled sites should be displayed
-  useEffect(() => {
-    getCrawledSites();
-  }, []);
+
+    // When component is loaded crawled sites should be displayed
+    useEffect(() => {
+      getCrawledSites();
+    }, []);
+  
+    if (!user) {
+      return <Redirect to="/" />
+    }
+  
+
   // Admin dashboard background color should be a bit darker for stylistic reasons
   document.body.style = "background: rgba(0,0,0,0.05);";
-  let admin = null;
-  if (props.loggedIn) {
-    admin = (
-      <React.Fragment>
-        <Navbar logOutHandler={props.logOutHandler} />
+  return  (
+  <React.Fragment>
+  <Navbar logOutHandler={props.logOutHandler} />
 
-        <Box marginTop={3} marginBottom={3}>
-          <Container maxWidth="md">
-            <Paper className={classes.root}>
-              <Typography variant="h4" component="h4" align="left">
-                Crawl Websites To Help The Chatbot Learn
-              </Typography>
-              <Typography
-                variant="body1"
-                component="p"
-                align="left"
-                style={{ margin: "10px" }}
-              >
-                Input a URL and the Number of pages and let our web crawler deal
-                with the rest.
-              </Typography>
-              <form onSubmit={crawl}>
-                <Grid container spacing={0}>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="standard-name"
-                      name="url"
-                      label="URL"
-                      margin="normal"
-                      style={{ width: "50%" }}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      id="standard-uncontrolled"
-                      name="depth"
-                      label="Depth"
-                      margin="normal"
-                      style={{ width: "50%" }}
-                    />
-                  </Grid>
-                </Grid>
+  <Box marginTop={3} marginBottom={3}>
+    <Container maxWidth="md">
+      <Paper className={classes.root}>
+        <Typography variant="h4" component="h4" align="left">
+          Crawl Websites To Help The Chatbot Learn
+        </Typography>
+        <Typography
+          variant="body1"
+          component="p"
+          align="left"
+          style={{ margin: "10px" }}
+        >
+          Input a URL and the Number of pages and let our web crawler deal
+          with the rest.
+        </Typography>
+        <form onSubmit={crawl}>
+          <Grid container spacing={0}>
+            <Grid item xs={12}>
+              <TextField
+                id="standard-name"
+                name="url"
+                label="URL"
+                margin="normal"
+                style={{ width: "50%" }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="standard-uncontrolled"
+                name="depth"
+                label="Depth"
+                margin="normal"
+                style={{ width: "50%" }}
+              />
+            </Grid>
+          </Grid>
 
-                <Button
-                  type="submit"
-                  color="secondary"
-                  variant="contained"
-                  style={{
-                    display: "block",
-                    marginTop: "20px",
-                    position: "relative",
-                    marginLeft: "auto",
-                    marginBottom: "20px"
-                  }}
-                >
-                  Crawl Website
-                </Button>
-              </form>
-              <Typography>{crawledStatus}</Typography>
-            </Paper>
-          </Container>
-        </Box>
+          <Button
+            type="submit"
+            color="secondary"
+            variant="contained"
+            style={{
+              display: "block",
+              marginTop: "20px",
+              position: "relative",
+              marginLeft: "auto",
+              marginBottom: "20px"
+            }}
+          >
+            Crawl Website
+          </Button>
+        </form>
+        <Typography>{crawledStatus}</Typography>
+      </Paper>
+    </Container>
+  </Box>
 
 
-        
-      <Box marginTop={3} marginBottom={3}>
-        <Container maxWidth="md">
-          <Paper className={classes.root}>
-            <Typography variant="h4" component="h4" align="left">
-              What's In The Chatbot's Brain?
-            </Typography>
-            <Typography
-              variant="body1"
-              component="p"
-              align="left"
-              style={{ margin: "10px" }}
-            >
-              Take a look at what websites the chatbot is thinking about
-            </Typography>
-          
+  
+<Box marginTop={3} marginBottom={3}>
+  <Container maxWidth="md">
+    <Paper className={classes.root}>
+      <Typography variant="h4" component="h4" align="left">
+        What's In The Chatbot's Brain?
+      </Typography>
+      <Typography
+        variant="body1"
+        component="p"
+        align="left"
+        style={{ margin: "10px" }}
+      >
+        Take a look at what websites the chatbot is thinking about
+      </Typography>
+    
 
-            <CrawlerTable
-              sites={sites}
-              removeSiteHandler={removeSiteHandler}
-            />
-          </Paper>
-        </Container>
-      </Box>
-      </React.Fragment>
-    );
-  } else {
-    admin = <h2>Not Logged in</h2>;
-  }
-  return <React.Fragment>{admin}</React.Fragment>;
+      <CrawlerTable
+        sites={sites}
+        removeSiteHandler={removeSiteHandler}
+      />
+    </Paper>
+  </Container>
+</Box>
+</React.Fragment>
+);
 };
 
 export default AdminCrawler;
