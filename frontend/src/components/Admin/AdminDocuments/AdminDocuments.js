@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import DocumentTable from "./DocumentsTable/DocumentsTable";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,9 +9,9 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import DragAndDrop from "./DragAndDrop/DragAndDrop";
 import axios from "axios";
-import qs from 'qs';
 import Navbar from '../Navbar/Navbar';
-import PieChart from './PieChart/PieChart'
+import PieChart from './PieChart/PieChart';
+import auth from '../../../auth/auth';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +36,9 @@ const useStyles = makeStyles(theme => ({
  *  @param {function} removeFileHandler - function which removes a file from the database
  */
 const AdminDocuments = props => {
+
+  const user = auth.getUser()
+  
   // when component is first loaded we should load all the files in the database
   useEffect(() => {
     props.viewAllFilesHandler();
@@ -45,6 +49,11 @@ const AdminDocuments = props => {
   const [values, setFiles] = React.useState({
     files: []
   });
+
+  if (!user) {
+    return <Redirect to="/" />
+  }
+
   const handleDrop = files => {
     let fileList = values.files;
     for (var i = 0; i < files.length; i++) {
@@ -80,11 +89,10 @@ const AdminDocuments = props => {
     // Get the data from event and add it to a form
 
     let data = new FormData();
-    data.append("action", "upload");
     data.append("file", file);
 
     await axios
-      .post("/handlefiles", data)
+      .put("/handlefiles", data)
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
        
@@ -99,27 +107,18 @@ const AdminDocuments = props => {
    * function downloads an export of all data uploaded to Watson
    */
   const getCsvOfData = async ()=>{
-    let data = new FormData();
-    data.append("getQueries", "please");
-
-        // Create JSON object
-        const data2 = {
-          "getQueries": "please",
-          
-        }
 
     await axios
-      .post("/getdata", qs.stringify(data2))
+      .get("/userquery/exportCSV")
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
         console.log(response);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', 'documents.csv'); //or any other extension
+        link.setAttribute('download', 'queriesData.csv'); //or any other extension
         document.body.appendChild(link);
         link.click();
-
       })
       .catch(function(error) {
         console.log(error);
@@ -128,10 +127,8 @@ const AdminDocuments = props => {
 
   // makes background a bit darker so it's easier on the eyes
   document.body.style = "background: rgba(0,0,0,0.05);";
-console.log(props);
-  let admin = null;
-  if(props.loggedIn === true){
-    admin = (<React.Fragment>
+  return (
+  <React.Fragment>
       <Navbar logOutHandler={props.logOutHandler}/>
       <Box marginTop={3}>
         <Container maxWidth="md">
@@ -226,15 +223,6 @@ console.log(props);
                 </Paper>
               </Container>
             </Box>
-    </React.Fragment>)
-  }
-  else{
-    admin = <h2>Not Logged In</h2>
-  }
-  return (
-    
-    <React.Fragment>
-    {admin}
     </React.Fragment>
   );
 };
