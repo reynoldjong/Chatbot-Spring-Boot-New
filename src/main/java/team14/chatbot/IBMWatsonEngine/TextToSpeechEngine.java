@@ -25,19 +25,18 @@ public class TextToSpeechEngine {
    */
   public byte[] createAudioFromText(String text) throws IOException {
     SynthesizeOptions synthesizeOptions = new SynthesizeOptions.Builder()
-        .text(text).accept("audio/mp3").voice("en-US_MichaelVoice").build();
+        .text(text).accept("audio/wav").voice("en-US_MichaelVoice").build();
 
     InputStream inputStream =
         watsonTTS.getTTS().synthesize(synthesizeOptions).execute().getResult();
     InputStream in = WaveUtils.reWriteWaveHeader(inputStream);
 
-    // OutputStream out = new FileOutputStream("../chatbot/hello_world.mp3");
     // 4MB of ram for an audio, turns out audio file are pretty big
     byte[] buffer = new byte[4194304];
     in.read(buffer);
     /*
      * int length; length = in.read(buffer); out.write(buffer, 0, length);
-     * 
+     *
      * out.close();
      */
     in.close();
