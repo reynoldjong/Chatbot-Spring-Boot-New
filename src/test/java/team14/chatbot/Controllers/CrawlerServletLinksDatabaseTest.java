@@ -2,8 +2,7 @@ package team14.chatbot.Controllers;
 
 import org.junit.Before;
 import org.junit.Test;
-import team14.chatbot.Repository.LinksDatabaseAdmin;
-import team14.chatbot.Controllers.CrawlerServlet;
+import team14.chatbot.Repositories.LinksDatabaseAdmin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -2,10 +2,9 @@ package team14.chatbot.Controllers;
 
 import org.junit.Before;
 import org.junit.Test;
-import team14.chatbot.Repository.AnswerRatingDatabaseAdmin;
-import team14.chatbot.Repository.FeedbackDatabaseAdmin;
-import team14.chatbot.Repository.QueryDatabaseAdmin;
-import team14.chatbot.Controllers.GetDataServlet;
+import team14.chatbot.Repositories.AnswerRatingDatabaseAdmin;
+import team14.chatbot.Repositories.FeedbackDatabaseAdmin;
+import team14.chatbot.Repositories.QueryDatabaseAdmin;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

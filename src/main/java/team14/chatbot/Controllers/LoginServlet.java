@@ -1,7 +1,7 @@
 package team14.chatbot.Controllers;
 
-import team14.chatbot.Repository.UserDatabaseAdmin;
-import team14.chatbot.Repository.UserDatabase;
+import team14.chatbot.Repositories.UserDatabaseAdmin;
+import team14.chatbot.Repositories.UserDatabase;
 
 import java.io.IOException;
 import java.sql.SQLException;

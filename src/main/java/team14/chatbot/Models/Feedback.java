@@ -1,44 +1,33 @@
 package team14.chatbot.Models;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
+import lombok.Data;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-/**
- * Class used to encapsulate user feedbacks into an object
- *
- * @author Reynold
- */
+import javax.persistence.*;
+
+
+@Data
+@Entity // This tells Hibernate to make a table out of this class
+@EntityListeners(AuditingEntityListener.class)
 public class Feedback {
 
-  private int id;
-  private int rating;
-  private String comments;
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @CsvBindByPosition(position = 0)
+    @CsvBindByName(column = "id")
+    private Long id;
+    @CsvBindByPosition(position = 2)
+    @CsvBindByName(column = "rating")
+    private int rating;
+    @CsvBindByPosition(position = 1)
+    @CsvBindByName(column = "comments")
+    private String comments;
 
-  public Feedback(int id, int rating, String comments) {
-    this.id = id;
-    this.rating = rating;
-    this.comments = comments;
-  }
+    public Feedback() {}
 
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public void setRating(int rating) {
-    this.rating = rating;
-  }
-
-  public void setComments(String comments) {
-    this.comments = comments;
-  }
-
-  public int getId() {
-    return this.id;
-  }
-
-  public int getRating() {
-    return this.rating;
-  }
-
-  public String getComments() {
-    return this.comments;
-  }
+    public Feedback(String comments, int rating) {
+        this.comments = comments;
+        this.rating = rating;
+    }
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import team14.chatbot.Models.CrawledLink;
-import team14.chatbot.Repository.LinksDatabaseAdmin;
+import team14.chatbot.Repositories.LinksDatabaseAdmin;
 import team14.chatbot.LuceneEngine.Indexer;
 import team14.chatbot.LuceneEngine.WebCrawler;
 

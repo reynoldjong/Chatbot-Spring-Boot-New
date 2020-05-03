@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import team14.chatbot.Repository.FilesDatabaseAdmin;
+import team14.chatbot.Repositories.FilesDatabaseAdmin;
 import team14.chatbot.LuceneEngine.FileParser;
 import team14.chatbot.LuceneEngine.Indexer;
 import team14.chatbot.Models.UploadedFile;

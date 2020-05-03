@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import team14.chatbot.Models.CrawledLink;
-import team14.chatbot.Repository.FilesDatabaseAdmin;
-import team14.chatbot.Repository.LinksDatabaseAdmin;
+import team14.chatbot.Repositories.FilesDatabaseAdmin;
+import team14.chatbot.Repositories.LinksDatabaseAdmin;
 import team14.chatbot.LuceneEngine.Indexer;
 import team14.chatbot.Models.UploadedFile;
 

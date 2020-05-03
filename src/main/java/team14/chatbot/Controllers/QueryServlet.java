@@ -1,6 +1,6 @@
 package team14.chatbot.Controllers;
 
-import team14.chatbot.Repository.QueryDatabaseAdmin;
+import team14.chatbot.Repositories.QueryDatabaseAdmin;
 import team14.chatbot.IBMWatsonEngine.*;
 import utoronto.utsc.cs.cscc01.chatbot.IBMWatsonEngine.*;
 import team14.chatbot.LuceneEngine.LuceneQueryEngine;

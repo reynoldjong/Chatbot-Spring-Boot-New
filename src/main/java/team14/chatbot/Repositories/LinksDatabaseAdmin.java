@@ -1,4 +1,4 @@
-package team14.chatbot.Repository;
+package team14.chatbot.Repositories;
 
 import team14.chatbot.Models.CrawledLink;
 

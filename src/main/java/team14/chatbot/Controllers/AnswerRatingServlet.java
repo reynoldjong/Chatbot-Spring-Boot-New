@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import team14.chatbot.Repository.AnswerRatingDatabaseAdmin;
+import team14.chatbot.Repositories.AnswerRatingDatabaseAdmin;
 import team14.chatbot.Models.AnswerRating;
 
 /**

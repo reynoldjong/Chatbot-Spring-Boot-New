@@ -1,8 +1,8 @@
 package team14.chatbot.Controllers;
 
-import team14.chatbot.Repository.AnswerRatingDatabaseAdmin;
-import team14.chatbot.Repository.FeedbackDatabaseAdmin;
-import team14.chatbot.Repository.QueryDatabaseAdmin;
+import team14.chatbot.Repositories.AnswerRatingDatabaseAdmin;
+import team14.chatbot.Repositories.FeedbackDatabaseAdmin;
+import team14.chatbot.Repositories.QueryDatabaseAdmin;
 
 import java.io.*;
 import java.sql.SQLException;
