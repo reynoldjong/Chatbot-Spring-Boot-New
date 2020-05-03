@@ -21,7 +21,7 @@ public class IndexerTest {
   private Indexer indexer;
   private IndexReader reader;
   private Directory indexDir;
-  private static final String testIndexPath = "../chatbot/index/testIndex";
+  private static final String testIndexPath = "src/main/resources/index/testIndex";
 
   @Before
   public void setUp() throws IOException {

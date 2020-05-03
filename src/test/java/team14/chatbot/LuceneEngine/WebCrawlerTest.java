@@ -36,7 +36,7 @@ public class WebCrawlerTest {
             }
         }
         assertTrue(verify);
-        assertEquals(wc.getLinks().size(), 11);
+        assertEquals(wc.getLinks().size(), 7);
     }
 
     @Test
