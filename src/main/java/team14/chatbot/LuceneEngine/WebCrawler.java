@@ -116,5 +116,4 @@ public class WebCrawler {
     return links;
   }
 
-
 }

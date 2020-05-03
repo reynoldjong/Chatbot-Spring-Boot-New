@@ -1,7 +1,6 @@
 package team14.chatbot.LuceneEngine;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
@@ -27,7 +26,7 @@ public class Indexer {
   private Directory indexDirectory;
 
   // need to specify where we are writing to
-  // filePath = "../chatbot/index/" for testing
+  // filePath = "src/main/resources/index/" for testing
   public Indexer(String indexDirPath) throws IOException {
     this.indexDirPath = indexDirPath;
     this.indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
@@ -128,6 +127,5 @@ public class Indexer {
     File dirFile = new File(this.indexDirPath);
     FileUtils.cleanDirectory(dirFile);
   }
-
 
 }

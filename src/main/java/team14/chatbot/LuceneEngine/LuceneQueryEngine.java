@@ -1,14 +1,13 @@
 package team14.chatbot.LuceneEngine;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.io.filefilter.HiddenFileFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -21,21 +20,20 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import team14.chatbot.IBMWatsonEngine.SearchEngine;
 
 /**
  * Contain methods uses Apache Lucene to query its index
  * @author Chris
  *
  */
-public class LuceneQueryEngine implements SearchEngine {
+public class LuceneQueryEngine {
 
   private QueryParser parser;
   private Query q;
   private String indexDirPath;
 
-  // path for index is "../chatbot/index/documents"
-  public LuceneQueryEngine(String indexDirPath) throws IOException {
+  // path for index is ".src/main/resources/index/documents"
+  public LuceneQueryEngine(String indexDirPath) {
 
     this.indexDirPath = indexDirPath;
     parser = new QueryParser("body", new StandardAnalyzer());
@@ -48,22 +46,21 @@ public class LuceneQueryEngine implements SearchEngine {
    * @param s - string containing user query
    * @return hashtable of specified format required by queryEngine
    */
-  @Override
-  public Hashtable<String, ArrayList<String>> simpleQuery(String s)
-      throws IOException {
+  public Hashtable<String, ArrayList<Object>> simpleQuery(String s) {
 
-    Hashtable<String, ArrayList<String>> dict = new Hashtable<>();
+    Hashtable<String, ArrayList<Object>> dict = new Hashtable<>();
 
-    ArrayList<String> url = new ArrayList<>();
-    ArrayList<String> file = new ArrayList<>();
+    ArrayList<Object> url = new ArrayList<>();
+    ArrayList<Object> file = new ArrayList<>();
 
     dict.put("url", url);
     dict.put("file", file);
+    InputStream inputStream = this.getClass().getResourceAsStream("indexDirPath");
 
-    File fileDirectory = new File(indexDirPath);
-    if (Objects.requireNonNull(
-        fileDirectory.list(HiddenFileFilter.VISIBLE)).length > 0) {
-      Directory indexDirectory = FSDirectory.open(Paths.get(indexDirPath));
+//    File fileDirectory = new File(indexDirPath);
+    try {
+    if (Files.list(Paths.get(indexDirPath)).findAny().isPresent()) {
+      Directory indexDirectory = FSDirectory.open(Paths.get(this.indexDirPath));
       IndexReader reader = DirectoryReader.open(indexDirectory);
       IndexSearcher searcher = new IndexSearcher(reader);
 
@@ -92,17 +89,20 @@ public class LuceneQueryEngine implements SearchEngine {
         else if (filetype.equals("file")) {
           String docBody = doc.get("body");
           Matcher m = Pattern.compile("(?<=\\w)\\b").matcher(docBody);
-          for (int i = 0; i < 50 && m.find(); i++);
-          if (!m.hitEnd())
-            docBody = docBody.substring(0, m.end());
-          String fileString = "{\"filename\":\"" + doc.get("title")
-              + "\",\"passage\":\"" + docBody + "\"}";
-          file.add(fileString);
+          for (int i = 0; i < 50 && m.find(); i++) ;
+          if (!m.hitEnd()) docBody = docBody.substring(0, m.end());
+          Hashtable<String, String> fileDetails = new Hashtable<>();
+          fileDetails.put("filename", doc.get("title"));
+          fileDetails.put("passage", docBody);
+          file.add(fileDetails);
         }
 
       }
 
       reader.close();
+    }
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return dict;
   }
