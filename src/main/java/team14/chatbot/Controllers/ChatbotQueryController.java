@@ -15,7 +15,7 @@ import team14.chatbot.IBMWatsonEngine.WatsonAssistant;
 import team14.chatbot.IBMWatsonEngine.WatsonDiscovery;
 import team14.chatbot.LuceneEngine.LuceneQueryEngine;
 import team14.chatbot.Repository.QueryRepository;
-import utoronto.utsc.cs.cscc01.chatbot.IBMWatsonEngine.*;
+import team14.chatbot.IBMWatsonEngine.*;
 import team14.chatbot.Models.ChatbotQuery;
 import team14.chatbot.utils.CustomMappingStrategy;
 
