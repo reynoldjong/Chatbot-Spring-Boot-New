@@ -1,5 +1,9 @@
 # CSCC01 Project Process
 
+## Team Introduction
+![alt text](cscc01_team_14_photo.jpg "Title")
+
+
 ## Team Organization and Communication
 
 Building the chatbot requires equivalent effort on both front-end and back-end, so we split our team into two groups, two responsible for front-end and back-end respectively. Most of the time, we will be using Messenger as the communication platform, because it is the most common and convenient way to chat. Other than that, we will be meeting in person twice a week too, as we have lectures and tutorials together. If any emergencies came up, we will make phone calls to discuss the matter.
