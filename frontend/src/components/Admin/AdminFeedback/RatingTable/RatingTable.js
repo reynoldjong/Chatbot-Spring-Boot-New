@@ -21,7 +21,7 @@ const ratingTable = (props) => {
         </thead>
         <tbody>
           {props.answerRating.map((item, i) => {
-            const message= item['answer'];
+            const message= item['message'];
             const good = item['good'];
             const bad = item['bad'];
             return <RatingRow key={i}  message={message} good={good} bad={bad}/>

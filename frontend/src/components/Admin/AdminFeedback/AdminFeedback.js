@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -6,10 +7,11 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import qs from "qs";
 import Navbar from "../Navbar/Navbar";
 import FeedbackTable from './FeedbackTable/FeedbackTable';
 import RatingTable from './RatingTable/RatingTable';
+import auth from '../../../auth/auth';
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -30,12 +32,11 @@ const useStyles = makeStyles(theme => ({
  *  @param {list} feedback - a list containing every file in Files.db
  */
 const AdminFeedback = props => {
-  // when component is first loaded we should load all the files in the database
-  useEffect(() => {
-    viewAllFeedback();
-    viewAllAnswerRating();
-  }, []);
-  const classes = useStyles();
+
+  const user = auth.getUser()
+
+
+  
   /*
   const [allFeedback, setFeedback] = React.useState({
     feedback: []
@@ -45,9 +46,7 @@ const AdminFeedback = props => {
   const [answerRating, setAnswerRating] = React.useState([]);
   const [average, setAverage] = React.useState([]);
 
-
   const viewAllFeedback = async () =>{
-      console.log('hello');
     await axios
       .get("/feedback")
       .then(response => {
@@ -65,9 +64,8 @@ const AdminFeedback = props => {
   }
 
   const viewAllAnswerRating = async () =>{
-      console.log('hello');
     await axios
-      .get("/answerrating")
+      .get("/rating")
       .then(response => {
           console.log(response)
         //let listSites = []
@@ -83,19 +81,16 @@ const AdminFeedback = props => {
 
   const getCsvOfFeedback = async () => {
     // Create JSON object
-    const data = {
-      getFeedback: "please"
-    };
 
     await axios
-      .post("/getdata", qs.stringify(data))
+      .get("/feedback/exportCSV")
       .then(response => {
 
         console.log(response);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "feedback.csv"); //or any other extension
+        link.setAttribute("download", "feedbackData.csv"); //or any other extension
         document.body.appendChild(link);
         link.click();
       })
@@ -107,19 +102,15 @@ const AdminFeedback = props => {
 
   const getCsvOfRating = async () => {
     // Create JSON object
-    const data = {
-      getAnswerRating: "please"
-    };
-
     await axios
-      .post("/getdata", qs.stringify(data))
+      .get("/rating/exportCSV")
       .then(response => {
 
         console.log(response);
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", "answerRating.csv"); //or any other extension
+        link.setAttribute("download", "ratingData.csv"); //or any other extension
         document.body.appendChild(link);
         link.click();
       })
@@ -128,10 +119,20 @@ const AdminFeedback = props => {
       });
   };
 
+    // when component is first loaded we should load all the files in the database
+    useEffect(() => {
+      viewAllFeedback();
+      viewAllAnswerRating();
+    }, []);
+    const classes = useStyles();
+
+    if (!user) {
+      return <Redirect to="/" />
+    }
+  
+
   document.body.style = "background: rgba(0,0,0,0.05);";
-  let admin = null;
-  if (props.loggedIn) {
-    admin = (
+  return (
       <React.Fragment>
         <Navbar logOutHandler={props.logOutHandler} />
 
@@ -207,10 +208,6 @@ const AdminFeedback = props => {
             </Box>
       </React.Fragment>
     );
-  } else {
-    admin = <h2>Not Logged in</h2>;
-  }
-  return <React.Fragment>{admin}</React.Fragment>;
 };
 
 export default AdminFeedback;
