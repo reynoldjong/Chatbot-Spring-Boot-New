@@ -11,7 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import CloseIcon from '@material-ui/icons/Close'
 import media from "./Feedback.module.css";
-import qs from "qs";
+
 const useStyles = makeStyles(theme => ({
   paper: {
     backgroundColor: theme.palette.background.paper,
@@ -74,7 +74,7 @@ const Feedback = () => {
       rating: rating
     };
     await axios
-      .post("/feedback", qs.stringify(data))
+      .post("/feedback", data)
       .then(response => {})
       .catch(function(error) {
         console.log(error);
