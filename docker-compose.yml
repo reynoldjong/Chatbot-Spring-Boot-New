@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:12.2
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=chatbot_user
+      - POSTGRES_PASSWORD=chatbot
+      - POSTGRES_DB=chatbot
+  app:
+    image: maven:3.5
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=postgres
+      - DATABASE_USER=chatbot_user
+      - DATABASE_PASSWORD=chatbot
+      - DATABASE_NAME=chatbot
+      - DATABASE_PORT=5432
+    volumes:
+      - ".:/app"
+    working_dir: /app
+    command: bash -c "mvn spring-boot:run"
