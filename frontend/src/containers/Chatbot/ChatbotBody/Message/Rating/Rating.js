@@ -57,7 +57,7 @@ const BotRating = (props) => {
       }
    
     await axios
-    .post("/answerrating", qs.stringify(data))
+    .put("/rating", qs.stringify(data))
     .then(response => {
     
       setSubmittedFeedback(true);

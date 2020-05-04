@@ -12,6 +12,7 @@ const crawlerRow = (props) =>{
 
           <tr>
             <td>{props.name}</td>
+            <td>{props.depth}</td>
             <td>{props.date}</td>
             <td><button onClick={props.removeSiteHandler} className="btn red">Remove</button></td>
           </tr>

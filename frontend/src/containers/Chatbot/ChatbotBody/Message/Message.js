@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import classes from "./Message.module.css";
-import SoundClass from "./Sound/Sound";
+import SoundClass from "./Sound/SoundWatson";
 import Rating from './Rating/Rating';
 /**
  * Component representing a repsosne from watson and lucene
@@ -102,6 +102,11 @@ const Message = props => {
     rootClasses = classes.root + " " + classes.OpacityLow;
   }
   if (props.type === "bot") {
+    if (props.watsonText ||
+        props.watsonPicture ||
+        props.watsonLink ||
+        props.watsonFile ||
+        errorMessage) {
     messageWatson = (
       <React.Fragment>
        
@@ -181,7 +186,7 @@ const Message = props => {
        
        
       </React.Fragment>
-    );
+    );}
     if (
       props.luceneText ||
       props.lucenePicture ||
@@ -194,6 +199,7 @@ const Message = props => {
           <Grid
             container
             spacing={1}
+            style={{ margin: "10px" }}
             className={rootClasses}
             onClick={props.showClickHandler}
           >
@@ -237,7 +243,7 @@ const Message = props => {
                     >
                       {props.luceneLink}
                     </a>
-                  ) : null}{" "}
+                  ) : null}
                 </p>
 
                 {props.lucenenPicture ? (

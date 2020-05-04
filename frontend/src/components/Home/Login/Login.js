@@ -49,10 +49,10 @@ const login = (props) => {
                 />
               </Grid>
               <Grid item xs={6}>
-              <button type="submit" href="#!" className="waves-effect waves-light btn modal-trigger">Login</button>
+              <button type="submit" className="waves-effect waves-light btn modal-trigger">Login</button>
               </Grid>
               <Grid item xs={6}>
-            <button className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
+            <button type="button" className="waves-effect waves-light btn modal-trigger" onClick={props.modalClickHandler}>Cancel</button>
             </Grid>
             </Grid>
           

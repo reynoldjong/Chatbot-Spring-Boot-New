@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route  } from "react-router-dom";
 import Home from "./components/Home/Home";
 import AdminDocuments from "./components/Admin/AdminDocuments/AdminDocuments";
 import AdminFeedback from "./components/Admin/AdminFeedback/AdminFeedback";
 import AdminCrawler from './components/Admin/AdminCrawler/AdminCrawler';
 import AdminReset from './components/Admin/AdminReset/AdminReset';
 import axios from "axios";
+import auth from "./auth/auth";
 import qs from "qs";
 
 /**
@@ -28,6 +29,14 @@ class App extends Component {
     queries: []
   };
 
+  componentDidMount() {
+    const token = auth.getToken();
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+    }
+  }
+
+
   /**
    * Function which changes the showModal portion of state to either True or False
    * which will result in the login modal being visible or hidden
@@ -47,6 +56,7 @@ class App extends Component {
    */
   logOutHandler = () => {
     const loggedOut = false;
+    auth.clearSession();
     this.setState({
       ...this.state,
       loggedIn: loggedOut
@@ -62,26 +72,36 @@ class App extends Component {
     event.preventDefault();
     // Get variables from event
     const target = event.target;
-    const username1 = target.elements.username.value;
-    const password1 = target.elements.password.value;
-
-    // Create JSON object
-    const data = {
-      username: username1,
-      password: password1
-    };
 
     // Make Post request but data must be altered with qs.stringify
-    await axios
-      .post("/login", qs.stringify(data))
-      .then(response => {
+    await axios.request({
+      url: "/oauth/token",
+      method: "POST",
+      baseURL: "http://localhost:8080",
+      auth: {
+        username: "chatbot-admin", // This is the client_id
+        password: "secret" // This is the client_secret
+      },
+      data: qs.stringify({
+        "grant_type": "password",
+        "username": target.elements.username.value ,
+        "password": target.elements.password.value
+      })
+    }).then(response => {
+      console.log(response);
         // If request is successful then set loggedIn to what response['data']['authenticated']
         // returns
-        const status = response["data"]["authenticated"];
+        const token = response["data"]["access_token"];
+        auth.setSession(token)
+        // setTimeout(() => {
+        //   this.modalClickHandler();
+        //   window.location.reload()
+  
+        // }, 500);
         this.setState({
           ...this.state,
           showModal: false,
-          loggedIn: status
+          loggedIn: true
         });
       })
       .catch(function(error) {
@@ -100,11 +120,10 @@ class App extends Component {
     const target = event.target;
     const file2 = target.file.files[0];
     let data = new FormData();
-    data.append("action", "upload");
     data.append("file", file2);
 
     await axios
-      .post("/handlefiles", data)
+      .put("/handlefiles", data)
       .then(response => {
         // viewAllFilesHandler needs to be called to update the file list being displayed
         this.viewAllFilesHandler();
@@ -120,11 +139,8 @@ class App extends Component {
    * @event
    */
   removeFileHandler = async fileName => {
-    let data = new FormData();
-    data.append("action", "remove");
-    data.append("file", fileName);
     await axios
-      .post("/handlefiles", data)
+      .delete("/handlefiles/" + fileName)
       .then(response => {
         this.viewAllFilesHandler();
       })
@@ -158,10 +174,11 @@ class App extends Component {
 
   viewGraphHandler = () => {
     axios
-      .get("/getdata")
+      .get("/userquery/getData")
       .then(response => {
         // If the get request is successful state (files) is updated
-        const data = response["data"]["queries"];
+        const data = response["data"];
+        data.splice(0, 0, ['Query', 'Frequency'])
         this.setState({
           queries: data
         });

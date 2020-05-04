@@ -22,10 +22,11 @@ const documentsTable = (props) => {
         </thead>
         <tbody>
           {props.files.map((item, i) => {
-            const itemArray = item['filename'].split(".");
+            console.log(item)
+            const itemArray = item['fileName'].split(".");
             const name = itemArray[0];
             const type = itemArray[1];
-            return <DocumentRow key={i} removeFileHandler={(fileName) => props.removeFileHandler(name+"."+type)} name={name} type={type} date={item['date']}/>
+            return <DocumentRow key={i} removeFileHandler={(filename) => props.removeFileHandler(name+"."+type)} name={name} type={type} date={item['date']}/>
           }
 
           )}

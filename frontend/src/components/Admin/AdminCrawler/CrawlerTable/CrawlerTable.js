@@ -10,17 +10,18 @@ const crawlerTable = (props) => {
 
   return (
     <React.Fragment>
-      <table className={" striped"}>
+      <table className={"striped"}>
         <thead className={"z-depth-1"}>
           <tr>
             <th>Name</th>
+            <th>Depth</th>
             <th>Date</th>
             <th>Remove</th>
           </tr>
         </thead>
         <tbody>
           {props.sites.map((item, i) => {
-            return <CrawlerRow key={i} removeSiteHandler={(url) => props.removeSiteHandler(item['seed'])} name={item['seed']} date={item['date']}/>
+            return <CrawlerRow key={i} removeSiteHandler={(url) => props.removeSiteHandler(item['seed'])} name={item['seed']} depth={item['depth']} date={item['date']}/>
           }
 
           )}

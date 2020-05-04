@@ -1,13 +1,16 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import qs from "qs";
 import Navbar from "../Navbar/Navbar";
+import auth from '../../../auth/auth';
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3, 2)
@@ -30,24 +33,24 @@ const useStyles = makeStyles(theme => ({
  *  @param {function} reindexData - function which re-indexes lucene data
  *  @param {function} resetData - function which removes resets all data in lucene
  */
-const AdminFeedback = props => {
-    const classes = useStyles();
-   const [reset, setReset] = React.useState("");
-   const [reindex, setReindex] = React.useState("");
+const AdminReset = props => {
+
+  const user = auth.getUser()
+  
+  const classes = useStyles();
+  const [reset, setReset] = React.useState("");
+  const [reindex, setReindex] = React.useState("");
+
+  if (!user) {
+    return <Redirect to="/" />
+  }
 
   const resetData = async () => {
-    // Create JSON object
-    const data = {
-      reset: "oh no!"
-    };
-
     await axios
-      .post("/index", qs.stringify(data))
+      .delete("/index")
       .then(response => {
           console.log(response);
           setReset("Data Reset");
-   
-       
       })
       .catch(function(error) {
         setReset("Data could not be reset");
@@ -56,30 +59,20 @@ const AdminFeedback = props => {
   };
 
   const reindexData = async () => {
-    // Create JSON object
-    const data = {
-      reindex: "wow!"
-    };
-
     await axios
-      .post("/index", qs.stringify(data))
+      .post("/index")
       .then(response => {
           console.log(response);
-          setReindex("Data Reindex");
-
-
+          setReindex("Data Indexed");
       })
       .catch(function(error) {
-        setReindex("Data could not be reindex");
+        setReindex("Data could not be indexed");
 
       });
   };
 
   document.body.style = "background: rgba(0,0,0,0.05);";
-  let admin = null;
-  
-  if (props.loggedIn) {
-    admin = (
+  return (
       <React.Fragment>
         <Navbar logOutHandler={props.logOutHandler} />
 
@@ -97,6 +90,12 @@ const AdminFeedback = props => {
               >
                 Delete all indexed links and files from the chatbot's lucene brain, but they will still be on IBM Watson and database! You can reindex them anytime :)
               </Typography>
+              <Grid
+                justify="flex-end"
+                container 
+                spacing={2}
+              >
+              <Grid item>
               <Button
                 onClick={reindexData}
                 type="submit"
@@ -111,11 +110,13 @@ const AdminFeedback = props => {
                   color:'white'
                 }}
               >
-               Reindex Data
+               Index Data
               </Button>
               <Typography>
                   {reindex}
               </Typography>
+              </Grid>
+              <Grid item>
               <Button
                 onClick={resetData}
                 type="submit"
@@ -136,15 +137,13 @@ const AdminFeedback = props => {
               <Typography>
                   {reset}
               </Typography>
+              </Grid>
+              </Grid>
             </Paper>
           </Container>
         </Box>
       </React.Fragment>
     );
-  } else {
-    admin = <h2>Not Logged in</h2>;
-  }
-  return <React.Fragment>{admin}</React.Fragment>;
 };
 
-export default AdminFeedback;
+export default AdminReset;
