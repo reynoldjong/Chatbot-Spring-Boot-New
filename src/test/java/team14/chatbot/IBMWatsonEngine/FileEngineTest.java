@@ -24,14 +24,14 @@ public class FileEngineTest {
 
     @Test
     public void testUploadAndUpdateAndRemove() throws IOException {
-        File file = new File("src/main/java/resources/files/test/test.pdf");
+        File file = new File("src/main/resources/files/test/test.pdf");
         InputStream ip = new FileInputStream(file);
         String id = fe.uploadFiles(ip, file.getName());
         assertNotNull(id);
         assertThat(id, instanceOf(String.class));
         ip.close();
         // Same filename for update
-        File file2 = new File("src/main/java/resources/files/test/test.pdf");
+        File file2 = new File("src/main/resources/files/test/test.pdf");
         InputStream ip2 = new FileInputStream(file2);
         String newId = fe.updateFiles(ip2, file2.getName(), id);
         assertNotNull(newId);

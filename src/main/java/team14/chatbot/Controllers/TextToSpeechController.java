@@ -1,4 +1,4 @@
-package team14.chatbot.Controller;
+package team14.chatbot.Controllers;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

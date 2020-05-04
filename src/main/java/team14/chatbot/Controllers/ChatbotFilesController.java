@@ -1,4 +1,4 @@
-package team14.chatbot.Controller;
+package team14.chatbot.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
