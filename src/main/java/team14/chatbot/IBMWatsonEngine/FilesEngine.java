@@ -78,13 +78,18 @@ public class FilesEngine {
     return deleteResponse.getStatus();
   }
 
-
-//  public void query() {
-//    Discovery discovery = wdisc.getDiscovery();
-//    QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, this.uploadedFilesCollectionId);
-//    queryBuilder.query("*.*");
-//    QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
-//    System.out.println(queryResponse);
-//  }
+/*
+  public void query() {
+    Discovery discovery = wdisc.getDiscovery();
+    QueryOptions.Builder queryBuilder = new QueryOptions.Builder(environmentId, this.uploadedFilesCollectionId);
+    queryBuilder.query("*.*");
+    QueryResponse queryResponse = discovery.query(queryBuilder.build()).execute().getResult();
+    System.out.println(queryResponse);
+  }
+  public static void main (String[] args) {
+    FilesEngine fe = new FilesEngine(WatsonDiscovery.buildDiscovery());
+    fe.query();
+  }
+*/
 
 }
