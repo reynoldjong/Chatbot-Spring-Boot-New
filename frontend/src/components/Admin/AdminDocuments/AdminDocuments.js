@@ -40,10 +40,11 @@ const AdminDocuments = props => {
   const user = auth.getUser()
   
   // when component is first loaded we should load all the files in the database
+  const {viewAllFilesHandler, viewGraphHandler} = props
   useEffect(() => {
-    props.viewAllFilesHandler();
-    props.viewGraphHandler();
-  }, []);
+    viewAllFilesHandler();
+    viewGraphHandler();
+  }, [viewAllFilesHandler, viewGraphHandler]);
   const classes = useStyles();
 
   const [values, setFiles] = React.useState({
