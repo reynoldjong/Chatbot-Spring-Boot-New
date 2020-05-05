@@ -18,8 +18,9 @@ Server runs on localhost:8080.
 - Give Feedback
 - Drag and drop file upload
 
-## Login
-In order to login to the Admin Dashboard use the following username and password
+## Security
+Some of the features are protected by Spring Security and OAuth, they are only open to admin. In order to access them
+through Admin Dashboard, use the following username and password:
 - username: admin
 - password: admin
 
@@ -63,15 +64,15 @@ cp src/main/resources/localhost-application.properties src/main/resources/applic
 mvn spring-boot:run
 ```
 
+### Production
+
+```sh
+mvn package && java -jar target/chatbot-0.1.0.jar
+```
+
 ### Docker
 
 ```sh
 cp src/main/resources/docker-application.properties src/main/resources/application.properties
 docker-compose up
-```
-
-### Production
-
-```sh
-mvn package && java -jar target/chatbot-0.1.0.jar
 ```
