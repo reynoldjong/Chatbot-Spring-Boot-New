@@ -19,7 +19,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "speak-tts": "^2.0.8",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
